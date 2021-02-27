@@ -1,0 +1,142 @@
+<html>
+
+<head>
+    <!-- important meta tags -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0 ,user-scalable=no">
+    <!-- title -->
+    <title>Admin-Add Country</title>
+    <!-- favicon -->
+    <link rel="shortcut icon" href="images/assets/icon/favicon.ico" type="image/x-icon">
+    <!--Link With font -->
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans
+                 :wght@300;400;600;700&display=swap" rel="stylesheet">
+    <!--Bootstrap Csss-->
+    <link rel="stylesheet" href="css/bootstrap/bootstrap.min.css">
+    <!--Font Awesome-->
+    <link rel="stylesheet" href="css/fontawesome/css/font-awesome.min.css">
+    <!--Link General Css-->
+    <link rel="stylesheet" href="css/geneal.css">
+    <!-- External Css -->
+    <link rel="stylesheet" href="css/style.css">
+    <!-- Responsive CSS -->
+    <link rel="stylesheet" href="css/responsive.css">
+</head>
+
+<body>
+    <!-- Navigation Bar -->
+    <header>
+        <nav class="navbar navbar-expand-lg white-navbar navbar-fixed-height fixed-top">
+            <div class="container">
+                <div class="row">
+                    <!-- Logo -->
+                    <div class="navbar-header col-lg-3 col-10">
+                        <a class="navbar-brand text-left">
+                            <img src="images/Logo/dark-logo.png" alt="logo">
+                        </a>
+                    </div>
+                    <button class="navbar-toggler collapsed col-2" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="mobile-nav-close-btn">&times;</span>
+                        <span class="mobile-nav-open-btn">&#9776;</span>
+                    </button>
+                    <div class="collapse navbar-collapse col-lg-9" id="navbarSupportedContent">
+                        <ul class="navbar-nav ml-auto">
+                            <li class="nav-item dashboard-dropdown"><a class="nav-link" href="dashboard.html" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Dashboard</a>
+                                <div class="dropdown-menu dropdown-menu1" aria-labelledby="dropdownMenuButton">
+                                    <a class="dropdown-item" href="notes-under-review.html">Notes Under Review</a>
+                                    <a class="dropdown-item" href="published-notes.html">Published Notes</a>
+                                    <a class="dropdown-item" href="downloads-notes.html">Download Notes</a>
+                                    <a class="dropdown-item" href="rejected-notes.html">Rejected Notes</a>
+                                </div>
+                            </li>
+
+                            <li class="nav-item"><a class="nav-link" href="notes-details.html">Notes</a></li>
+                            <li class="nav-item"><a class="nav-link" href="member-details.html">Members</a></li>
+                            <li class="nav-item"><a class="nav-link" href="spam-records.html">Reports</a></li>
+                            <li class="nav-item setting-dropdown"><a a class="nav-link" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Settings</a>
+                                <div class="dropdown-menu dropdown-menu3" aria-labelledby="dropdownMenuButton">
+                                    <a class="dropdown-item" href="manage-system.html">Manage System Configuration</a>
+                                    <a class="dropdown-item" href="manage-administrator.html">Manage Administrator</a>
+                                    <a class="dropdown-item" href="manage-category.html">Manage Category</a>
+                                    <a class="dropdown-item" href="manage-type.html">Manage Type</a>
+                                    <a class="dropdown-item" href="manage-country.html">Manage Countries</a>
+                                </div>
+                            </li>
+                            <li class="nav-item profile-dropdown">
+                                <a class="nav-link" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <img src="images/assets/User Profile/user-img.png" class="rounded-circle">
+                                </a>
+                                <div class="dropdown-menu dropdown-menu2" aria-labelledby="dropdownMenuButton">
+                                    <a class="dropdown-item" href="#">Update Profile</a>
+                                    <a class="dropdown-item" href="#">Change Password</a>
+                                    <a class="dropdown-item" href="#">Logout</a>
+                                </div>
+                            </li>
+                            <li class="nav-item"><a class="nav-link" href="#">Logout</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <!-- Navigation Bar END -->
+    <!--Blank-->
+    <section class="blank"></section>
+    <!--End Blank-->
+    <!--Add Country-->
+    <section id="add-country">
+        <div class="container">
+            <div class="content-box-md">
+                <div class="row">
+                    <div class="col-lg-12  col-md-12 col-12 heading">Add Country</div>
+                </div>
+                <form>
+                    <div class="row">
+                        <div class="form-group col-lg-6 col-md-8 col-sm-9 col-12">
+                            <label for="fname">Country Name*</label>
+                            <input type="text" class="form-control" id="cname" placeholder="Enter your category name">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-lg-6 col-md-8 col-sm-9 col-12">
+                            <label for="description">Contry Code*</label>
+                            <textarea class="form-control" id="description" placeholder="Enter description"></textarea>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-lg-1 col-md-2 col-sm-3 col-3">
+                            <a class="btn btn-color" title="submit" role="button" href="#">Submit</a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+    <!--End Add Country-->
+    <!--Footer-->
+    <footer>
+        <div class="container">
+            <div class="row  foot">
+                <!-- Copyright -->
+                <div class="col-md-6 col-sm-8 footer-text" style="padding-left: 40px">
+                    version 1.1.24
+                </div>
+                <div class="col-md-6 col-sm-8 footer-text text-right">
+                    <p>Copyright &copy; TatvaSoft All Rights Reserved By</p>
+                </div>
+                <!--End Copyright-->
+            </div>
+        </div>
+    </footer>
+    <!--End Footer-->
+    <!--Jquery-->
+    <script src="js/jquery.js"></script>
+    <!-- Popper JS -->
+    <script src="js/bootstrap/popper.min.js"></script>
+    <!--Bootstrap Js -->
+    <script src="js/bootstrap/bootstrap.min.js"></script>
+    <!-- Custom JS -->
+    <script src="js/script.js"></script>
+</body>
+
+</html>

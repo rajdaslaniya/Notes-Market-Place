@@ -1,0 +1,262 @@
+<html>
+
+<head>
+    <!-- important meta tags -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0 ,user-scalable=no">
+    <!-- title -->
+    <title>Admin-Note Details</title>
+    <!-- Icon set in title -->
+    <link rel="shortcut icon" href="images/assets/icon/favicon.ico">
+    <!--Link With font -->
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans
+     :wght@300;400;600;700&display=swap" rel="stylesheet">
+    <!--Font Awesome-->
+    <link rel="stylesheet" href="css/fontawesome/css/font-awesome.min.css">
+    <!-- Animate CSS -->
+    <link rel="stylesheet" href="css/animate/animate.min.css">
+    <!--Bootstrap Csss-->
+    <link rel="stylesheet" href="css/bootstrap/bootstrap.min.css">
+    <!--General Css-->
+    <link rel="stylesheet" href="css/geneal.css">
+    <!--Responsive Css-->
+    <link rel="stylesheet" href="css/responsive.css">
+    <!-- External Css -->
+    <link rel="stylesheet" href="css/style.css">
+    <!-- Responsive CSS -->
+    <link rel="stylesheet" href="css/responsive.css">
+</head>
+
+<body>
+    <!-- Navigation Bar -->
+    <header>
+        <nav class="navbar navbar-expand-lg white-navbar navbar-fixed-height fixed-top">
+            <div class="container">
+                <div class="row">
+                    <!-- Logo -->
+                    <div class="navbar-header col-lg-3 col-10">
+                        <a class="navbar-brand text-left">
+                            <img src="images/Logo/dark-logo.png" alt="logo">
+                        </a>
+                    </div>
+                    <button class="navbar-toggler collapsed col-2" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="mobile-nav-close-btn">&times;</span>
+                        <span class="mobile-nav-open-btn">&#9776;</span>
+                    </button>
+                    <div class="collapse navbar-collapse col-lg-9" id="navbarSupportedContent">
+                        <ul class="navbar-nav ml-auto">
+                            <li class="nav-item dashboard-dropdown"><a class="nav-link" href="dashboard.html" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Dashboard</a>
+                                <div class="dropdown-menu dropdown-menu1" aria-labelledby="dropdownMenuButton">
+                                    <a class="dropdown-item" href="notes-under-review.html">Notes Under Review</a>
+                                    <a class="dropdown-item" href="published-notes.html">Published Notes</a>
+                                    <a class="dropdown-item" href="downloads-notes.html">Download Notes</a>
+                                    <a class="dropdown-item" href="rejected-notes.html">Rejected Notes</a>
+                                </div>
+                            </li>
+
+                            <li class="nav-item"><a class="nav-link active" href="notes-details.html">Notes</a></li>
+                            <li class="nav-item"><a class="nav-link" href="member-details.html">Members</a></li>
+                            <li class="nav-item"><a class="nav-link" href="spam-records.html">Reports</a></li>
+                            <li class="nav-item setting-dropdown"><a a class="nav-link"  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Settings</a>
+                                <div class="dropdown-menu dropdown-menu3" aria-labelledby="dropdownMenuButton">
+                                    <a class="dropdown-item" href="manage-system.html">Manage System Configuration</a>
+                                    <a class="dropdown-item" href="manage-administrator.html">Manage Administrator</a>
+                                    <a class="dropdown-item" href="manage-category.html">Manage Category</a>
+                                    <a class="dropdown-item" href="manage-type.html">Manage Type</a>
+                                    <a class="dropdown-item" href="manage-country.html">Manage Countries</a>
+                                </div>
+                            </li>
+                            <li class="nav-item profile-dropdown">
+                                <a class="nav-link"  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <img src="images/assets/User Profile/user-img.png" class="rounded-circle">
+                                </a>
+                                <div class="dropdown-menu dropdown-menu2" aria-labelledby="dropdownMenuButton">
+                                    <a class="dropdown-item" href="#">Update Profile</a>
+                                    <a class="dropdown-item" href="#">Change Password</a>
+                                    <a class="dropdown-item" href="#">Logout</a>
+                                </div>
+                            </li>
+                            <li class="nav-item"><a class="nav-link" href="#">Logout</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <!-- Navigation Bar END -->
+    <!--Blank-->
+    <section class="blank">
+    </section>
+    <!--End Blank-->
+    <section id="details">
+        <div class="container">
+            <div class="content-box-lg">
+                <div class="row">
+                    <div class="col-lg-12 col-md-12">
+                        <div class="sub-heading">Notes Details</div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-6 col-md-6">
+                        <div class="row">
+                            <div class="col-lg-6 col-md-6 col-sm-6 col-12" style="background-clip:padding-box">
+                                <div class="images">
+                                    <img src="images/assets/book/1.jpg">
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-sm-6 col-12" style="background-clip:padding-box">
+                                <div class="book-paragraph">
+                                    <div class="heading">Computer Science</div>
+                                    <div class="sub-heading-2">Sciences</div>
+                                    <p id="paragraph">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laboriosam debitis facilis.</p>
+                                    <div id="btn-download">
+                                        <a class="btn btn-color" href="#" title="Download Note" role="button" data-toggle="modal" data-target="#thankspopup">Download / $15</a>
+
+                                        <!-- Modal -->
+                                        <div class="modal fade" id="thankspopup" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <div class="text-center">
+                                                            <img class="img-responsive" src="images/assets/icon/SUCCESS.png" alt="Thanks">
+                                                            <h2>Thanks for Purchasing</h2>
+                                                        </div>
+                                                        <h5>Dear Smith,</h5>
+                                                        <p>As this is paid notes - you need to play to selller Rahul Shah offline.We will send hime an email that you want to download this note.He may contact you further for payment process completion.</p>
+                                                        <pre>In case,you have urgency.<br>Please contact us on+9195377345959.</pre>
+                                                        <p>Once he receives the payment and acknoledge us.selected notes you can see over my downloads tab for download.</p>
+                                                        <p>Have a good day.</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-12 col-12">
+                        <div class="note-details">
+                            <p><span class="first">Institution:</span>
+                                <span class="second">University of California</span>
+                            </p>
+                            <p><span class="first">Country:</span>
+                                <span class="second">United State</span>
+                            </p>
+                            <p><span class="first">Course Name:</span>
+                                <span class="second">Comuter Egineering</span>
+                            </p>
+                            <p><span class="first">Course Code:</span>
+                                <span class="second">248705</span>
+                            </p>
+                            <p><span class="first">Professor:</span>
+                                <span class="second">Mr.Richard Brown</span>
+                            </p>
+                            <p><span class="first">Number of Pages:</span>
+                                <span class="second">277</span>
+                            </p>
+                            <p><span class="first">Approved Date:</span>
+                                <span class="second">November 25 2020</span>
+                            </p>
+                            <p><span class="first">Rating</span>
+                                <span class="rating second"><img src="images/assets/icon/star.png"><img src="images/assets/icon/star.png"><img src="images/assets/icon/star.png"><img src="images/assets/icon/star-white.png"><img src="images/assets/icon/star-white.png">100 Reviews
+                                </span>
+                            </p>
+                            <p>
+                                <span class="first1">5 Users marked this note as inapporopriate</span>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <hr>
+                <div class="row">
+                    <div class="col-lg-5 col-md-5" style="background-clip:padding-box">
+                        <div class="row">
+                            <div class="col-lg-12 col-sm-12 col-12">
+                                <div class="sub-heading">Notes Preview</div>
+                            </div>
+                            <iframe src="http://www.africau.edu/images/default/sample.pdf"></iframe>
+                        </div>
+                    </div>
+                    <div class="col-lg-7 col-md-7" style="background-clip:padding-box">
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12 col-12">
+                                <div class="sub-heading">Customers</div>
+                            </div>
+                        </div>
+                        <div class="comment-box">
+                            <div class="row">
+                                <div class="col-lg-2 col-md-2 col-sm-3 col-3 text-center">
+                                    <img src="images/assets/Reviewer/reviewer-1.png" class="img-responsive img-rounded img1">
+                                </div>
+                                <div class="col-lg-10 col-md-10 col-sm-9 col-9">
+                                    <h5>Richard Brown</h5>
+                                    <br>
+                                    <span class="rating"><img src="images/assets/icon/star.png"><img src="images/assets/icon/star.png"><img src="images/assets/icon/star.png"><img src="images/assets/icon/star-white.png"><img src="images/assets/icon/star-white.png">
+                                    </span>
+                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Enim similique distinctio iusto.</p>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-lg-2 col-md-2 col-sm-3 col-3 text-center">
+                                    <img src="images/assets/Reviewer/reviewer-2.png" class="img-responsive img-rounded img1">
+                                </div>
+                                <div class="col-lg-10 col-md-10  col-sm-9 col-9">
+                                    <h5>Alice Ortiaz</h5>
+                                    <br>
+                                    <span class="rating"><img src="images/assets/icon/star.png"><img src="images/assets/icon/star.png"><img src="images/assets/icon/star-white.png"><img src="images/assets/icon/star-white.png">
+                                    </span>
+                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Enim similique distinctio iusto.</p>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-lg-2 col-md-2  col-sm-3 col-3 text-center">
+                                    <img src="images/assets/Reviewer/reviewer-3.png" class="img-responsive img-rounded img1">
+                                </div>
+                                <div class="col-lg-10 col-md-10 col-sm-9 col-9">
+                                    <h5>Sara Passmore</h5>
+                                    <br>
+                                    <span class="rating"><img src="images/assets/icon/star.png"><img src="images/assets/icon/star.png"><img src="images/assets/icon/star-white.png"><img src="images/assets/icon/star-white.png">
+                                    </span>
+                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Enim similique distinctio iusto.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!--Footer-->
+    <footer>
+        <div class="container">
+            <div class="row">
+                <!-- Copyright -->
+                <div class="col-lg-6 col-md-6 col-sm-8 footer-text text-left">
+                    <p>Copyright &copy; TatvaSoft All Rights Reserved By</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <!--End Footer-->
+
+    <!--Jquery-->
+    <script src="js/jquery.js"></script>
+    <!-- Popper JS -->
+    <script src="js/bootstrap/popper.min.js"></script>
+    <!--Bootstrap Js -->
+    <script src="js/bootstrap/bootstrap.min.js"></script>
+
+    <!-- Custom JS -->
+    <script src="js/script.js"></script>
+</body>
+
+</html>

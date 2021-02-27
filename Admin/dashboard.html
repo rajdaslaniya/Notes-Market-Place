@@ -1,0 +1,353 @@
+<html>
+
+<head>
+    <!-- important meta tags -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0 ,user-scalable=no">
+    <!-- title -->
+    <title>Admin-Dashboard</title>
+    <!-- favicon -->
+    <link rel="shortcut icon" href="images/assets/icon/favicon.ico" type="image/x-icon">
+    <!--Link With font -->
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans
+                 :wght@300;400;600;700&display=swap" rel="stylesheet">
+    <!--Bootstrap Csss-->
+    <link rel="stylesheet" href="css/bootstrap/bootstrap.min.css">
+    <!--Font Awesome-->
+    <link rel="stylesheet" href="css/fontawesome/css/font-awesome.min.css">
+    <!--Link General Css-->
+    <link rel="stylesheet" href="css/geneal.css">
+    <!-- External Css -->
+    <link rel="stylesheet" href="css/style.css">
+    <!-- Responsive CSS -->
+    <link rel="stylesheet" href="css/responsive.css">
+</head>
+
+<body>
+    <!-- Navigation Bar -->
+    <header>
+        <nav class="navbar navbar-expand-lg white-navbar navbar-fixed-height fixed-top">
+            <div class="container">
+                <div class="row">
+                    <!-- Logo -->
+                    <div class="navbar-header col-lg-3 col-10">
+                        <a class="navbar-brand text-left">
+                            <img src="images/Logo/dark-logo.png" alt="logo">
+                        </a>
+                    </div>
+                    <button class="navbar-toggler collapsed col-2" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="mobile-nav-close-btn">&times;</span>
+                        <span class="mobile-nav-open-btn">&#9776;</span>
+                    </button>
+                    <div class="collapse navbar-collapse col-lg-9" id="navbarSupportedContent">
+                        <ul class="navbar-nav ml-auto">
+                            <li class="nav-item dashboard-dropdown"><a class="nav-link active" href="dashboard.html" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Dashboard</a>
+                                <div class="dropdown-menu dropdown-menu1" aria-labelledby="dropdownMenuButton">
+                                    <a class="dropdown-item" href="notes-under-review.html">Notes Under Review</a>
+                                    <a class="dropdown-item" href="published-notes.html">Published Notes</a>
+                                    <a class="dropdown-item" href="downloads-notes.html">Download Notes</a>
+                                    <a class="dropdown-item" href="rejected-notes.html">Rejected Notes</a>
+                                </div>
+                            </li>
+
+                            <li class="nav-item"><a class="nav-link" href="notes-details.html">Notes</a></li>
+                            <li class="nav-item"><a class="nav-link" href="member-page.html">Members</a></li>
+                            <li class="nav-item"><a class="nav-link" href="spam-records.html">Reports</a></li>
+                            <li class="nav-item setting-dropdown"><a a class="nav-link" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Settings</a>
+                                <div class="dropdown-menu dropdown-menu3" aria-labelledby="dropdownMenuButton">
+                                    <a class="dropdown-item" href="manage-system.html">Manage System Configuration</a>
+                                    <a class="dropdown-item" href="manage-administrator.html">Manage Administrator</a>
+                                    <a class="dropdown-item" href="manage-category.html">Manage Category</a>
+                                    <a class="dropdown-item" href="manage-type.html">Manage Type</a>
+                                    <a class="dropdown-item" href="manage-country.html">Manage Countries</a>
+                                </div>
+                            </li>
+                            <li class="nav-item profile-dropdown">
+                                <a class="nav-link" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <img src="images/assets/User Profile/user-img.png" class="rounded-circle">
+                                </a>
+                                <div class="dropdown-menu dropdown-menu2" aria-labelledby="dropdownMenuButton">
+                                    <a class="dropdown-item" href="#">Update Profile</a>
+                                    <a class="dropdown-item" href="#">Change Password</a>
+                                    <a class="dropdown-item" href="#">Logout</a>
+                                </div>
+                            </li>
+                            <li class="nav-item"><a class="nav-link" href="#">Logout</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <!-- Navigation Bar END -->
+    <!--Blank-->
+    <section class="blank"></section>
+    <!--End Blank-->
+    <!--Dashboard-->
+    <section id="dashboard">
+        <div class="container content-box-md">
+            <div class="row">
+                <div class="col-lg-12 col-12 heading" style="margin-bottom: 30px">My Download</div>
+            </div>
+            <div class="row">
+                <div class="col-lg-4 col-md-4 col-sm-4 text-center" style="background-clip:padding-box">
+                    <div class="dashboard-box">
+                        <div class="dashboard-item">
+                            <h3>20</h3>
+                            <p>Number of Notes in Review for Pulish</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-4 text-center" style="background-clip:padding-box">
+                    <div class="dashboard-box">
+                        <div class="dashboard-item">
+                            <h3>103</h3>
+                            <p>Number of New Notes Downloaded<br>(Last 7 days)</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-4 text-center" style="background-clip:padding-box">
+                    <div class="dashboard-box">
+                        <div class="dashboard-item">
+                            <h3>223</h3>
+                            <p>Number of New Registrations(Last 7 days)</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--End Dashboard-->
+    <!--Dashboard notes-->
+    <section id="dashboard-notes">
+        <div class="container">
+            <div class="content-box-md">
+                <div class="row">
+                    <div class="col-lg-5 col-md-5 col-sm-5 sub-heading-1  col-12 my-auto">Published Notes</div>
+                    <div class="col-lg-7 col-md-7 col-sm-7 col-12" >
+                        <div class="row search"  id="table-search">
+                            <div class="search-bar col-lg-6 col-md-6 col-sm-6 col-6 form-group">
+                                <input type="search" class="form-control" id="search" placeholder="Search">
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-sm-3 col-3 btn-search">
+                                <a class="btn btn-color" href="#" title="Search" role="button">Search</a>
+                            </div>
+                            <div class="col-lg-4 col-md-4 col-sm-3 col-3 form-group search-month">
+                                <select class="form-control">
+                                    <option hidden="">Select Month</option>
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                    <option value="6">6</option>
+                                    <option value="7">7</option>
+                                    <option value="8">8</option>
+                                    <option value="9">9</option>
+                                    <option value="10">10</option>
+                                    <option value="11">11</option>
+                                    <option value="12">12</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row table-general table-responsive">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Sr no.</th>
+                                    <th>Title</th>
+                                    <th>Category</th>
+                                    <th>Attchment Size</th>
+                                    <th>Sell type</th>
+                                    <th>Price</th>
+                                    <th>Publisher</th>
+                                    <th>Published Date</th>
+                                    <th class="content-center">Numbers of Downloads</th>
+                                    <th class="content-center"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <th scope="row">1</th>
+                                    <td>Data Science</td>
+                                    <td>Science</td>
+                                    <td>10 Kb</td>
+                                    <td>Free</td>
+                                    <td>$0</td>
+                                    <td>Pritesh Panchal</td>
+                                    <td>27-10-2020, 10:10</td>
+                                    <td class="content-center">10</td>
+                                    <td class="content-center">
+                                        <div class="table-images">
+                                            <div class="btn-group dropleft">
+                                                <button type="button" id="dropdownMenu2" class="btn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    <img src="images/assets/icon/dots.png" alt="menu" class="dots">
+                                                </button>
+                                                <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                                                    <button class="dropdown-item" type="button">Download Note</button>
+                                                    <button class="dropdown-item" type="button">View More Details</button>
+                                                    <button class="dropdown-item" type="button">Unpublish</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">2</th>
+                                    <td>Accounts</td>
+                                    <td>Commerce</td>
+                                    <td>23 Mb</td>
+                                    <td>Paid</td>
+                                    <td>$22</td>
+                                    <td>Rahil Shah</td>
+                                    <td>10-10-2020, 12:30</td>
+                                    <td class="content-center">20</td>
+                                    <td class="content-center">
+                                        <div class="table-images">
+                                            <div class="btn-group dropleft">
+                                                <button type="button" id="dropdownMenu2" class="btn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    <img src="images/assets/icon/dots.png" alt="menu" class="dots">
+                                                </button>
+                                                <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                                                    <button class="dropdown-item" type="button">Download Note</button>
+                                                    <button class="dropdown-item" type="button">View More Details</button>
+                                                    <button class="dropdown-item" type="button">Unpublish</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">3</th>
+                                    <td>Social Stuies</td>
+                                    <td>Social</td>
+                                    <td>3 Mb</td>
+                                    <td>Free</td>
+                                    <td>$0</td>
+                                    <td>Vijay Vaishnav</td>
+                                    <td>27-10-2020, 11:24</td>
+                                    <td class="content-center">25</td>
+                                    <td class="content-center">
+                                        <div class="table-images">
+                                            <div class="btn-group dropleft">
+                                                <button type="button" id="dropdownMenu2" class="btn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    <img src="images/assets/icon/dots.png" alt="menu" class="dots">
+                                                </button>
+                                                <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                                                    <button class="dropdown-item" type="button">Download Note</button>
+                                                    <button class="dropdown-item" type="button">View More Details</button>
+                                                    <button class="dropdown-item" type="button">Unpublish</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">4</th>
+                                    <td>Al</td>
+                                    <td>IT</td>
+                                    <td>1 Mb</td>
+                                    <td>Paid</td>
+                                    <td>$158</td>
+                                    <td>Anish Patel</td>
+                                    <td>11-10-2020, 01:34</td>
+                                    <td class="content-center">16</td>
+                                    <td class="content-center">
+                                        <div class="table-images">
+                                            <div class="btn-group dropleft">
+                                                <button type="button" id="dropdownMenu2" class="btn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    <img src="images/assets/icon/dots.png" alt="menu" class="dots">
+                                                </button>
+                                                <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                                                    <button class="dropdown-item" type="button">Download Note</button>
+                                                    <button class="dropdown-item" type="button">View More Details</button>
+                                                    <button class="dropdown-item" type="button">Unpublish</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">5</th>
+                                    <td>Lorem ipsum</td>
+                                    <td>Lorem</td>
+                                    <td>105 Kb</td>
+                                    <td>Free</td>
+                                    <td>$90</td>
+                                    <td>Mehul Patel</td>
+                                    <td>13-10-2020, 11:25</td>
+                                    <td class="content-center">5</td>
+                                    <td class="content-center">
+                                        <div class="table-images">
+                                            <div class="btn-group dropleft">
+                                                <button type="button" id="dropdownMenu2" class="btn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    <img src="images/assets/icon/dots.png" alt="menu" class="dots">
+                                                </button>
+                                                <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                                                    <button class="dropdown-item" type="button">Download Note</button>
+                                                    <button class="dropdown-item" type="button">View More Details</button>
+                                                    <button class="dropdown-item" type="button">Unpublish</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <!-- Pagination -->
+                <div class="row justify-content-center">
+                    <nav aria-label="search result pages">
+                        <ul class="pagination">
+                            <li class="page-item">
+                                <a class="page-link" href="#"><i class="fa fa-angle-left"></i></a>
+                            </li>
+                            <li class="page-item active">
+                                <a class="page-link" href="#">1<span class="sr-only">(current)</span></a>
+                            </li>
+                            <li class="page-item"><a class="page-link" href="#">2</a></li>
+                            <li class="page-item"><a class="page-link" href="#">3</a></li>
+                            <li class="page-item"><a class="page-link" href="#">4</a></li>
+                            <li class="page-item"><a class="page-link" href="#">5</a></li>
+                            <li class="page-item">
+                                <a class="page-link" href="#"><i class="fa fa-angle-right"></i></a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+                <!--End Page Navigation-->
+            </div>
+        </div>
+    </section>
+    <!--End Dashboard Notes-->
+    <!--Footer-->
+    <footer>
+        <div class="container">
+            <div class="row  foot">
+                <!-- Copyright -->
+                <div class="col-md-6 col-sm-8 footer-text" style="padding-left: 40px">
+                    version 1.1.24
+                </div>
+                <div class="col-md-6 col-sm-8 footer-text text-right">
+                    <p>Copyright &copy; TatvaSoft All Rights Reserved By</p>
+                </div>
+                <!--End Copyright-->
+            </div>
+        </div>
+    </footer>
+    <!--End Footer-->
+    <!--Jquery-->
+    <script src="js/jquery.js"></script>
+    <!-- Popper JS -->
+    <script src="js/bootstrap/popper.min.js"></script>
+    <!--Bootstrap Js -->
+    <script src="js/bootstrap/bootstrap.min.js"></script>
+    <!-- Custom JS -->
+    <script src="js/script.js"></script>
+</body>
+
+</html>

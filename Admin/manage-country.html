@@ -1,0 +1,272 @@
+<html>
+
+<head>
+    <!-- important meta tags -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0 ,user-scalable=no">
+    <!-- title -->
+    <title>Admin-Manage Country</title>
+    <!-- favicon -->
+    <link rel="shortcut icon" href="images/assets/icon/favicon.ico" type="image/x-icon">
+    <!--Link With font -->
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans
+                 :wght@300;400;600;700&display=swap" rel="stylesheet">
+    <!--Bootstrap Csss-->
+    <link rel="stylesheet" href="css/bootstrap/bootstrap.min.css">
+    <!--Font Awesome-->
+    <link rel="stylesheet" href="css/fontawesome/css/font-awesome.min.css">
+    <!--Link General Css-->
+    <link rel="stylesheet" href="css/geneal.css">
+    <!-- External Css -->
+    <link rel="stylesheet" href="css/style.css">
+    <!-- Responsive CSS -->
+    <link rel="stylesheet" href="css/responsive.css">
+</head>
+
+<body>
+    <!-- Navigation Bar -->
+    <header>
+        <nav class="navbar navbar-expand-lg white-navbar navbar-fixed-height fixed-top">
+            <div class="container">
+                <div class="row">
+                    <!-- Logo -->
+                    <div class="navbar-header col-lg-3 col-10">
+                        <a class="navbar-brand text-left" >
+                            <img src="images/Logo/dark-logo.png" alt="logo">
+                        </a>
+                    </div>
+                    <button class="navbar-toggler collapsed col-2" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="mobile-nav-close-btn">&times;</span>
+                        <span class="mobile-nav-open-btn">&#9776;</span>
+                    </button>
+                    <div class="collapse navbar-collapse col-lg-9" id="navbarSupportedContent">
+                        <ul class="navbar-nav ml-auto">
+                            <li class="nav-item dashboard-dropdown"><a class="nav-link" href="dashboard.html" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Dashboard</a>
+                                <div class="dropdown-menu dropdown-menu1" aria-labelledby="dropdownMenuButton">
+                                    <a class="dropdown-item" href="notes-under-review.html">Notes Under Review</a>
+                                    <a class="dropdown-item" href="published-notes.html">Published Notes</a>
+                                    <a class="dropdown-item" href="downloads-notes.html">Download Notes</a>
+                                    <a class="dropdown-item" href="rejected-notes.html">Rejected Notes</a>
+                                </div>
+                            </li>
+
+                            <li class="nav-item"><a class="nav-link" href="notes-details.html">Notes</a></li>
+                            <li class="nav-item"><a class="nav-link" href="member-details.html">Members</a></li>
+                            <li class="nav-item"><a class="nav-link" href="spam-records.html">Reports</a></li>
+                            <li class="nav-item setting-dropdown"><a a class="nav-link"  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Settings</a>
+                                <div class="dropdown-menu dropdown-menu3" aria-labelledby="dropdownMenuButton">
+                                    <a class="dropdown-item" href="manage-system.html">Manage System Configuration</a>
+                                    <a class="dropdown-item" href="manage-administrator.html">Manage Administrator</a>
+                                    <a class="dropdown-item" href="manage-category.html">Manage Category</a>
+                                    <a class="dropdown-item" href="manage-type.html">Manage Type</a>
+                                    <a class="dropdown-item" href="manage-country.html">Manage Countries</a>
+                                </div>
+                            </li>
+                            <li class="nav-item profile-dropdown">
+                                <a class="nav-link"  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <img src="images/assets/User Profile/user-img.png" class="rounded-circle">
+                                </a>
+                                <div class="dropdown-menu dropdown-menu2" aria-labelledby="dropdownMenuButton">
+                                    <a class="dropdown-item" href="#">Update Profile</a>
+                                    <a class="dropdown-item" href="#">Change Password</a>
+                                    <a class="dropdown-item" href="#">Logout</a>
+                                </div>
+                            </li>
+                            <li class="nav-item"><a class="nav-link" href="#">Logout</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <!-- Navigation Bar END -->
+    <!--Blank-->
+    <section class="blank"></section>
+    <!--End Blank-->
+    <!--Manage Country-->
+    <section id="manage-country">
+        <div class="container">
+            <div class="content-box-md">
+               <div class="row">
+                   <div class="heading col-lg-12 col-md-12">Manage Country</div>
+               </div>
+                <div class="row">
+                    <div class="col-lg-7 col-md-7 col-sm-5 col-9">
+                        <a class="btn btn-color" href="add-administrator.html" title="Search" role="button">Manage Country</a>
+                    </div>
+                     <div class="col-lg-5 col-md-5 col-sm-7 col-12">
+                       <div class="row search"  id="table-search">
+                            <div class="search-bar col-lg-9 col-md-9 col-sm-9 col-9 form-group">
+                                <input type="search" class="form-control" id="search" placeholder="Search">
+                            </div>
+                            <div class="col-lg-3  col-md-3 col-sm-3 col-3 btn-search">
+                                <a class="btn btn-color" href="#" title="Search" role="button">Search</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row table-general table-responsive">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Sr no.</th>
+                                    <th>Country  Name</th>
+                                    <th>Country  Code</th>        
+                                    <th>Date  Added</th>
+                                    <th>Added  By</th>
+                                    <th>Active</th>
+                                    <th class="content-center">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <th scope="row">1</th>
+                                    <td>India</td>
+                                    <td>91</td>
+                                    <td>09-10-2020,10:10</td>
+                                    <td>Khayati Patel</td>
+                                    
+                                    <td>Yes</td>
+                                    <td class="content-center">
+                                        <div class="table-images">
+                                            <button type="button" class="btn"  aria-haspopup="true" aria-expanded="false">
+                                                    <img src="images/assets/icon/edit.png" alt="menu" class="edit">
+                                            </button>
+                                            <button type="button" class="btn"  aria-haspopup="true" aria-expanded="false">
+                                                    <img src="images/assets/icon/delete.png" alt="delete" class="delete">
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">2</th>
+                                    <td>Australia</td>
+                                    <td>24</td>
+                                    <td>10-10-2020, 12:30</td>
+                                    <td>Rahul Shah</td>                                    
+                                    
+                                    <td>Yes</td>
+                                    <td class="content-center">
+                                        <div class="table-images">
+                                            <button type="button" class="btn"  aria-haspopup="true" aria-expanded="false">
+                                                    <img src="images/assets/icon/edit.png" alt="menu" class="edit">
+                                            </button>
+                                            <button type="button" class="btn"  aria-haspopup="true" aria-expanded="false">
+                                                    <img src="images/assets/icon/delete.png" alt="delete" class="delete">
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">3</th>
+                                    <td>Usa</td>
+                                    <td>1</td>
+                                    <td>11-10-2020,01:00</td>
+                                    <td>Suman Trivedi</td>                                   
+                                    
+                                    <td>No</td>
+                                    <td class="content-center">
+                                        <div class="table-images">
+                                            <button type="button" class="btn"  aria-haspopup="true" aria-expanded="false">
+                                                    <img src="images/assets/icon/edit.png" alt="menu" class="edit">
+                                            </button>
+                                            <button type="button" class="btn"  aria-haspopup="true" aria-expanded="false">
+                                                    <img src="images/assets/icon/delete.png" alt="delete" class="delete">
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">4</th>
+                                    <td>United Kingdom</td>
+                                    <td>14</td>
+                                    <td>12-10-2020,10:10</td>
+                                    <td>Raj Malhotra</td>
+                                    <td>Yes</td>
+                                    <td class="content-center">
+                                        <div class="table-images">
+                                            <button type="button" class="btn"  aria-haspopup="true" aria-expanded="false">
+                                                    <img src="images/assets/icon/edit.png" alt="menu" class="edit">
+                                            </button>
+                                            <button type="button" class="btn"  aria-haspopup="true" aria-expanded="false">
+                                                    <img src="images/assets/icon/delete.png" alt="delete" class="delete">
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">5</th>
+                                    <td>Canada</td>
+                                    <td>13</td>
+                                    <td>13-10-2020, 11:25</td>
+                                    <td>Niya Patel</td>
+                                    
+                                    <td>No</td>
+                                    <td class="content-center">
+                                        <div class="table-images">
+                                            <button type="button" class="btn"  aria-haspopup="true" aria-expanded="false">
+                                                    <img src="images/assets/icon/edit.png" alt="menu" class="edit">
+                                            </button>
+                                            <button type="button" class="btn"  aria-haspopup="true" aria-expanded="false">
+                                                    <img src="images/assets/icon/delete.png" alt="delete" class="delete">
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <!-- Pagination -->
+                <div class="row justify-content-center">
+                    <nav aria-label="search result pages">
+                        <ul class="pagination">
+                            <li class="page-item">
+                                <a class="page-link" href="#"><i class="fa fa-angle-left"></i></a>
+                            </li>
+                            <li class="page-item active">
+                                <a class="page-link" href="#">1<span class="sr-only">(current)</span></a>
+                            </li>
+                            <li class="page-item"><a class="page-link" href="#">2</a></li>
+                            <li class="page-item"><a class="page-link" href="#">3</a></li>
+                            <li class="page-item"><a class="page-link" href="#">4</a></li>
+                            <li class="page-item"><a class="page-link" href="#">5</a></li>
+                            <li class="page-item">
+                                <a class="page-link" href="#"><i class="fa fa-angle-right"></i></a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+                <!--End Page Navigation-->
+            </div>
+        </div>
+    </section>
+    <!--End Manage Country-->
+    <!--Footer-->
+    <footer>
+        <div class="container">
+            <div class="row  foot">
+                <!-- Copyright -->
+                <div class="col-md-6 col-sm-8 footer-text" style="padding-left: 40px">
+                    version 1.1.24
+                </div>
+                <div class="col-md-6 col-sm-8 footer-text text-right">
+                    <p>Copyright &copy; TatvaSoft All Rights Reserved By</p>
+                </div>
+                <!--End Copyright-->
+            </div>
+        </div>
+    </footer>
+    <!--End Footer-->
+    <!--Jquery-->
+    <script src="js/jquery.js"></script>
+    <!-- Popper JS -->
+    <script src="js/bootstrap/popper.min.js"></script>
+    <!--Bootstrap Js -->
+    <script src="js/bootstrap/bootstrap.min.js"></script>
+    <!-- Custom JS -->
+    <script src="js/script.js"></script>
+</body>
+
+</html>

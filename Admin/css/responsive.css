@@ -1,0 +1,773 @@
+/*===================================================
+                        1200 to 2800
+=====================================================*/
+/* Large  Devices (Laptop and Full Screen Desktops) */
+
+@media (min-width: 1200px) and (max-width: 2800px) {
+    /*----------------Table Search-----------------------*/
+    .search {
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        padding: 0;
+        margin-right: 0px;
+    }
+}
+
+/*===================================================
+                        992 to 1199
+=====================================================*/
+/* Medium Devices (Landscape Tablets & Medium Desktops) */
+
+@media (min-width: 992px) and (max-width: 1199px) {
+
+    /*----------------------------------------------------------------------*/
+    /*                              Navigation Bar                          */
+    /*----------------------------------------------------------------------*/
+    #navbarSupportedContent .nav-item {
+        padding: 0 10px;
+    }
+
+    div.dropdown-menu1.show {
+        -webkit-transform: translate3d(110px, -4px, 0px) !important;
+        transform: translate3d(110px, -4px, 0px) !important;
+    }
+
+    div.dropdown-menu2.show {
+        -webkit-transform: translate3d(500px, -2px, 0px) !important;
+        transform: translate3d(500px, -2px, 0px) !important;
+    }
+
+    div.dropdown-menu3.show {
+        -webkit-transform: translate3d(400px, -4px, 0px) !important;
+        transform: translate3d(400px, -4px, 0px) !important;
+    }
+
+    #details .images img {
+        width: 220px;
+        height: 300px;
+    }
+    /*----------------Table Search-----------------------*/
+    .search {
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        padding: 0;
+        margin-right: 0px;
+    }
+    #member-page #table-search,
+    #published-notes #table-search{
+        margin-right:  -12px;
+    }
+    
+}
+
+/*===================================================
+                    768 to 991
+=====================================================*/
+/* Small Devices (Portrait Tablets & Small Desktops) */
+
+@media (min-width: 768px) and (max-width: 991px) {
+
+    /*-----------------Heading-----------------*/
+    .heading {
+        font-size: 30px;
+        line-height: 34px;
+        margin-bottom: 20px;
+    }
+
+    .sub-heading {
+        font-size: 22px;
+        line-height: 24px;
+        margin-bottom: 15px;
+    }
+
+    .sub-heading-2 {
+        font-size: 17px;
+        line-height: 26px;
+        color: #333333;
+        margin-bottom: 20px;
+    }
+
+    /*-----------------Button-----------------*/
+    a.btn {
+        font-size: 14px;
+        line-height: 26px;
+        font-weight: 400;
+    }
+
+    /*-----------------Search Month-----------------*/
+    .search-month {
+        padding-right: 0px;
+        padding-left: 16px;
+    }
+
+    /*-----------------Notes Details-----------------*/
+    #details .images img {
+        width: 180px;
+        height: 250px;
+    }
+
+    #btn-download a {
+        width: 180px;
+    }
+
+    #details #paragraph {
+        font-size: 16px;
+        line-height: 24px;
+        margin-bottom: 15px;
+    }
+
+    .comment-box p {
+        font-size: 14px;
+        line-height: 18px;
+        text-overflow: #333333;
+    }
+
+    .comment-box h5 {
+        margin-bottom: -18px;
+    }
+
+    /*----------------------------------------------------------------------*/
+    /*                              Navigation Bar                          */
+    /*----------------------------------------------------------------------*/
+    .nav-bar {
+        display: block;
+    }
+
+    nav .container {
+        max-width: 100%;
+        margin: 0 !important;
+    }
+
+    .navbar-brand {
+        padding-left: 20px;
+    }
+
+    #navbarSupportedContent {
+        background: #fff;
+    }
+
+    .navbar-toogler {
+        padding-right: 20px !important;
+    }
+
+    nav .dropdown-menu {
+        border: none;
+        -webkit-box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
+        box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
+    }
+
+    nav li.profile-dropdown .dropdown-menu a.logout:hover {
+        color: #6255a5;
+    }
+
+    nav .dropdown-menu .dropdown-item:hover,
+    nav .dropdown-menu .dropdown-item:focus,
+    nav .dropdown-menu .dropdown-item:active {
+        color: #6255a5;
+        background-color: #fff;
+    }
+
+    nav .dropdown-item {
+        padding: 9px 18px;
+        font-size: 14px;
+    }
+
+    /*-----------------Dropdown-----------------*/
+    div.dropdown-menu1.show,
+    div.dropdown-menu2.show,
+    div.dropdown-menu3.show {
+        -webkit-transform: translate3d(0px, -11px, 0px) !important;
+        transform: translate3d(0px, -11px, 0px) !important;
+    }
+
+    /*-----------------Form-----------------*/
+    .form-box {
+        width: 380px;
+        background: #fff;
+        padding: 20px 40px 20px 40px;
+        border-radius: 5px;
+    }
+
+    .form-heading {
+        font-size: 32px;
+        line-height: 35px;
+        margin-bottom: 20px;
+    }
+
+    .form-sub-heading {
+        font-size: 16px;
+        line-height: 19px;
+    }
+
+    .form-last-heading {
+        font-size: 16px;
+        line-height: 16px;
+        margin-top: 20px;
+    }
+
+    .form-third-heading {
+        font-size: 14px;
+        color: greenyellow;
+    }
+
+    label {
+        font-size: 15px;
+        line-height: 17px;
+    }
+    /*----------------Table Search-----------------------*/
+    #manage-category .search,
+    #manage-country .search,
+    #manage-type .search,
+    #spam-records .search{
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        padding: 0;
+        margin-right: 0px;
+    }
+
+}
+
+/*===================================================
+                        767 to 576
+=====================================================*/
+@media (min-width: 576px) and (max-width: 767px) {
+
+    /*-----------------Heading-----------------*/
+    .heading {
+        font-size: 26px;
+        line-height: 30px;
+        margin-bottom: 18px;
+    }
+
+    .sub-heading-1 {
+        font-size: 19px;
+        line-height: 26px;
+    }
+
+    .sub-heading-2 {
+        font-size: 19px;
+        line-height: 26px;
+        margin-bottom: 15px;
+    }
+
+    /*-----------------Content Box-----------------*/
+    .content-box-md {
+        padding: 30px 0;
+    }
+
+    .content-box-lg {
+        padding: 30px 0;
+    }
+
+    /*----------------------------------------------------------------------*/
+    /*                              Navigation Bar                          */
+    /*----------------------------------------------------------------------*/
+    nav .container {
+        max-width: 100%;
+        margin: 0 !important;
+    }
+
+    .navbar-brand {
+        padding-left: 20px;
+    }
+
+    #navbarSupportedContent {
+        background: #fff;
+    }
+
+    .navbar-toggler {
+        padding-right: 20px !important;
+    }
+
+    nav .dropdown-menu {
+        border: none;
+        -webkit-box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
+        box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
+    }
+
+    nav .dropdown-item {
+        padding: 9px 18px;
+        font-size: 14px;
+    }
+
+    nav .dropdown-menu .dropdown-item:hover,
+    nav .dropdown-menu .dropdown-item:focus,
+    nav .dropdown-menu .dropdown-item:active {
+        color: #6255a5;
+        background-color: #fff;
+    }
+
+    /*-----------------Dropdown-----------------*/
+    div.dropdown-menu1.show,
+    div.dropdown-menu2.show,
+    div.dropdown-menu3.show {
+        -webkit-transform: translate3d(0px, -11px, 0px) !important;
+        transform: translate3d(0px, -11px, 0px) !important;
+    }
+
+    ul.navbar-nav {
+        padding: 0 10px;
+        margin-top: 15px;
+    }
+
+    /*-----------------Notes Details-----------------*/
+    #details .images img {
+        width: 220px;
+        height: 275px;
+        margin-bottom: 30px;
+    }
+
+    .note-details {
+        margin-left: 0;
+    }
+
+    .note-details .first,
+    .note-details .second {
+        font-size: 15px;
+        line-height: 18px;
+    }
+
+    .note-details .first1 {
+        font-size: 15px;
+        line-height: 18px;
+    }
+
+    /*-----------------Button-----------------*/
+    a.btn {
+        font-size: 14px;
+        line-height: 26px;
+        font-weight: 400;
+    }
+
+    /*-----------------Input Type-----------------*/
+    input[type="file"].image-upload {
+        padding: 100px 0 0 0;
+        width: 100%;
+        height: 75px;
+        background-size: 60px 60px;
+    }
+
+    /*-----------------Modal-----------------*/
+    .modal-header {
+        border-bottom: none;
+        padding-bottom: 0;
+    }
+
+    .modal-body img {
+        height: 50px;
+        width: 50px;
+    }
+
+    .modal-body .text-center h2 {
+        font-size: 20px;
+        line-height: 25px;
+    }
+
+    .modal-body h5 {
+        font-size: 14px;
+        line-height: 18px;
+        margin-bottom: 0px;
+    }
+
+    /*-----------------Member Page-----------------*/
+    #member-details .first {
+        font-size: 13px;
+        line-height: 18px;
+    }
+
+    #member-details .last {
+        font-size: 13px;
+        line-height: 18px;
+    }
+
+    #member-page select,
+    #notes-under-review select,
+    #published-notes select,
+    #rejected-notes select {
+        width: 70%;
+    }
+
+    /*-----------------Form-----------------*/
+    .form-box {
+        width: 380px;
+        background: #fff;
+        padding: 20px 40px 20px 40px;
+        border-radius: 5px;
+    }
+
+    .form-heading {
+        font-size: 31px;
+        line-height: 35px;
+        margin-bottom: 20px;
+    }
+
+    .form-sub-heading {
+        font-size: 15px;
+        line-height: 19px;
+    }
+
+    .form-last-heading {
+        font-size: 15px;
+        line-height: 16px;
+        margin-top: 20px;
+    }
+
+    .form-third-heading {
+        font-size: 13px;
+        color: greenyellow;
+    }
+
+    label {
+        font-size: 14px;
+        line-height: 17px;
+    }
+
+    /*-----------------Login-----------------*/
+    #login .form-box #password #password-field {
+        font-size: 14px;
+        line-height: 20px;
+        height: 38px;
+    }
+
+    #login .form-box #email #emailText {
+        height: 38px;
+    }
+
+    #login .form-box #exampleCheck1 {
+        width: 22px;
+        height: 22px;
+    }
+
+    #login .form-box #checkbox label {
+        margin-left: 15px;
+        margin-top: 8px;
+    }
+
+    .field-icon {
+        margin-right: 18px;
+        margin-top: -27px;
+    }
+
+    .img1 {
+        margin-bottom: 6px;
+    }
+
+    /*-----------------Pagination-----------------*/
+    .pagination {
+        padding: 0;
+    }
+
+    li.page-item {
+        margin: 0 2px;
+    }
+
+    .page-link i {
+        font-size: 21px;
+        line-height: 20px;
+    }
+
+    a.page-link {
+        font-size: 14px;
+        line-height: 20px;
+    }
+}
+
+/*===================================================
+                        <=575
+=====================================================*/
+@media (max-width: 575px) {
+    .blank {
+        height: 70px;
+    }
+
+    /*-----------------Heading-----------------*/
+    .heading {
+        font-size: 24px;
+        line-height: 28px;
+        margin-bottom: 18px;
+    }
+
+    .sub-heading-1 {
+        font-size: 17px;
+        line-height: 24px;
+    }
+
+    .sub-heading-2 {
+        font-size: 17px;
+        line-height: 24px;
+        margin-bottom: 15px;
+    }
+
+    /*-----------------Content Box-----------------*/
+    .content-box-md {
+        padding: 15px 0;
+    }
+
+    /*----------------------------------------------------------------------*/
+    /*                              Navigation                              */
+    /*----------------------------------------------------------------------*/
+    .navbar {
+        display: block;
+        padding: 10px 0;
+    }
+
+    .navbar-fixed-height {
+        height: 70px;
+    }
+
+    nav .container {
+        max-width: 100%;
+        margin: 0 !important;
+    }
+
+    .navbar-brand {
+        padding-left: 20px;
+    }
+
+    #navbarSupportedContent {
+        background: #fff;
+    }
+
+    .navbar-toggler {
+        padding-right: 20px !important;
+    }
+
+    nav .dropdown-menu .dropdown-item:hover,
+    nav .dropdown-menu .dropdown-item:focus,
+    nav .dropdown-menu .dropdown-item:active {
+        color: #6255a5;
+        background-color: #fff;
+    }
+
+    /*-----------------Dropdown-----------------*/
+    div.dropdown-menu1.show,
+    div.dropdown-menu2.show,
+    div.dropdown-menu3.show {
+        -webkit-transform: translate3d(0px, -11px, 0px) !important;
+        transform: translate3d(0px, -11px, 0px) !important;
+    }
+
+    ul.navbar-nav {
+        padding: 0 10px;
+        margin-top: 15px;
+    }
+
+    /*-----------------Notes Details-----------------*/
+    #details .images{
+        text-align: center;
+    }
+    #details .images img {
+        width: 220px;
+        height: 275px;
+        margin-bottom: 30px;
+    }
+
+    .note-details {
+        margin-left: 0;
+    }
+    .note-details{
+        margin-top: 20px;
+    }
+
+    .note-details .first,
+    .note-details .second {
+        font-size: 14px;
+        line-height: 16px;
+    }
+
+    .note-details .first1 {
+        font-size: 14px;
+        line-height: 16px;
+    }
+
+    a.btn {
+        font-size: 12px;
+        line-height: 22px;
+    }
+
+    iframe {
+        padding: 0 15px 25px 15px;
+        height: 400px;
+    }
+
+    #details #paragraph {
+        font-size: 16px;
+        line-height: 24px;
+        margin-bottom: 15px;
+    }
+
+    .comment-box p {
+        font-size: 14px;
+        line-height: 18px;
+        text-overflow: #333333;
+    }
+
+    .comment-box h5 {
+        margin-bottom: -18px;
+    }
+
+    .comment-box {
+        height: 400px;
+    }
+
+    /*-----------------Modal-----------------*/
+    .modal-header {
+        border-bottom: none;
+    }
+
+    .modal-body img {
+        height: 45px;
+        width: 45px;
+    }
+
+    .modal-body .text-center h2 {
+        font-size: 20px;
+        line-height: 25px;
+    }
+
+    .modal-body h5 {
+        font-size: 14px;
+        line-height: 18px;
+        margin-bottom: 0px;
+    }
+
+    /*-----------------Input type File-----------------*/
+    input[type="file"].image-upload {
+        padding: 80px 0 0 0;
+        width: 100%;
+        height: 75px;
+        background-size: 60px 60px;
+    }
+
+    /*-----------------Table Search-----------------*/
+    #table-search {
+        margin-top: 10px;
+    }
+    .table-responsive{
+        margin-right: 0;
+    }
+    .search {
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        padding: 0;
+        margin-right: 0px;
+    }
+
+    /*-----------------Member Page-----------------*/
+    #member-details .image1 {
+        text-align: center;
+        margin-bottom: 30px;
+    }
+
+    #member-details .second {
+        padding-left: 15px;
+    }
+
+    #member-page select,
+    #notes-under-review select,
+    #published-notes select,
+    #rejected-notes select {
+        width: 70%;
+    }
+
+    /*-----------------Dashboard-----------------*/
+    .dashboard-box {
+        height: 100px;
+        margin-bottom: 25px;
+        margin-left: 15px;
+        margin-right: 15px;
+    }
+
+    #dashboard .heading {
+        margin-left: 15px;
+    }
+
+    /*-----------------Form-----------------*/
+    .form-box {
+        width: 350px;
+        padding: 15px 30px 15px 30px;
+    }
+
+    .form-heading {
+        font-size: 30px;
+        line-height: 30px;
+        margin-bottom: 15px;
+    }
+
+    .form-sub-heading {
+        font-size: 14px;
+        line-height: 15px;
+    }
+
+    .form-last-heading {
+        font-size: 14px;
+        line-height: 15px;
+        margin-top: 18px;
+    }
+
+    .form-third-heading {
+        font-size: 14px;
+        color: greenyellow;
+    }
+
+    label {
+        font-size: 15px;
+        line-height: 17px;
+    }
+
+    /*-----------------Login-----------------*/
+    #login .form-box #password #password-field {
+        font-size: 14px;
+        line-height: 20px;
+        height: 35px;
+    }
+
+    #login .form-box #email #emailText {
+        height: 35px;
+    }
+
+    #login .form-box #exampleCheck1 {
+        width: 20px;
+        height: 20px;
+    }
+
+    #login .form-box #checkbox label {
+        margin-left: 15px;
+        margin-top: 5px;
+    }
+
+    .field-icon {
+        margin-right: 18px;
+        margin-top: -25px;
+    }
+
+    .img1 {
+        margin-bottom: 5px;
+    }
+
+    /*-----------------Pagination-----------------*/
+    .pagination {
+        padding: 0;
+    }
+
+    li.page-item {
+        margin: 0 2px;
+    }
+
+    .page-link i {
+        font-size: 20px;
+        line-height: 20px;
+    }
+
+    a.page-link {
+        font-size: 13px;
+        line-height: 20px;
+    }
+    #dashboard-notes #table-search{
+        margin-right: 0px;
+    }
+}
