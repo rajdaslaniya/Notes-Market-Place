@@ -940,7 +940,9 @@ iframe {
     font-size: 14px;
     margin-bottom: 0px;
 }
-
+#member-page .change-color{
+    color: #6255a5;
+}
 #member-page select,
 #notes-under-review select,
 #published-notes select,
