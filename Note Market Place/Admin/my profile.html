@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0 ,user-scalable=no">
     <!-- title -->
-    <title>Admin-Add Administrator</title>
+    <title>Admin-My Profile</title>
     <!-- favicon -->
     <link rel="shortcut icon" href="images/assets/icon/favicon.ico" type="image/x-icon">
     <!--Link With font -->
@@ -53,7 +53,7 @@
                             <li class="nav-item"><a class="nav-link" href="notes-details.html">Notes</a></li>
                             <li class="nav-item"><a class="nav-link" href="member-details.html">Members</a></li>
                             <li class="nav-item"><a class="nav-link" href="spam-records.html">Reports</a></li>
-                            <li class="nav-item setting-dropdown"><a a class="nav-link"  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Settings</a>
+                            <li class="nav-item setting-dropdown"><a a class="nav-link" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Settings</a>
                                 <div class="dropdown-menu dropdown-menu3" aria-labelledby="dropdownMenuButton">
                                     <a class="dropdown-item" href="manage-system.html">Manage System Configuration</a>
                                     <a class="dropdown-item" href="manage-administrator.html">Manage Administrator</a>
@@ -63,7 +63,7 @@
                                 </div>
                             </li>
                             <li class="nav-item profile-dropdown">
-                                <a class="nav-link" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <a class="nav-link"  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     <img src="images/assets/User Profile/user-img.png" class="rounded-circle">
                                 </a>
                                 <div class="dropdown-menu dropdown-menu2" aria-labelledby="dropdownMenuButton">
@@ -83,30 +83,36 @@
     <!--Blank-->
     <section class="blank"></section>
     <!--End Blank-->
-    <!--Add Administrator-->
-    <section id="add-administrator">
+    <!--My Profile-->
+    <section id="my-download">
         <div class="container">
             <div class="content-box-md">
                 <div class="row">
-                    <div class="col-lg-12 col-md-12 heading">Add Administrator</div>
+                    <div class="col-lg-12 heading">My Profile</div>
                 </div>
                 <form>
                     <div class="row">
                         <div class="form-group col-lg-6 col-md-8 col-sm-9 col-12">
                             <label for="fname">First Name*</label>
-                            <input type="text" class="form-control" id="fname" placeholder="Enter your first name">
+                            <input type="text" class="form-control" id="fname" placeholder="Enter your first name"required>
                         </div>
                     </div>
                     <div class="row">
                         <div class="form-group col-lg-6 col-md-8 col-sm-9 col-12">
                             <label for="lname">Last Name*</label>
-                            <input type="text" class="form-control" id="lname" placeholder="Enter your last name">
+                            <input type="text" class="form-control" id="lname" placeholder="Enter your last name"required>
                         </div>
                     </div>
                     <div class="row">
                         <div class="form-group col-lg-6 col-md-8 col-sm-9 col-12">
                             <label for="email">Email*</label>
-                            <input type="email" class="form-control" style="background-color: #F7F3F2" id="email" placeholder="Enter your email address">
+                            <input type="email" class="form-control" style="background-color: #F7F3F2" id="email" placeholder="Enter your email address"required>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-lg-6 col-md-8 col-sm-9 col-12">
+                            <label for="semail">Secondary Email*</label>
+                            <input type="email" class="form-control" id="semail" placeholder="Enter your email address">
                         </div>
                     </div>
                     <div class="row">
@@ -114,7 +120,7 @@
                             <label id="phone">Phone Number</label>
                             <div class="form-row">
                                 <div class="col-lg-3 col-md-3 col-sm-4 col-4">
-                                    <select class="form-control" id="countryCode">
+                                    <select class="form-control" id="countryCode"required>
                                         <option hidden=""> Code</option>
                                         <option value="+91">+91</option>
                                         <option value="+1">+1</option>
@@ -123,13 +129,19 @@
                                     </select>
                                 </div>
                                 <div class="form-group col-lg-9 col-md-9 col-sm-8 col-8">
-                                    <input type="text" class="form-control" id="phonenumber" placeholder="Enter your phone number">
+                                    <input type="text" class="form-control" id="phonenumber" placeholder="Enter your phone number"required>
                                 </div>
                             </div>
                         </div>
-                    </div>                    
+                    </div>
                     <div class="row">
-                        <div class="form-group col-lg-1 col-sm-3 col-md-3 col-3">
+                        <div class="form-group col-lg-6 col-md-8 col-sm-9  col-12 type-file">
+                            <label for="profilepicture">Profile Picture</label>
+                            <input type="file" class="form-control-file image-upload" id="profilepicture">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-lg-1 col-md-2 col-sm-3 col-3">
                             <a class="btn btn-color" title="submit" role="button" href="#">Submit</a>
                         </div>
                     </div>
@@ -137,7 +149,7 @@
             </div>
         </div>
     </section>
-    <!--End Add Administrtor-->
+    <!--End My Profile-->
     <!--Footer-->
     <footer>
         <div class="container">
