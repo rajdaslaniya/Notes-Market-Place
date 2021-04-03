@@ -1,0 +1,183 @@
+﻿@{
+    ViewBag.Title = "Notes MarketPlace";
+    ViewBag.Js = "/Scripts/Front/js/Home.js";
+}
+
+<!--Home Image-->
+<section id="home-bg-image">
+    <div id="home-content">
+        <div class="container">
+            <div class="row">
+                <div id="home-content-inner" class="col-lg-6 col-md-7 col-sm-8 col-12">
+                    <h1>Download Free/Paid Notes or Sale your Book</h1>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Expedita nemo nostrum eos nisi.</p>
+                    <div id="btn-learn-more">
+                        <a class="btn btn-transperent" href="@Url.Action("FAQ","Home")" title="Learn More" role="button">Learn More</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!--End Home Image-->
+
+
+<!--Aboout-->
+<section id="about">
+    <div class="content-box-md">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-5 col-md-5 col-sm-4 col-12">
+                    <div class="heading">About <br>Notes MarketPlace</div>
+                </div>
+                <div class="col-lg-7 col-md-7 col-sm-8 col-12">
+                    <div id="paragraph1">
+                        <p>
+                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Pariatur, quam nulla aut nobis laboriosam quo deleniti, ratione tenetur illo consequuntur ut praesentium tempore similique neque sunt. Laboriosam sit aliquam voluptate.
+                        </p>
+                    </div>
+                    <div id="paragraph2">
+                        <p>
+                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptatibus atque porro nesciunt natus error, et, alias, beatae facere voluptatum obcaecati quam nihil rerum quisquam quod sequi quos! Tempore, excepturi, magni.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!--End About-->
+
+
+<!--Work-->
+<section id="work">
+    <div class="content-box-md">
+        <div class="container text-center">
+            <div class="heading">How it Works</div>
+            <div class="row">
+                <div class="col-lg-6 col-md-6 col-sm-6 col-6">
+                    <div style="float: right">
+                        <div class="work-image">
+                            <img src="~/Front Image/images/home/download.png">
+                        </div>
+                        <div class="sub-heading">Download Free/Paid Notes</div>
+                        <p>Get Material for your <br>Cources etc.</p>
+                        <div class="btn-work">
+                            <a class="btn btn-color" href="@Url.Action("Index","SearchNotes")" title="Download" role="button">Download</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-6 col-6">
+                    <div style="float: left">
+                        <div class="work-image">
+                            <img src="~/Front Image/images/home/seller.png">
+                        </div>
+                        <div class="sub-heading">Seller</div>
+                        <p>Upload and Download Cources <br>and Materials etc.</p>
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <div class="btn-work">
+                                <a class="btn btn-color" href="@Url.Action("Index","SellYourNotes")" title="Sell Book" role="button">Sell Book</a>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="btn-work">
+                                <a class="btn btn-color" href="@Url.Action("Login","Account")" title="Sell Book" role="button">Sell Book</a>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!--End WOrk-->
+
+
+<!--Customet-->
+<section id="customer">
+    <div class="container">
+        <div class="content-box-md">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="text-center heading">What Our Customers are Saying</div>
+                </div>
+            </div>
+            <div class="row">
+                <!--Customer 1-->
+                <div class="col-lg-6 col-md-6 col-sm-6 col-12">
+                    <div class="white-box">
+                        <div class="row">
+                            <div class="col-lg-3 col-md-3 col-sm-3 col-4">
+                                <img src="~/Front Image/images/home/customer-1.png" class="img-respnosive img-rounded">
+                            </div>
+                            <div class="col-lg-9 col-md-9 col-sm-9 col-8">
+                                <div class="sub-heading-1">Walter Meller</div>
+                                <div id="des">Founder & CEO,Matrix Group</div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <p>"Lorem ipsum dolor sit amet, consectetur adipisicing elit. Asperiores maiores eligendi rerum illo, nulla facere suscipit quae fugit quos. Repudiandae quia tenetur necessitatibus, alias quis quisquam quam fuga! Est, inventore."</p>
+                        </div>
+                    </div>
+                </div>
+                <!--Customer 2-->
+                <div class="col-lg-6 col-md-6 col-sm-6 col-12">
+                    <div class="white-box">
+                        <div class="row">
+                            <div class="col-lg-3 col-md-3 col-sm-3 col-4">
+                                <img src="~/Front Image/images/home/customer-2.png" class="img-respnosive img-rounded">
+                            </div>
+                            <div class="col-lg-9 col-md-9 col-sm-9 col-8">
+                                <div class="sub-heading-1">Jonnie Riley</div>
+                                <div id="des">Employee,Curious Snakcs</div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <p>"Lorem ipsum dolor sit amet, consectetur adipisicing elit. Asperiores maiores eligendi rerum illo, nulla facere suscipit quae fugit quos. Repudiandae quia tenetur necessitatibus, alias quis quisquam quam fuga! Est, inventore."</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row top-buffer">
+                <!--Customer 3-->
+                <div class="col-lg-6 col-md-6 col-sm-6 col-12">
+                    <div class="white-box">
+                        <div class="row">
+                            <div class="col-lg-3 col-md-3 col-sm-3 col-4">
+                                <img src="~/Front Image/images/home/customer-3.png" class="img-respnosive img-rounded">
+                            </div>
+                            <div class="col-lg-9 col-md-9 col-sm-9 col-8">
+                                <div class="sub-heading-1">Amilia Luna</div>
+                                <div id="des">Teacher,Saint Joseph High School</div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <p>"Lorem ipsum dolor sit amet, consectetur adipisicing elit. Asperiores maiores eligendi rerum illo, nulla facere suscipit quae fugit quos. Repudiandae quia tenetur necessitatibus, alias quis quisquam quam fuga! Est, inventore."</p>
+                        </div>
+                    </div>
+                </div>
+                <!--Customer 4-->
+                <div class="col-lg-6 col-md-6 col-sm-6 col-12">
+                    <div class="white-box">
+                        <div class="row">
+                            <div class="col-lg-3 col-md-3 col-sm-3 col-4">
+                                <img src="~/Front Image/images/home/customer-4.png" class="img-respnosive img-rounded">
+                            </div>
+                            <div class="col-lg-9 col-md-9 col-sm-9 col-8">
+                                <div class="sub-heading-1">Daniel Cardos</div>
+                                <div id="des">Software Engineer,INfinitum Company</div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <p>"Lorem ipsum dolor sit amet, consectetur adipisicing elit. Asperiores maiores eligendi rerum illo, nulla facere suscipit quae fugit quos. Repudiandae quia tenetur necessitatibus, alias quis quisquam quam fuga! Est, inventore."</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!--End Customer-->
+

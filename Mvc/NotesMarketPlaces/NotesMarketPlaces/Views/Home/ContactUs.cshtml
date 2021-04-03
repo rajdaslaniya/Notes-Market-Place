@@ -1,0 +1,76 @@
+﻿@model NotesMarketPlaces.Models.ContactUsViewModel
+@{
+    ViewBag.Title = "Contact Us";
+    ViewBag.ContactUs = "active";
+    ViewBag.Navigation = "white-navbar";
+    ViewBag.Js = "/Scripts/Front/js/script.js";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+}
+
+
+<!--Blank-->
+<section class="blank">
+</section>
+<!--End Blank-->
+
+
+<!--BackGround Photo-->
+<section id="bg-heading">
+    <div id="up-heading" class="text-center">Contact Us</div>
+</section>
+<!--End BackGround Photo-->
+
+
+<!--Contact Us Details-->
+<section id="contact-us">
+    <div class="container">
+        <div class="content-box-md">
+
+            <!--Heading-->
+            <div class="heading" style="margin-bottom:0">Get In Touch</div>
+            <p mb-4>Let us know how to get back to you</p>
+            <!--End Heading-->
+
+
+
+            @using (Html.BeginForm("ContactUs", "Home", FormMethod.Post))
+            {
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="row">
+                            <div class="form-group col-lg-12">
+                                @Html.LabelFor(model => model.FullName, new { @class = "control-label" })
+                                @Html.EditorFor(model => model.FullName, new { htmlAttributes = new { @class = "form-control", @id = "fname", @placeholder = "Enter your first name" } })
+                                @Html.ValidationMessageFor(model => model.FullName, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="form-group col-lg-12">
+                                @Html.LabelFor(model => model.EmailID, new { @class = "control-label" })
+                                @Html.EditorFor(model => model.EmailID, new { htmlAttributes = new { @class = "form-control", @id = "email", @placeholder = "Enter your email address" } })
+                                @Html.ValidationMessageFor(model => model.EmailID, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="form-group col-lg-12">
+                                @Html.LabelFor(model => model.Subject, new { @class = "control-label" })
+                                @Html.EditorFor(model => model.Subject, new { htmlAttributes = new { @class = "form-control", @id = "subject", @placeholder = "Enter your subject" } })
+                                @Html.ValidationMessageFor(model => model.Subject, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group col-lg-6">
+                        @Html.LabelFor(model => model.Comments, new { @class = "control-label" })
+                        @Html.EditorFor(model => model.Comments, new { htmlAttributes = new { @class = "form-control", @id = "descriptionInput", @placeholder = "Comments" } })
+                        @Html.ValidationMessageFor(model => model.Comments, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-lg-1 col-md-2 col-sm- col-4">
+                        <button type="submit" class="btn btn-color">Submit</button>
+                    </div>
+                </div>
+            }
+        </div>      
+    </div>
+</section>
+<!--End Contact Us Details-->

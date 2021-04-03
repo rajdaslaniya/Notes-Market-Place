@@ -1,0 +1,50 @@
+﻿@{
+    ViewBag.Title = "Login Page";
+    Layout = "~/Views/Shared/_AccountLayout.cshtml";
+}
+<!--Login-->
+<section id="login">
+    <div id="group">
+        
+            <!--Top Logo-->
+            <div class="text-center img-responsive img1">
+                <img src="~/Front Image/images/Logo/white-logo.png">
+            </div>
+            <!--End Top Logo-->
+            <div class="form-box">
+                <!--Login Form-->
+                <form>
+                    <h2 class="form-heading">Login</h2>
+                    <p class="form-sub-heading">Enter email address and password for login</p>
+                    <div class="form-group" id="email">
+                        <label class="control-label">Email</label>
+                        <div>
+                            <input type="email" class="form-control" name="email" id="emailtext" placeholder="Enter email address" required>
+                        </div>
+                    </div>
+                    <div class="form-group" id="password">
+                        <label class="control-label">Password</label>
+                        <label id="forgot"><a>@Html.ActionLink("Forgot Password?", "ForgotPassword")</a></label>
+                        <div>
+                            <input id="password-field" type="password" class="form-control" name="password" placeholder="Enter your password" required>
+                            <span toggle="#password-field" class="field-icon toggle-password" id="icon">
+                                <img src="~/Front Image/images/icon/eye.png">
+                            </span>
+                        </div>
+                    </div>
+                    <div class="invalid-text">
+                        The password that you've entered is incorrect
+                    </div>
+                    <div class="form-group form-check" id="checkbox">
+                        <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                        <label class="form-check-label" for="exampleCheck1">Remember Me</label>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Login</button>
+                    <br>
+                    <p class="form-last-heading">Don't have an account?<a>@Html.ActionLink("Sign Up","SignUp")</a></p>
+                </form>
+                <!--End Login Form-->
+            </div>
+        
+    </div>
+</section>

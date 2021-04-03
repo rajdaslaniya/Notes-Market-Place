@@ -1,0 +1,1257 @@
+/*===================================================
+                        1200 to 2800
+=====================================================*/
+/* Large  Devices (Laptop and Full Screen Desktops) */
+
+@media (min-width: 1200px) and (max-width: 2800px) {
+    /*----------------Table Search-----------------------*/
+    .search {
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        padding: 0;
+        margin-right:0;
+    }
+}
+
+
+/*===================================================
+                        992 to 1199
+=====================================================*/
+/* Medium Devices (Landscape Tablets & Medium Desktops) */
+
+@media (min-width: 992px) and (max-width: 1199px) {
+
+    /*----------------------------------------------------------------------*/
+    /*                              Navigation Bar                          */
+    /*----------------------------------------------------------------------*/
+    #navbarSupportedContent .nav-item {
+        padding: 0 10px;
+    }
+
+    div.dropdown-menu.show {
+        -webkit-transform: translate3d(485px, -3px, 0px) !important;
+        transform: translate3d(485px, -3px, 0px) !important;
+    }
+
+    /*--------------Content Box----------------*/
+    .content-box-md {
+        padding: 50px 0;
+    }
+
+    .content-box-sm {
+        padding: 0px 0px 55px 0;
+    }
+
+    #details .image img {
+        width: 220px;
+        height: 300px;
+    }
+
+    .search {
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        padding-left: 0;
+        margin-right: 0px;
+    }
+}
+
+/*===================================================
+                    768 to 991
+=====================================================*/
+/* Small Devices (Portrait Tablets & Small Desktops) */
+
+@media (min-width: 768px) and (max-width: 991px) {
+
+    /*-----------------Heading-----------------*/
+    .heading {
+        font-size: 30px;
+        line-height: 34px;
+        margin-bottom: 20px;
+    }
+
+    .sub-heading {
+        font-size: 22px;
+        line-height: 24px;
+        margin-bottom: 15px;
+    }
+
+    .sub-heading-2 {
+        font-size: 17px;
+        line-height: 26px;
+        color: #333333;
+        margin-bottom: 20px;
+    }
+
+    .dashboard-box-fifth {
+        vertical-align: middle;
+        width: 100%;
+        margin: 0 15px 20px 0;
+    }
+
+    .dashboard-box-second {
+        padding-left: 0px;
+    }
+
+    .dashboard-box-fourth {
+        padding-right: 15px;
+    }
+
+    #dashboard .heading {
+        padding-left: 10px;
+    }
+
+    /*-----------------Button-----------------*/
+    a.btn {
+        font-size: 14px;
+        line-height: 26px;
+        font-weight: 400;
+    }
+
+    /*-----------------Search Month-----------------*/
+    .search-month {
+        padding-right: 0px;
+        padding-left: 16px;
+    }
+
+    /*-----------------Notes Details-----------------*/
+    #details .images img {
+        width: 180px;
+        height: 250px;
+    }
+
+    #btn-download a {
+        width: 180px;
+    }
+
+    #details #paragraph {
+        font-size: 16px;
+        line-height: 24px;
+        margin-bottom: 15px;
+    }
+
+    .comment-box p {
+        font-size: 14px;
+        line-height: 18px;
+        text-overflow: #333333;
+    }
+
+    .comment-box h5 {
+        margin-bottom: -18px;
+    }
+
+    /*----------------------------------------------------------------------*/
+    /*                              Navigation Bar                          */
+    /*----------------------------------------------------------------------*/
+    .nav-bar {
+        display: block;
+    }
+
+    nav .container {
+        max-width: 100%;
+        margin: 0 !important;
+    }
+
+    .navbar-brand {
+        padding-left: 20px;
+    }
+
+    #navbarSupportedContent {
+        background: #fff;
+    }
+
+    .navbar-toogler {
+        padding-right: 20px !important;
+    }
+
+    nav .dropdown-menu {
+        border: none;
+        -webkit-box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
+        box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
+    }
+
+    nav li.profile-dropdown .dropdown-menu a.logout:hover {
+        color: #6255a5;
+    }
+
+    nav .dropdown-menu .dropdown-item:hover,
+    nav .dropdown-menu .dropdown-item:focus,
+    nav .dropdown-menu .dropdown-item:active {
+        color: #6255a5;
+        background-color: #fff;
+    }
+
+    nav .dropdown-item {
+        padding: 9px 18px;
+        font-size: 14px;
+    }
+
+    ul.navbar-nav li {
+        margin-bottom: 15px;
+    }
+
+    /*-----------------Dropdown-----------------*/
+    div.dropdown-menu.show {
+        -webkit-transform: translate3d(0px, -11px, 0px) !important;
+        transform: translate3d(0px, -11px, 0px) !important;
+    }
+
+    /*-----------------Form-----------------*/
+    #group {
+        width: 380px;
+    }
+    .form-box {
+        width: 380px;
+        background: #fff;
+        padding: 20px 40px 20px 40px;
+        border-radius: 5px;
+    }
+
+    .form-heading {
+        font-size: 32px;
+        line-height: 35px;
+        margin-bottom: 20px;
+    }
+
+    .form-sub-heading {
+        font-size: 16px;
+        line-height: 19px;
+    }
+
+    .form-last-heading {
+        font-size: 16px;
+        line-height: 16px;
+        margin-top: 20px;
+    }
+
+    .form-third-heading {
+        font-size: 14px;
+        color: greenyellow;
+    }
+
+    label {
+        font-size: 15px;
+        line-height: 17px;
+    }
+
+    /*-----------------Forgot Password-------------*/
+    #forgotpassword .form-box {
+        width: 380px;
+        padding: 20px 40px 20px 40px;
+    }
+
+        #forgotpassword .form-box #email #emailtext {
+            height: 35px;
+        }
+
+    /*------------Email Validation Group------------*/
+    #emailvalidation .group {
+        width: 380px;
+    }
+
+    /*---------------BackGround Image-------------*/
+    #bg-heading {
+        min-height: 225px;
+    }
+
+    /*---------------Upper Heading-------------*/
+    #up-heading {
+        font-size: 42px;
+        line-height: 46px;
+    }
+
+    /*---------------Home Image Heading-------------*/
+    #home-bg-image h1 {
+        font-size: 40px;
+        line-height: 47px;
+    }
+
+    #home-bg-image p {
+        font-size: 18px;
+        line-height: 20px;
+    }
+
+    /*-------------Login Form------------*/
+    #login .form-box #email #emailtext {
+        font-size: 16px;
+        height: 35px;
+    }
+
+    #login .form-box #password #password-field {
+        height: 35px;
+    }
+
+    .field-icon {
+        margin-top: -28px;
+    }
+
+    .search {
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        padding-left: 0;
+        margin-right: 0px;
+    }
+
+    /*------------Note Details Image--------------*/
+    #details .image img {
+        width: 170px;
+        height: 250px;
+    }
+
+    .note-details {
+        margin-left: 40px;
+    }
+
+        .note-details .first {
+            font-size: 17px;
+            line-height: 19px;
+        }
+
+        .note-details .second {
+            font-size: 17px;
+            line-height: 19px;
+        }
+
+        .note-details .first1 {
+            line-height: 17px;
+            font-size: 17px;
+        }
+
+    /*----------------Home Page-------------------*/
+    .white-box .sub-heading-1 {
+        font-size: 21px;
+        line-height: 30px;
+    }
+
+    .white-box {
+        padding: 20px;
+    }
+
+        .white-box #des {
+            font-size: 14px;
+            line-height: 20px;
+        }
+
+        .white-box p {
+            font-size: 15px;
+            line-height: 18px;
+        }
+
+        .white-box img {
+            width: 68px;
+            height: 75px;
+            margin-bottom: 30px;
+        }
+
+    /*-----------------Footer-------------------------*/
+    .footer p {
+        margin-top: 10px;
+    }
+
+    footer {
+        border-top: 1px solid #d1d1d1;
+        padding: 15px 0 1px 0;
+    }
+
+    .footer-text {
+        font-size: 14px;
+    }
+
+    .social-list {
+        padding: 0;
+    }
+
+    ul.social-list li {
+        padding: 0;
+    }
+
+        ul.social-list li a {
+            width: 30px;
+            height: 30px;
+        }
+
+    ul.social-list i {
+        margin-top: 30%;
+    }
+}
+
+/*===================================================
+                        767 to 576
+=====================================================*/
+@media (min-width: 576px) and (max-width: 767px) {
+
+    /*-----------------Heading-----------------*/
+    .heading {
+        font-size: 26px;
+        line-height: 30px;
+        margin-bottom: 18px;
+    }
+
+    .sub-heading-1 {
+        font-size: 19px;
+        line-height: 26px;
+    }
+
+    .sub-heading-2 {
+        font-size: 19px;
+        line-height: 26px;
+        margin-bottom: 15px;
+    }
+
+    /*-----------------Content Box-----------------*/
+    .content-box-md {
+        padding: 40px 0;
+    }
+
+    .content-box-sm {
+        padding: 0px 0px 30px 0;
+    }
+
+    /*----------------------------------------------------------------------*/
+    /*                              Navigation Bar                          */
+    /*----------------------------------------------------------------------*/
+    nav .container {
+        max-width: 100%;
+        margin: 0 !important;
+    }
+
+    .navbar-brand {
+        padding-left: 20px;
+    }
+
+    #navbarSupportedContent {
+        background: #fff;
+    }
+
+    .navbar-toggler {
+        padding-right: 20px !important;
+    }
+
+    nav .dropdown-menu {
+        border: none;
+        -webkit-box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
+        box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
+    }
+
+    nav .dropdown-item {
+        padding: 9px 18px;
+        font-size: 14px;
+    }
+
+    nav .dropdown-menu .dropdown-item:hover,
+    nav .dropdown-menu .dropdown-item:focus,
+    nav .dropdown-menu .dropdown-item:active {
+        color: #6255a5;
+        background-color: #fff;
+    }
+
+    /*-----------------Dropdown-----------------*/
+    div.dropdown-menu1.show,
+    div.dropdown-menu2.show,
+    div.dropdown-menu3.show {
+        -webkit-transform: translate3d(0px, -11px, 0px) !important;
+        transform: translate3d(0px, -11px, 0px) !important;
+    }
+
+    ul.navbar-nav {
+        padding: 0 10px;
+        margin-top: 15px;
+    }
+
+    /*-----------------Notes Details-----------------*/
+    #details .image img {
+        width: 220px;
+        height: 275px;
+        margin-bottom: 30px;
+    }
+
+    .note-details {
+        margin-left: 0;
+    }
+
+        .note-details .first,
+        .note-details .second {
+            font-size: 15px;
+            line-height: 18px;
+        }
+
+        .note-details .first1 {
+            font-size: 15px;
+            line-height: 18px;
+        }
+
+    /*-----------------Button-----------------*/
+    a.btn {
+        font-size: 14px;
+        line-height: 26px;
+        font-weight: 400;
+    }
+
+    /*-----------------Input Type-----------------*/
+    input[type="file"].image-upload {
+        padding: 100px 0 0 0;
+        width: 100%;
+        height: 75px;
+        background-size: 60px 60px;
+    }
+
+    /*-----------------Modal-----------------*/
+    .modal-header {
+        border-bottom: none;
+        padding-bottom: 0;
+    }
+
+    .modal-body img {
+        height: 50px;
+        width: 50px;
+    }
+
+    .modal-body .text-center h2 {
+        font-size: 20px;
+        line-height: 25px;
+    }
+
+    .modal-body h5 {
+        font-size: 14px;
+        line-height: 18px;
+        margin-bottom: 0px;
+    }
+
+    /*-----------------Member Page-----------------*/
+    #member-details .first {
+        font-size: 13px;
+        line-height: 18px;
+    }
+
+    #member-details .last {
+        font-size: 13px;
+        line-height: 18px;
+    }
+
+    #member-page select,
+    #notes-under-review select,
+    #published-notes select,
+    #rejected-notes select {
+        width: 70%;
+    }
+
+    /*-----------------Form-----------------*/
+    #group {
+        width: 380px;
+    }
+    .form-box {
+        width: 380px;
+        background: #fff;
+        padding: 20px 40px 20px 40px;
+        border-radius: 5px;
+    }
+
+    .form-heading {
+        font-size: 28px;
+        line-height: 35px;
+        margin-bottom: 20px;
+    }
+
+    .form-sub-heading {
+        font-size: 14px;
+        line-height: 19px;
+    }
+
+    .form-last-heading {
+        font-size: 15px;
+        line-height: 16px;
+        margin-top: 20px;
+    }
+
+    .form-third-heading {
+        font-size: 13px;
+        color: greenyellow;
+    }
+
+    label {
+        font-size: 14px;
+        line-height: 17px;
+    }
+
+    /*-------------------Form Button-----------------*/
+    #signup button,
+    #changepassword button,
+    #forgotpassword button,
+    #login button,
+    #emailvalidation button {
+        font-size: 16px;
+        line-height: 0px;
+    }
+
+    /*-----------------Login-----------------*/
+    #login .form-box #password #password-field {
+        font-size: 14px;
+        line-height: 20px;
+        height: 38px;
+    }
+
+    #login .form-box #email #emailText {
+        height: 38px;
+    }
+
+    #login .form-box #exampleCheck1 {
+        width: 22px;
+        height: 22px;
+    }
+
+    #login .form-box #checkbox label {
+        margin-left: 15px;
+        margin-top: 8px;
+    }
+
+    .field-icon {
+        margin-right: 18px;
+        margin-top: -27px;
+    }
+
+    .img1 {
+        margin-bottom: 6px;
+    }
+
+    /*-----------------Email Validation----------------*/
+    #emailvalidation img {
+        margin-top: 15px;
+    }
+
+    #emailvalidation .group {
+        width: 350px;
+    }
+
+    #emailvalidation #heading h2 {
+        font-size: 22px;
+        line-height: 20px;
+        margin-top: 25px;
+        margin-bottom: 22px;
+    }
+
+    #emailvalidation #heading h4 {
+        font-size: 16px;
+        line-height: 15px;
+        margin-bottom: 15px;
+    }
+
+    #emailvalidation p {
+        font-size: 14px;
+        line-height: 18px;
+    }
+
+    .paragraph {
+        margin-bottom: 20px;
+    }
+
+    /*-----------------Forgot Password-------------*/
+    #forgotpassword .form-box {
+        width: 380px;
+        padding: 20px 40px 20px 40px;
+    }
+
+        #forgotpassword .form-box #email #emailtext {
+            height: 35px;
+        }
+
+    /*-----------------Pagination-----------------*/
+    .pagination {
+        padding: 0;
+    }
+
+    li.page-item {
+        margin: 0 2px;
+    }
+
+    .page-link i {
+        font-size: 21px;
+        line-height: 20px;
+    }
+
+    a.page-link {
+        font-size: 14px;
+        line-height: 20px;
+    }
+
+    /*---------------BackGround Image-------------*/
+    #bg-heading {
+        min-height: 200px;
+    }
+
+    /*---------------Upper Heading-------------*/
+    #up-heading {
+        font-size: 38px;
+        line-height: 42px;
+    }
+
+    /*----------------Input type File---------------*/
+    input[type="file"].display-image,
+    input[type="file"].upload-notes,
+    input[type="file"].note-preview {
+        padding: 100px 0 0 0;
+        height: 75px;
+        background-size: 60px 60px;
+    }
+
+    #descriptionTextarea1 {
+        height: 100px;
+    }
+
+    .dashboard-box-second {
+        padding-left: 0;
+    }
+
+    .dashboard-box-fourth {
+        padding-right: 15px;
+    }
+
+    .dashboard-box-fifth {
+        margin-right: 15px;
+    }
+
+    #progress-notes .search,
+    #my-rejected .search {
+        margin-right: 0px;
+    }
+
+    /*------------------------Home---------------------*/
+    #home-content {
+        width: 100%;
+        height: 500px;
+    }
+
+    #home-content-inner {
+        top: 55%;
+    }
+
+    #home-bg-image h1 {
+        font-size: 36px;
+        line-height: 42px;
+    }
+
+    #home-bg-image p {
+        font-size: 16px;
+        line-height: 18px;
+    }
+
+    .white-box .sub-heading-1 {
+        font-size: 21px;
+        line-height: 30px;
+    }
+
+    .white-box {
+        padding: 20px;
+    }
+
+        .white-box #des {
+            font-size: 11px;
+            line-height: 16px;
+        }
+
+        .white-box p {
+            font-size: 12px;
+            line-height: 14px;
+        }
+
+        .white-box img {
+            width: 55px;
+            height: 65px;
+            margin-bottom: 15px;
+        }
+    /*-----------------Footer-------------------------*/
+    .footer p {
+        margin-top: 10px;
+    }
+
+    footer {
+        border-top: 1px solid #d1d1d1;
+        padding: 15px 0 1px 0;
+    }
+
+    .footer-text {
+        font-size: 12px;
+    }
+
+    .social-list {
+        padding: 0;
+    }
+
+    ul.social-list li {
+        padding: 0;
+    }
+
+        ul.social-list li a {
+            width: 28px;
+            height: 28px;
+        }
+
+    ul.social-list i {
+        margin-top: 30%;
+    }
+}
+
+/*===================================================
+                        <=575
+=====================================================*/
+@media (max-width: 575px) {
+    .blank {
+        height: 70px;
+    }
+
+    /*-----------------Heading-----------------*/
+    .heading {
+        font-size: 24px;
+        line-height: 28px;
+        margin-bottom: 18px;
+    }
+
+    .sub-heading-1 {
+        font-size: 17px;
+        line-height: 24px;
+    }
+
+    .sub-heading-2 {
+        font-size: 17px;
+        line-height: 24px;
+        margin-bottom: 15px;
+    }
+
+    /*-----------------Content Box-----------------*/
+    .content-box-md {
+        padding: 15px 0;
+    }
+
+    /*----------------------------------------------------------------------*/
+    /*                              Navigation                              */
+    /*----------------------------------------------------------------------*/
+    .navbar {
+        display: block;
+        padding: 10px 0;
+    }
+
+    .navbar-fixed-height {
+        height: 70px;
+    }
+
+    nav .container {
+        max-width: 100%;
+        margin: 0 !important;
+    }
+
+    .navbar-brand {
+        padding-left: 20px;
+    }
+
+    #navbarSupportedContent {
+        background: #fff;
+    }
+
+    .navbar-toggler {
+        padding-right: 20px !important;
+    }
+
+    nav .dropdown-menu .dropdown-item:hover,
+    nav .dropdown-menu .dropdown-item:focus,
+    nav .dropdown-menu .dropdown-item:active {
+        color: #6255a5;
+        background-color: #fff;
+    }
+
+    /*-----------------Dropdown-----------------*/
+    div.dropdown-menu1.show,
+    div.dropdown-menu2.show,
+    div.dropdown-menu3.show {
+        -webkit-transform: translate3d(0px, -11px, 0px) !important;
+        transform: translate3d(0px, -11px, 0px) !important;
+    }
+
+    ul.navbar-nav {
+        padding: 0 10px;
+        margin-top: 15px;
+    }
+
+    /*---------------BackGround Image-------------*/
+    #bg-heading {
+        min-height: 175px;
+    }
+
+    /*---------------Upper Heading-------------*/
+    #up-heading {
+        font-size: 34px;
+        line-height: 42px;
+    }
+
+    /*-----------------Button Add Note-----------------*/
+    .btn-add-note {
+        width: 100%;
+        text-align: center;
+    }
+
+    /*------------------Buyer Request-----------------*/
+    /*------------------My Download-----------------*/
+    .search {
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        padding-left: 0;
+        margin-right: 0px;
+    }
+
+    #buyer-request .table-responsive,
+    #my-download .table-responsive,
+    #my-sold .table-responsive,
+    #progress-notes .table-responsive {
+        margin-right: 0px;
+    }
+
+    /*------------------------Home---------------------*/
+    #home-content {
+        width: 100%;
+        height: 500px;
+    }
+
+    #home-content-inner {
+        top: 55%;
+    }
+
+    #home-bg-image h1 {
+        font-size: 36px;
+        line-height: 42px;
+    }
+
+    #home-bg-image p {
+        font-size: 16px;
+        line-height: 18px;
+    }
+
+    .work-image {
+        height: 100px;
+        width: 100px;
+        border-radius: 50%;
+        margin-bottom: 15px;
+    }
+
+        .work-image img {
+            width: 75px;
+            height: 75px;
+        }
+
+    #work p {
+        font-size: 16px;
+        line-height: 17px;
+    }
+
+    .btn-work a {
+        width: 160px;
+        font-size: 14px;
+        height: 35px;
+    }
+
+    /*------------------Dashboard--------------------*/
+    .dashboard-box-fifth {
+        margin: 0 13px 20px 10px;
+    }
+
+    .dashboard-box-fourth {
+        padding-right: 13px;
+    }
+
+    .dashboard-box-second {
+        padding-left: 10px;
+    }
+
+    /*-----------------Notes Details-----------------*/
+    #details .image {
+        text-align: center;
+    }
+
+        #details .image img {
+            width: 200px;
+            height: 300px;
+            margin-bottom: 20px;
+        }
+
+    #btn-download {
+        margin-bottom: 20px;
+    }
+
+    #details .heading {
+        margin-top: 10px;
+    }
+
+    .note-details {
+        margin-left: 0;
+    }
+
+        .note-details .first,
+        .note-details .second {
+            font-size: 14px;
+            line-height: 16px;
+        }
+
+        .note-details .first1 {
+            font-size: 14px;
+            line-height: 16px;
+        }
+
+    a.btn {
+        font-size: 12px;
+        line-height: 22px;
+    }
+
+    iframe {
+        padding: 0 15px 25px 15px;
+        height: 400px;
+    }
+
+    #details #paragraph {
+        font-size: 16px;
+        line-height: 24px;
+        margin-bottom: 15px;
+    }
+
+    .comment-box p {
+        font-size: 12px;
+        line-height: 14px;
+    }
+
+    .comment-box h5 {
+        margin-bottom: -20px;
+    }
+
+    .comment-box {
+        height: 380px;
+    }
+
+    /*------------------Search Notes---------------------*/
+    .book .book-heading {
+        font-size: 16px;
+        line-height: 22px;
+        height: 15px;
+        margin-bottom: 30px;
+        margin-top: 30px;
+    }
+
+    .book-details {
+        list-style: none;
+        margin: 15px 0;
+    }
+
+        .book-details li {
+            margin-bottom: 5px;
+            font-size: 12px;
+            line-height: 20px;
+            margin-left: -20px;
+        }
+
+        .book-details span.flag {
+            font-size: 13px;
+            line-height: 20px;
+            font-weight: 400;
+        }
+
+        .book-details img {
+            margin-right: 15px;
+            width: 25px;
+            height: 20px;
+        }
+
+    /*-----------------Modal-----------------*/
+    .modal-header {
+        border-bottom: none;
+    }
+
+    .modal-body img {
+        height: 45px;
+        width: 45px;
+    }
+
+    .modal-body .text-center h2 {
+        font-size: 20px;
+        line-height: 25px;
+    }
+
+    .modal-body h5 {
+        font-size: 14px;
+        line-height: 18px;
+        margin-bottom: 0px;
+    }
+
+    /*-----------------Form-----------------*/
+    #group {
+        width: 340px;
+    }
+    .form-box {
+        width: 340px;
+        padding: 20px 40px 20px 40px;
+    }
+
+    .form-heading {
+        font-size: 24px;
+        line-height: 20px;
+        margin-bottom: 5px;
+    }
+
+    .form-sub-heading {
+        font-size: 13px;
+        line-height: 15px;
+        margin-bottom: 0px;
+    }
+
+    .form-last-heading {
+        font-size: 15px;
+        line-height: 16px;
+        margin-top: 20px;
+    }
+
+    .form-third-heading {
+        font-size: 13px;
+        color: greenyellow;
+    }
+
+    label {
+        font-size: 14px;
+        line-height: 17px;
+    }
+
+    /*-------------------Form Button-----------------*/
+    #signup button,
+    #changepassword button,
+    #forgotpassword button,
+    #login button,
+    #emailvalidation button {
+        font-size: 16px;
+        line-height: 0px;
+    }
+
+    /*-----------------Login-----------------*/
+    #login .form-box #password #password-field {
+        font-size: 14px;
+        line-height: 20px;
+        height: 33px;
+    }
+
+    #login .form-box #email #emailText {
+        height: 33px;
+    }
+
+    #login .form-box #exampleCheck1 {
+        width: 20px;
+        height: 20px;
+    }
+
+    #login .form-box #checkbox label {
+        margin-left: 15px;
+        margin-top: 5px;
+    }
+
+    .field-icon {
+        margin-right: 18px;
+        margin-top: -25px;
+    }
+
+    .img1 {
+        margin-bottom: 4px;
+    }
+
+    /*-----------------Email Validation----------------*/
+    #emailvalidation img {
+        margin-top: 0px;
+    }
+
+    #emailvalidation .group {
+        width: 340px;
+    }
+
+    #emailvalidation #heading h2 {
+        font-size: 20px;
+        line-height: 18px;
+        margin-top: 14px;
+        margin-bottom: 14px;
+    }
+
+    #emailvalidation #heading h4 {
+        font-size: 14px;
+        line-height: 15px;
+        margin-bottom: 15px;
+    }
+
+    #emailvalidation p {
+        font-size: 12px;
+        line-height: 18px;
+    }
+
+    .paragraph {
+        margin-bottom: 18px;
+    }
+
+    /*-----------------Forgot Password-------------*/
+    #forgotpassword .form-box {
+        width: 340px;
+        padding: 20px 40px 20px 40px;
+    }
+
+        #forgotpassword .form-box #email #emailtext {
+            height: 33px;
+        }
+
+    /*-----------------Pagination-----------------*/
+    .pagination {
+        padding: 0;
+    }
+
+    li.page-item {
+        margin: 0 2px;
+    }
+
+    .page-link i {
+        font-size: 21px;
+        line-height: 20px;
+    }
+
+    a.page-link {
+        font-size: 14px;
+        line-height: 20px;
+    }
+
+
+    /*-----------------Table Search-----------------*/
+    #table-search {
+        margin-top: 10px;
+    }
+    /*-----------------Footer-------------------------*/
+    .footer p {
+        margin-top: 10px;
+    }
+
+    footer {
+        border-top: 1px solid #d1d1d1;
+        padding: 15px 0 1px 0;
+    }
+
+    .footer-text {
+        font-size: 12px;
+    }
+
+    .social-list {
+        padding: 0;
+    }
+
+    ul.social-list li {
+        padding: 0;
+    }
+
+    ul.social-list li a {
+            width: 24px;
+            height: 24px;
+    }
+
+    ul.social-list i {
+        margin-top: 20%;
+    }
+    #progress-notes #table-search {
+        margin-right: 14px;
+    }
+}

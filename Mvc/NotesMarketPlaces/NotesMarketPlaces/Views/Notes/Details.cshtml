@@ -1,0 +1,208 @@
+﻿@model NotesMarketPlaces.Models.DetailsViewModel
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Navigation = "white-navbar";
+    ViewBag.Js = "/Scripts/Front/js/script.js";
+    ViewBag.SearchNotes = "active";
+}
+
+<!--Blank-->
+<section class="blank">
+</section>
+<!--End Blank-->
+<section id="details">
+    <div class="container">
+        <div class="content-box-md">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="sub-heading">Notes Details</div>
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="col-lg-6 col-md-6">
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-12 image">
+                            <img src="@Url.Content(Model.sellernotes.DisplayPicture)">
+                        </div>
+                        
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-12">
+                            <div class="heading" style="margin-bottom:5px">@Model.sellernotes.Title</div>
+                            <div class="sub-heading-2">@Model.sellernotes.NotesCategory.Name</div>
+                            <p id="paragraph">@Model.sellernotes.Description</p>
+                            <!--If User is logged in or not -->
+                            @if (User.Identity.IsAuthenticated)
+                            {
+                                <!--If Note is Paid and Download user and logged in user same-->
+                                if (Model.sellernotes.IsPaid==true)
+                                {
+                                    <div id="btn-download">
+                                        <a class="btn btn-color" href="@Url.Action("RequestPaidNotes","Notes", new { noteid = Model.sellernotes.ID })" role="button">Download / $@Model.sellernotes.SellingPrice</a>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <!--If Note is Free-->
+                                    <div id="btn-download">
+                                        <a class="btn btn-color" href="@Url.Action("DownloadNote","Notes", new { noteid = Model.sellernotes.ID })" title="Download Note" role="button" download>Download / $@Model.sellernotes.SellingPrice </a>
+                                    </div>
+                                }
+                            }
+                            else
+                            {
+                                <a class="btn btn-color" href="@Url.Action("Login","Account")" title="Download Note" role="button" data-toggle="modal" data-target="#thankspopup">Download / Free </a>
+                            }
+                            <!-- Confirmation Modal -->
+                            <div class="modal fade" id="confirmation" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-confirm-body">
+                                            <div>
+                                                <p class="confirm-text">
+                                                    Are you sure you want to download this Paid note. Please confirm.
+                                                </p>
+
+                                                <div class="btn-confirm">
+                                                    <a class="btn btn-yes" href="@Url.Action("BuyerRequest", new { noteid = Model.sellernotes.ID })" id="confirmationbutton" onclick="$('#confirmation').modal('hide'); $('#thankspopup').modal('show');" role="button">YES</a>
+                                                    <a class="btn btn-no" data-dismiss="modal" aria-label="Close" role="button">NO</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Modal -->
+                            <div class="modal fade" id="thankspopup" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="text-center">
+                                                <img class="img-responsive" src="~/Front Image/images/Thanks Popup/true.png" alt="Thanks">
+                                                <h2>Thanks for Purchasing</h2>
+                                            </div>
+                                            <h5>Dear Smith,</h5>
+                                            <p>As this is paid notes - you need to play to selller Rahul Shah offline.We will send hime an email that you want to download this note.He may contact you further for payment process completion.</p>
+                                            <pre>In case,you have urgency.<br>Please contact us on+9195377345959.</pre>
+                                            <p>Once he receives the payment and acknoledge us.selected notes you can see over my downloads tab for download.</p>
+                                            <p>Have a good day.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6">
+                    <div class="note-details">
+                        <p>
+                            <span class="first">Institution:</span>
+                            <span class="second">@Model.sellernotes.UniversityName</span>
+                        </p>
+                        <p>
+                            <span class="first">Country:</span>
+                            <span class="second">@Model.sellernotes.Country1.Name</span>
+                        </p>
+                        <p>
+                            <span class="first">Course Name:</span>
+                            <span class="second">@Model.sellernotes.Course</span>
+                        </p>
+                        <p>
+                            <span class="first">Course Code:</span>
+                            <span class="second">@Model.sellernotes.CourseCode</span>
+                        </p>
+                        <p>
+                            <span class="first">Professor:</span>
+                            <span class="second">@Model.sellernotes.Professor</span>
+                        </p>
+                        <p>
+                            <span class="first">Number of Pages:</span>
+                            <span class="second">@Model.sellernotes.NumberofPages</span>
+                        </p>
+                        <p>
+                            <span class="first">Approved Date:</span>
+                            <span class="second">@Model.sellernotes.CreatedDate.Value.ToString("MMMM dd yyyy")</span>
+                        </p>
+                        <p>
+                            <span class="first">Rating</span>
+                            <span class="rating second">
+                                <img src="~/Front Image/images/icon/star.png"><img src="~/Front Image/images/icon/star.png"><img src="~/Front Image/images/icon/star.png"><img src="~/Front Image/images/icon/star-white.png"><img src="~/Front Image/images/icon/star-white.png">100 Reviews
+                            </span>
+                        </p>
+                        <p>
+                            <span class="first1">5 Users marked this note as inapporopriate</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <hr>
+            <div class="row">
+                <div class="col-lg-5 col-md-5" style="background-clip:padding-box">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="sub-heading">Notes Preview</div>
+                        </div>
+                        <iframe src="@Url.Content(Model.sellernotes.NotesPreview)"></iframe>
+                    </div>
+                </div>
+                <div class="col-lg-7 col-md-7 " style="background-clip:padding-box">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="sub-heading">Customers</div>
+                        </div>
+                    </div>
+                    <div class="comment-box">
+
+                        <div class="row">
+                            <div class="col-lg-2 col-md-2  col-sm-3 col-4 text-center">
+                                <img src="~/Front Image/images/User-Profile/reviewer-1.png" class="img-responsive img-rounded img1">
+                            </div>
+                            <div class="col-lg-10 col-md-10 col-sm-9 col-8">
+                                <h5>Richard Brown</h5>
+                                <br>
+                                <span class="rating">
+                                    <img src="~/Front Image/images/icon/star.png"><img src="~/Front Image/images/icon/star.png"><img src="~/Front Image/images/icon/star.png"><img src="~/Front Image/images/icon/star-white.png"><img src="~/Front Image/images/icon/star-white.png">
+                                </span>
+                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Enim similique distinctio iusto.</p>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-lg-2 col-md-2 col-sm-3 col-4 text-center">
+                                <img src="~/Front Image/images/User-Profile/reviewer-2.png" class="img-responsive img-rounded img1">
+                            </div>
+                            <div class="col-lg-10 col-md-10 col-sm-9 col-8">
+                                <h5>Alice Ortiaz</h5>
+                                <br>
+                                <span class="rating">
+                                    <img src="~/Front Image/images/icon/star.png"><img src="~/Front Image/images/icon/star.png"><img src="~/Front Image/images/icon/star.png"><img src="~/Front Image/images/icon/star-white.png"><img src="~/Front Image/images/icon/star-white.png">
+                                </span>
+                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Enim similique distinctio iusto.</p>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-lg-2 col-md-2 col-sm-3 col-4 text-center">
+                                <img src="~/Front Image/images/User-Profile/reviewer-3.png" class="img-responsive img-rounded img1">
+                            </div>
+                            <div class="col-lg-10 col-md-10 col-sm-9 col-8">
+                                <h5>Sara Passmore</h5>
+                                <br>
+                                <span class="rating">
+                                    <img src="~/Front Image/images/icon/star.png"><img src="~/Front Image/images/icon/star.png"><img src="~/Front Image/images/icon/star.png"><img src="~/Front Image/images/icon/star-white.png"><img src="~/Front Image/images/icon/star-white.png">
+                                </span>
+                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Enim similique distinctio iusto.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

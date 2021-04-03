@@ -1,0 +1,43 @@
+﻿@{
+    ViewBag.Title = "Verify Email";
+    Layout = "~/Views/Shared/_AccountLayout.cshtml"; ;
+}
+
+<!DOCTYPE html>
+    <!--Email Validation-->
+    <section id="emailvalidation">
+        <div class="group container">
+            <!--Top Logo-->
+            <div class="img-fluid">
+                <img src="~/Front Image/images/Logo/dark-logo.png">
+            </div>
+            <!--End Logo-->
+            <!--Heading-->
+            <div id="heading">
+                <h2>Email Verification</h2>
+                <h4>Dear Smith,</h4>
+            </div>
+            <!--End Heading-->
+            <!--Description-->
+            <div class="paragraph">
+                <p>Thanks for Signing up!</p>
+                <p>Simply click below for email verification.</p>
+            </div>
+            <!--End Description-->
+            <!--Email Validarion  Form-->
+            <form>
+                @Html.ActionLink("Verify Email Address", "RegisterConfirm", "Account", new { key = @ViewBag.Key}, new { @class = "btn btn-color btn-primary"})
+            </form>
+            <!--End Email Validation Form-->
+        </div>
+    </section>
+
+    <script>
+    function verified() {
+        $.ajax({
+            type: "post",
+            url: "Account/RegisterConfirm",
+            data: { 'RegID': '@ViewBag.RegID' },
+        })
+    }
+    </script>
