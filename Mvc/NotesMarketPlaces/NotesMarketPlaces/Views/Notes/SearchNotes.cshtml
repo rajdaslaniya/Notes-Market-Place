@@ -1,0 +1,163 @@
+﻿@model IEnumerable<NotesMarketPlaces.ViewModels.SearchNotesViewModel>
+@{
+    ViewBag.Title = "Search Notes";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<!--Blank-->
+<section class="blank">
+</section>
+<!--End Blank-->
+<!--BackGround Photo-->
+<section id="bg-heading">
+    <div id="up-heading" class="text-center">Search Notes</div>
+</section>
+<!--End BackGround Photo-->
+<!--Search  Notes Photo-->
+<section id="searchnotes">
+    <div class="content-box-md">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="sub-heading">Search and Filter Notes</div>
+                </div>
+            </div>
+            @using (Html.BeginForm("SearchNotes", "Notes", FormMethod.Get, new { @class = "searchnotes" }))
+            {
+                <div class="form-row">
+                    <div class="form-group col-lg-12 col-md-12 input-group">
+                        <input type="search" class="form-control" id="search" name="search" value="@ViewBag.NoteSearch" placeholder="Search Notes Here">
+                    </div>
+                    <div class="form-group col-lg-2 col-md-4 col-sm-4">
+                        @Html.DropDownList("type", new SelectList(@ViewBag.TypeList, "ID", "Name"), "select type", new { @class = "form-control", @id = "type" })
+                    </div>
+                    <div class="form-group col-lg-2 col-md-4 col-sm-4">
+                        @Html.DropDownList("category", new SelectList(@ViewBag.CategoryList, "ID", "Name"), "select category", new { @class = "form-control", @id = "category" })
+                    </div>
+
+                    <div class="form-group col-lg-2 col-md-4 col-sm-4">
+                        @Html.DropDownList("university", new SelectList(@ViewBag.UniversityList, "UniversityName", "UniversityName"), "select university", new { @class = "form-control", @id = "university" })
+                    </div>
+
+                    <div class="form-group col-lg-2 col-md-4 col-sm-4">
+                        @Html.DropDownList("course", new SelectList(@ViewBag.CourseList), "select course", new { @class = "form-control", id = "course" })
+                    </div>
+
+                    <div class="form-group col-lg-2 col-md-4 col-sm-4">
+                        @Html.DropDownList("country", new SelectList(@ViewBag.CountryList, "ID", "Name"), "select country", new { @class = "form-control", @id = "country" })
+                    </div>
+
+                    <div class="form-group col-lg-2 col-md-4 col-sm-4">
+                        @Html.DropDownList("ratings", new SelectList(@ViewBag.RatingList, "Value", "Text"), "select rating", new { @class = "form-control", @id = "rating" })
+                    </div>
+                </div>
+            }
+            <div class="search-form-heading">Total @Model.Count() Notes</div>
+            <div class="row books">
+                @foreach (var item in Model)
+                {
+                    <div class="col-lg-4 col-md-6 col-sm-6" style="background-clip:padding-box">
+                        <div class="book">
+                            @if (item.note.DisplayPicture != null)
+                            {
+                                <a href="@Url.Action("Details","Notes",new { id=@item.note.ID})"><img id="bookphoto" src="@Url.Content(item.note.DisplayPicture)" alt="Book"></a>
+                            }
+                            else
+                            {
+                                <a href="@Url.Action("Details","Notes",new { id=@item.note.ID})"><img id="bookphoto" src="~/DefaultItem/Display-Picture.png" /></a>
+                            }
+                            <div class="book-heading"><a href="@Url.Action("Details","Notes",new { id=@item.note.ID})" class="title">@item.note.Title</a></div>
+                            <ul class="book-details">
+                                @if (item.note.UniversityName != null && item.note.Country1.Name != null)
+                                {
+                                    <li><img src="~/Image/images/icon/university.png">University of @item.note.UniversityName ,@item.note.Country1.Name</li>
+                                }
+                                else
+                                {
+                                    <li><img src="~/Image/images/icon/university.png">University</li>
+                                }
+                                @if (item.note.NumberofPages != null)
+                                {
+                                    <li><img src="~/Image/images/icon/pages.png">@item.note.NumberofPages Pages</li>
+                                }
+                                else
+                                {
+                                    <li><img src="~/Image/images/icon/pages.png">Pages</li>
+                                }
+                                <li><img src="~/Image/images/icon/date.png">@item.note.PublishedDate.Value.ToString("ddd,MMM dd yyyy")</li>
+                                <li><img src="~/Image/images/icon/flag.png"><span class="flag">@item.TotalSpam Users marked this notes as inappropriate</span></li>
+                                <li>
+                                    <div class="rating">
+                                        @for (int i = 1; i <= 5; i++)
+                                        {
+                                            if (i <= item.AverageRating)
+                                            {
+                                                <img src="~/Image/images/icon/star.png" alt="Rate">
+                                            }
+                                            else
+                                            {
+                                                <img src="~/Image/images/icon/star-white.png" alt="rate">
+                                            }
+                                        }
+                                    </div>@item.TotalRating reviews
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                }
+
+            </div>
+        </div>
+    </div>
+</section>
+@if (Model.Count() != 0)
+{
+    <!--Pagination-->
+    <div class="row justify-content-center">
+        <nav aria-label="...">
+            <ul class="pagination">
+
+                <li class="page-item">
+                    @if (ViewBag.PageNumber == 1)
+                    {
+                        <a class="page-link" href="@Url.Action("SearchNotes", new { page=@ViewBag.PageNumber,category = @ViewBag.Category,type = @ViewBag.Type ,university=@ViewBag.University ,course=@ViewBag.Course,country=@ViewBag.Country,ratings=@ViewBag.Ratings})"><i class="fa fa-angle-left"></i></a>
+                    }
+                    else
+                    {
+                        <a class="page-link" href="@Url.Action("SearchNotes", new { page=@ViewBag.PageNumber-1,category = @ViewBag.Category,type = @ViewBag.Type ,university=@ViewBag.University ,course=@ViewBag.Course,country=@ViewBag.Country,ratings=@ViewBag.Ratings})"><i class="fa fa-angle-left"></i></a>
+                    }
+                </li>
+
+                @{
+                    double? TotalPages = ViewBag.TotalPages;
+
+                    for (int i = 1; i <= TotalPages; i++)
+                    {
+                        if (i == ViewBag.PageNumber)
+                        {
+                            <li class="page-item active">
+                                <a class="page-link">@i<span class="sr-only">(current)</span></a>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="page-item">@Html.ActionLink(i.ToString(), "SearchNotes", new { page = @ViewBag.PageNumber, category = @ViewBag.Category, type = @ViewBag.Type, university = @ViewBag.University, course = @ViewBag.Course, country = @ViewBag.Country, ratings = @ViewBag.Ratings }, new { @class = "page-link" })</li>
+                        }
+                    }
+                }
+
+                <li class="page-item">
+                    @if (ViewBag.PageNumber == TotalPages)
+                    {
+                        <a class="page-link" href="@Url.Action("SearchNotes", new { page=@ViewBag.PageNumber,category = @ViewBag.Category,type = @ViewBag.Type ,university=@ViewBag.University ,course=@ViewBag.Course,country=@ViewBag.Country,ratings=@ViewBag.Ratings})"><i class="fa fa-angle-right"></i></a>
+                    }
+                    else
+                    {
+                        <a class="page-link" href="@Url.Action("SearchNotes", new {page=@ViewBag.PageNumber+1,category = @ViewBag.Category,type = @ViewBag.Type ,university=@ViewBag.University ,course=@ViewBag.Course,country=@ViewBag.Country,ratings=@ViewBag.Ratings})"><i class="fa fa-angle-right"></i></a>
+                    }
+                </li>
+
+            </ul>
+        </nav>
+    </div>
+    <!--End Pagination-->
+}

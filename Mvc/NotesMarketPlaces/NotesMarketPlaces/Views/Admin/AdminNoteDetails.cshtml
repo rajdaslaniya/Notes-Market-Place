@@ -1,0 +1,169 @@
+﻿@model NotesMarketPlaces.ViewModels.AdminNoteDetailsViewModel
+@{
+    ViewBag.Title = "Admin - Note Details";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<!--Blank-->
+<section class="blank">
+</section>
+<!--End Blank-->
+<section id="details">
+    <div class="container">
+        <div class="content-box-lg">
+            <div class="row">
+                <div class="col-lg-12 col-md-12">
+                    <div class="sub-heading">Notes Details</div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-6 col-md-6">
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-12" style="background-clip:padding-box">
+                            <!--Check if Displat picture is null or not-->
+                            @if (Model.sellerNote.DisplayPicture == null)
+                            {
+                                <div class="images">
+                                    <img src="~/DefaultItem/Book-Image.png">
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="images">
+                                    <img src="@Url.Content(Model.sellerNote.DisplayPicture)">
+                                </div>
+                            }
+
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-12" style="background-clip:padding-box">
+                            <div class="book-paragraph">
+                                <div class="heading"  style="margin-bottom: 5px">@Model.sellerNote.Title</div>
+                                <div class="sub-heading-2">@Model.sellerNote.NotesCategory.Name</div>
+                                <p id="paragraph">@Model.sellerNote.Description</p>
+                                <div id="btn-download">
+                                    @if (User.Identity.IsAuthenticated)
+                                    {
+                                        <a class="btn btn-color" title="Download Note" href="@Url.Action("AdminDownloadNote","Admin",new { noteid=Model.sellerNote.ID })" role="button">Download / $@Model.sellerNote.SellingPrice</a>
+                                    }
+                                    else
+                                    {
+                                        <a class="btn btn-color" title="Download Note" href="@Url.Action("Login","Account")">Download / $@Model.sellerNote.SellingPrice</a>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-12 col-12">
+                    <div class="note-details">
+                        <p>
+                            <span class="first">Institution:</span>
+                            <span class="second">University of @Model.sellerNote.UniversityName</span>
+                        </p>
+                        <p>
+                            <span class="first">Country:</span>
+                            <span class="second">@Model.sellerNote.Country1.Name</span>
+                        </p>
+                        <p>
+                            <span class="first">Course Name:</span>
+                            <span class="second">@Model.sellerNote.Course</span>
+                        </p>
+                        <p>
+                            <span class="first">Course Code:</span>
+                            <span class="second">@Model.sellerNote.CourseCode</span>
+                        </p>
+                        <p>
+                            <span class="first">Professor:</span>
+                            <span class="second">@Model.sellerNote.Professor</span>
+                        </p>
+                        <p>
+                            <span class="first">Number of Pages:</span>
+                            <span class="second">@Model.sellerNote.NumberofPages</span>
+                        </p>
+                        <p>
+                            <span class="first">Approved Date:</span>
+                            @if (@Model.sellerNote.PublishedDate == null)
+                            {
+                                <span class="second"></span>
+                            }
+                            else
+                            {
+                                <span class="second">@Model.sellerNote.PublishedDate.Value.ToString("MMMM dd yyyy")</span>
+                            }
+                        </p>
+                        <p>
+                            <span class="first">Rating</span>
+                            <span class="rating second">
+                                @for (int i = 1; i <= 5; i++)
+                                {
+                                    if (i <= Model.AverageRating)
+                                    {
+                                        <img src="~/Image/images/icon/star.png">
+                                    }
+                                    else
+                                    {
+                                        <img src="~/Image/images/icon/star-white.png">
+                                    }
+                                }@Model.TotalRate Reviews
+                            </span>
+                        </p>
+                        <p>
+                            <span class="first1">@Model.TotalSpamReport Users marked this note as inapporopriate</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <hr>
+            <div class="row">
+                <div class="col-lg-5 col-md-5" style="background-clip:padding-box">
+                    <div class="row">
+                        <div class="col-lg-12 col-sm-12 col-12">
+                            <div class="sub-heading">Notes Preview</div>
+                        </div>
+                        <iframe src="@Url.Content(Model.sellerNote.NotesPreview)"></iframe>
+                    </div>
+                </div>
+                <div class="col-lg-7 col-md-7" style="background-clip:padding-box">
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12 col-12">
+                            <div class="sub-heading">Customers</div>
+                        </div>
+                    </div>
+                    <div class="comment-box">
+                        @foreach (var item in Model.NoteReview)
+                        {
+                            <div class="row">
+                                <div class="col-lg-2 col-md-2 col-sm-3 col-3 text-center">
+                                    <img src="@Url.Content(item.tblUserProfile.ProfilePicture)" alt="user" class="img-responsive img-rounded img1">
+                                </div>
+                                <div class="col-lg-10 col-md-10 col-sm-9 col-9">
+                                    <h5>@item.tblUser.FirstName  @item.tblUser.LastName</h5>
+                                    <br>
+                                    <span class="rating">
+                                        @for (int i = 1; i <= 5; i++)
+                                        {
+                                            if (i <= item.tblReview.Rating)
+                                            {
+                                                <img src="~/Image/images/icon/star.png" alt="star">
+                                            }
+                                            else
+                                            {
+                                                <img src="~/Image/images/icon/star-white.png" alt="star">
+                                            }
+                                        }
+                                    </span>
+                                    <p>@item.tblReview.Comments</p>
+                                </div>
+                            </div>
+
+                            if (Model.NoteReview.Count() != 1)
+                            {
+                                <hr />
+                            }
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

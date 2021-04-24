@@ -9,13 +9,15 @@ using System.Web.Hosting;
 using System.Web.Mvc;
 using NotesMarketPlaces.Models;
 using NotesMarketPlaces.Send_Mail;
+using NotesMarketPlaces.ViewModels;
 
 namespace NotesMarketPlaces.Controllers
 {
     [RoutePrefix("Home")]
     public class HomeController : Controller
     {
-        readonly private NotesMarketPlaceEntities _dbContext = new NotesMarketPlaceEntities();
+        readonly private NotesMarketPlaceEntities1 _dbContext = new NotesMarketPlaceEntities1();
+        [Route("Index")]
         public ActionResult Index()
         {
             return View();
@@ -38,7 +40,7 @@ namespace NotesMarketPlaces.Controllers
             {
                 var user = _dbContext.Users.Where(x => x.EmailID == User.Identity.Name).FirstOrDefault();
                 ContactUsViewModel contact = new ContactUsViewModel();
-                contact.FullName = user.FirstName + user.LastName;
+                contact.FullName = user.FirstName +" "+ user.LastName;
                 return View(contact);
             }
             else
@@ -54,6 +56,7 @@ namespace NotesMarketPlaces.Controllers
         {
             if (ModelState.IsValid)
             {
+                ViewBag.ContactUs = "active";
                 BuildEmailContactTemplate(contactusviewmodel);
                 ModelState.Clear();
                 return View();

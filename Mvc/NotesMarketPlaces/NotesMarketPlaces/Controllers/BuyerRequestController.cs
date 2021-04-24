@@ -7,16 +7,17 @@ using System.Net.Mail;
 using System.Text;
 using System.Web.Hosting;
 using System.Web.Mvc;
+using NotesMarketPlaces.ViewModels;
 
 namespace NotesMarketPlaces.Controllers
 {
     public class BuyerRequestController : Controller
     {
-        readonly NotesMarketPlaceEntities _dbcontext = new NotesMarketPlaceEntities();
+        readonly NotesMarketPlaceEntities1 _dbcontext = new NotesMarketPlaceEntities1();
 
 
-        
-        [Authorize]
+
+        [Authorize(Roles = "Member")]
         [Route("BuyerRequest")]
         public ActionResult BuyerRequest(string search, string sortorder, string sortby,int page=1)
         {
@@ -38,19 +39,31 @@ namespace NotesMarketPlaces.Controllers
                                                                join users in _dbcontext.Users on download.Downloader equals users.ID
                                                                join userprofile in _dbcontext.UserProfiles on download.Downloader equals userprofile.UserID
                                                                where download.Seller == user.ID && download.IsSellerHasAllowedDownload == false && download.AttachmentPath==null
-                                                               select new BuyerRequestViewModel { tblDownload = download, tblUser = users, tblUserProfile = userprofile };
+                                                               select new BuyerRequestViewModel { 
+                                                                   Price=(int)download.PurchasedPrice,
+                                                                   SellType = download.IsPaid == true ? "Paid" : "False",
+                                                                   DownloadDate=download.CreatedDate,
+                                                                   NoteID=download.NoteID,
+                                                                   DownloadID=download.ID,
+                                                                   NoteTitle=download.NoteTitle,
+                                                                   Category=download.NoteCategory,
+                                                                   Buyer=user.EmailID,
+                                                                   PhoneNumber= "+"+userprofile.PhoneNumberCountryCode+userprofile.PhoneNumber,
+                                                                   UserID=user.ID,
+                                                               };
 
             //To Check Search string is null or not
             if (!string.IsNullOrEmpty(search))
             {
                 search = search.ToLower();
                 buyerRequest = buyerRequest.Where(
-                                                    x=>x.tblDownload.NoteTitle.ToLower().Contains(search)||
-                                                    x.tblDownload.NoteCategory.ToLower().Contains(search)||
-                                                    x.tblUser.EmailID.ToLower().Contains(search)||
-                                                    x.tblDownload.PurchasedPrice.ToString().Contains(search)||
-                                                    x.tblDownload.AttachmentDownloadedDate.ToString().Contains(search)||
-                                                    x.tblUserProfile.PhoneNumber.ToString().Contains(search)
+                                                    x=>x.NoteTitle.ToLower().Contains(search)||
+                                                    x.Category.ToLower().Contains(search)||
+                                                    x.Buyer.ToLower().Contains(search)||
+                                                    x.Price.ToString().Contains(search)||
+                                                    x.DownloadDate.ToString().Contains(search)||
+                                                    x.PhoneNumber.ToString().Contains(search)||
+                                                    x.SellType.ToLower().Contains(search)
                                                  ).ToList();
             }
             //Sorting and searching 
@@ -74,13 +87,13 @@ namespace NotesMarketPlaces.Controllers
                         switch (sortorder)
                         {
                             case "Asc":
-                                table = table.OrderBy(x => x.tblDownload.NoteTitle);
+                                table = table.OrderBy(x => x.NoteTitle);
                                 return table;
                             case "Desc":
-                                table = table.OrderByDescending(x => x.tblDownload.NoteTitle);
+                                table = table.OrderByDescending(x => x.NoteTitle);
                                 return table;
                             default:
-                                table = table.OrderBy(x => x.tblDownload.NoteTitle);
+                                table = table.OrderBy(x => x.NoteTitle);
                                 return table;
                         }
                     }
@@ -89,13 +102,13 @@ namespace NotesMarketPlaces.Controllers
                         switch (sortorder)
                         {
                             case "Asc":
-                                table = table.OrderBy(x => x.tblDownload.NoteCategory);
+                                table = table.OrderBy(x => x.Category);
                                 return table;
                             case "Desc":
-                                table = table.OrderByDescending(x => x.tblDownload.NoteCategory);
+                                table = table.OrderByDescending(x => x.Category);
                                 return table;
                             default:
-                                table = table.OrderBy(x => x.tblDownload.NoteCategory);
+                                table = table.OrderBy(x => x.Category);
                                 return table;
                         }
                     }
@@ -104,13 +117,13 @@ namespace NotesMarketPlaces.Controllers
                         switch (sortorder)
                         {
                             case "Asc":
-                                table = table.OrderBy(x => x.tblUser.EmailID);
+                                table = table.OrderBy(x => x.Buyer);
                                 return table;
                             case "Desc":
-                                table = table.OrderByDescending(x => x.tblUser.EmailID);
+                                table = table.OrderByDescending(x => x.Buyer);
                                 return table;
                             default:
-                                table = table.OrderBy(x => x.tblUser.EmailID);
+                                table = table.OrderBy(x => x.Buyer);
                                 return table;
                         }
                     }
@@ -119,13 +132,13 @@ namespace NotesMarketPlaces.Controllers
                         switch (sortorder)
                         {
                             case "Asc":
-                                table = table.OrderBy(x => x.tblDownload.PurchasedPrice);
+                                table = table.OrderBy(x => x.Price);
                                 return table;
                             case "Desc":
-                                table = table.OrderByDescending(x => x.tblDownload.PurchasedPrice);
+                                table = table.OrderByDescending(x => x.Price);
                                 return table;
                             default:
-                                table = table.OrderBy(x => x.tblDownload.PurchasedPrice);
+                                table = table.OrderBy(x => x.Price);
                                 return table;
                         }
                     }
@@ -134,13 +147,43 @@ namespace NotesMarketPlaces.Controllers
                         switch (sortorder)
                         {
                             case "Asc":
-                                table = table.OrderBy(x => x.tblDownload.AttachmentDownloadedDate);
+                                table = table.OrderBy(x => x.DownloadDate);
                                 return table;
                             case "Desc":
-                                table = table.OrderByDescending(x => x.tblDownload.AttachmentDownloadedDate);
+                                table = table.OrderByDescending(x => x.DownloadDate);
                                 return table;
                             default:
-                                table = table.OrderBy(x => x.tblDownload.AttachmentDownloadedDate);
+                                table = table.OrderBy(x => x.DownloadDate);
+                                return table;
+                        }
+                    }
+                case "PhoneNumber":
+                    {
+                        switch (sortorder)
+                        {
+                            case "Asc":
+                                table = table.OrderBy(x => x.PhoneNumber);
+                                return table;
+                            case "Desc":
+                                table = table.OrderByDescending(x => x.PhoneNumber);
+                                return table;
+                            default:
+                                table = table.OrderBy(x => x.PhoneNumber);
+                                return table;
+                        }
+                    }
+                case "SellType":
+                    {
+                        switch (sortorder)
+                        {
+                            case "Asc":
+                                table = table.OrderBy(x => x.SellType);
+                                return table;
+                            case "Desc":
+                                table = table.OrderByDescending(x => x.SellType);
+                                return table;
+                            default:
+                                table = table.OrderBy(x => x.SellType);
                                 return table;
                         }
                     }
@@ -149,26 +192,26 @@ namespace NotesMarketPlaces.Controllers
                         switch (sortorder)
                         {
                             case "Asc":
-                                table = table.OrderBy(x => x.tblDownload.NoteTitle);
+                                table = table.OrderBy(x => x.NoteTitle);
                                 return table;
                             case "Desc":
-                                table = table.OrderByDescending(x => x.tblDownload.NoteTitle);
+                                table = table.OrderByDescending(x => x.NoteTitle);
                                 return table;
                             default:
-                                table = table.OrderBy(x => x.tblDownload.NoteTitle);
+                                table = table.OrderBy(x => x.NoteTitle);
                                 return table;
                         }
                     }
             }
         }
 
-        [Authorize]
+        [Authorize(Roles = "Member")]
         [Route("BuyerRequest/AllowDownload/{id}")]
         public ActionResult AllowDownload(int id)
         {
             User user = _dbcontext.Users.Where(x => x.EmailID == User.Identity.Name).FirstOrDefault();
             Download download = _dbcontext.Downloads.Find(id);
-            if (user.ID == download.Downloader)
+            if (user.ID == download.Seller)
             {
                 //Get Sellernotes attachment object
                 SellerNotesAttachement attachement = _dbcontext.SellerNotesAttachements.Where(x => x.NoteID == download.NoteID && x.IsActive == true).FirstOrDefault();
@@ -179,6 +222,7 @@ namespace NotesMarketPlaces.Controllers
                 download.AttachmentPath = attachement.FilePath;
                 download.ModifiedBy = user.ID;
                 download.ModifiedDate = DateTime.Now;
+                download.IsAttachmentDownloaded = true;
                 _dbcontext.SaveChanges();
                 BuildEmailTemplate(download,user);
                 return RedirectToAction("BuyerRequest");

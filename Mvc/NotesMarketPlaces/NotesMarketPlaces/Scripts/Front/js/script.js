@@ -60,16 +60,7 @@ $(document).ready(function () {
     }
 
 });
-/* =========================================
-           Calender Open   
-============================================ */
-$(function(){
-    $('.datepicker').datepicker({
-        format: 'mm-dd-yyyy',
-        endDate: '+0d',
-        autoclose: true
-    });
-});
+
 
 /* =========================================
                     FAQ
@@ -80,12 +71,13 @@ $(document).ready(function () {
         $(this).parentsUntil(".card").css({
             "border": "1px solid #d1d1d1"
         });
+
     });
 
     // Toggle plus minus icon on show hide of collapse element
     $(".collapse").on('show.bs.collapse', function () {
         $(this).prev(".card-header").find("h6").css({
-            "font-weight": "700"
+            "font-weight": "600"
         });
         $(this).prev(".card-header").css({
             "background": "white"
@@ -93,13 +85,15 @@ $(document).ready(function () {
         $(this).parent(".card").css("border", "1px solid #d1d1d1");
 
     }).on('hide.bs.collapse', function () {
+        
+
         $(this).prev(".card-header").find("h6").css({
-            "font-weight": "500"
+            "font-weight": "400"
         });
         $(this).prev(".card-header").css({
             "background": "#f3f3f3"
         });
-        $(this).parent(".card").css("border", "1px solid #d1d1d1");
+        $(this).parent(".card").css("border", "none");
 
     });
 });

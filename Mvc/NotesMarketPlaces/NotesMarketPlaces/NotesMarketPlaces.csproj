@@ -51,14 +51,31 @@
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.Bcl.AsyncInterfaces, Version=1.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Bcl.AsyncInterfaces.1.1.0\lib\net461\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Stripe.net, Version=39.43.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Stripe.net.39.43.0\lib\net461\Stripe.net.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.IO.Compression" />
     <Reference Include="System.IO.Compression.FileSystem" />
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=4.0.4.1, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.4.5.2\lib\netstandard2.0\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.InteropServices.RuntimeInformation, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.InteropServices.RuntimeInformation.4.3.0\lib\net45\System.Runtime.InteropServices.RuntimeInformation.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
+    <Reference Include="System.Threading.Tasks.Extensions, Version=4.2.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Threading.Tasks.Extensions.4.5.2\lib\netstandard2.0\System.Threading.Tasks.Extensions.dll</HintPath>
+    </Reference>
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -131,83 +148,106 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\AdminController.cs" />
+    <Compile Include="Controllers\AdminNoteController.cs" />
     <Compile Include="Controllers\BuyerRequestController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\NotesController.cs" />
     <Compile Include="Controllers\SellYourNotesController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
+    <Compile Include="Models\Country.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Download.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Country.cs">
-      <DependentUpon>DataModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DataModel.Context.cs">
+    <Compile Include="Models\Model1.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>DataModel.Context.tt</DependentUpon>
+      <DependentUpon>Model1.Context.tt</DependentUpon>
     </Compile>
-    <Compile Include="DataModel.cs">
+    <Compile Include="Models\Model1.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>DataModel.tt</DependentUpon>
+      <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="DataModel.Designer.cs">
+    <Compile Include="Models\Model1.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>DataModel.edmx</DependentUpon>
+      <DependentUpon>Model1.edmx</DependentUpon>
     </Compile>
-    <Compile Include="Download.cs">
-      <DependentUpon>DataModel.tt</DependentUpon>
+    <Compile Include="Models\UserRoleProvider.cs" />
+    <Compile Include="ViewModels\AddNotesViewModel.cs" />
+    <Compile Include="ViewModels\AdminDashboardViewModel.cs" />
+    <Compile Include="ViewModels\AdminDownloadViewModel.cs" />
+    <Compile Include="ViewModels\AdminNoteDetailsViewModel.cs" />
+    <Compile Include="ViewModels\AdminRejectedNotesViewModel.cs" />
+    <Compile Include="ViewModels\BuyerRequestViewModel.cs" />
+    <Compile Include="ViewModels\ChangePasswordViewModel.cs" />
+    <Compile Include="ViewModels\ContactUsViewModel.cs" />
+    <Compile Include="ViewModels\DetailsViewModel.cs" />
+    <Compile Include="ViewModels\DownloadNotesViewModel.cs" />
+    <Compile Include="ViewModels\EditNotesViewModel.cs" />
+    <Compile Include="ViewModels\ForgotViewModel.cs" />
+    <Compile Include="ViewModels\LoginViewModel.cs" />
+    <Compile Include="ViewModels\MyDownloadsViewModel.cs" />
+    <Compile Include="ViewModels\MyProfileViewModel.cs" />
+    <Compile Include="ViewModels\MySoldNotesViewModel.cs" />
+    <Compile Include="ViewModels\PublishedNotesViewModel.cs" />
+    <Compile Include="ViewModels\SearchNotesViewModel.cs" />
+    <Compile Include="ViewModels\SellYourNotesViewModel.cs" />
+    <Compile Include="Models\NotesCategory.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\AddNotesViewModel.cs" />
-    <Compile Include="Models\BuyerRequestViewModel.cs" />
-    <Compile Include="Models\ContactUsViewModel.cs" />
-    <Compile Include="Models\DetailsViewModel.cs" />
-    <Compile Include="Models\EditNotesViewModel.cs" />
-    <Compile Include="Models\ForgotViewModel.cs" />
-    <Compile Include="Models\LoginViewModel.cs" />
-    <Compile Include="Models\MyDownloadsViewModel.cs" />
-    <Compile Include="Models\RequiredIFAttribute.cs" />
-    <Compile Include="Models\SellYourNotesViewModel.cs" />
-    <Compile Include="NotesCategory.cs">
-      <DependentUpon>DataModel.tt</DependentUpon>
+    <Compile Include="Models\NotesType.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="NotesType.cs">
-      <DependentUpon>DataModel.tt</DependentUpon>
+    <Compile Include="Models\ReferenceData.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="ReferenceData.cs">
-      <DependentUpon>DataModel.tt</DependentUpon>
+    <Compile Include="Models\SellerNote.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="SellerNote.cs">
-      <DependentUpon>DataModel.tt</DependentUpon>
+    <Compile Include="Models\SellerNotesAttachement.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="SellerNotesAttachement.cs">
-      <DependentUpon>DataModel.tt</DependentUpon>
+    <Compile Include="Models\SellerNotesReportedIssue.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="SellerNotesReportedIssue.cs">
-      <DependentUpon>DataModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="SellerNotesReview.cs">
-      <DependentUpon>DataModel.tt</DependentUpon>
+    <Compile Include="Models\SellerNotesReview.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="SendMail\SendingMail.cs" />
-    <Compile Include="SystemConfiguration.cs">
-      <DependentUpon>DataModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="User.cs">
-      <DependentUpon>DataModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\SignUpViewModal.cs" />
-    <Compile Include="UserProfile.cs">
-      <DependentUpon>DataModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="UserRole.cs">
-      <DependentUpon>DataModel.tt</DependentUpon>
-    </Compile>
+    <Compile Include="ViewModels\SignUpViewModal.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Models\SystemConfiguration.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\User.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\UserProfile.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\UserRole.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ViewModels\UnderReviewViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\Admin\css\animate\animate.css" />
+    <Content Include="Content\Admin\css\animate\animate.min.css" />
+    <Content Include="Content\Admin\css\bootstrap\bootstrap.min.css" />
+    <Content Include="Content\Admin\css\fontawesome\css\all.css" />
+    <Content Include="Content\Admin\css\fontawesome\css\all.min.css" />
+    <Content Include="Content\Admin\css\fontawesome\css\font-awesome.css" />
+    <Content Include="Content\Admin\css\fontawesome\css\font-awesome.min.css" />
+    <Content Include="Content\Admin\css\fontawesome\fonts\fontawesome-webfont.svg" />
+    <Content Include="Content\Admin\css\responsive.css" />
+    <Content Include="Content\Admin\css\style.css" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
@@ -223,100 +263,99 @@
     <Content Include="Content\Front\css\geneal.css" />
     <Content Include="Content\Front\css\responsive.css" />
     <Content Include="Content\Front\css\style.css" />
-    <Content Include="Default Item\Book-Image.png" />
-    <Content Include="Default Item\Customer-Image.png" />
-    <Content Include="Default Item\Reviewer-Image.png" />
+    <Content Include="DefaultItem\Book-Image.png" />
+    <Content Include="DefaultItem\Customer-Image.png" />
+    <Content Include="DefaultItem\Reviewer-Image.png" />
+    <Content Include="DefaultItem\Display-Picture.png" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
-    <Content Include="Front Image\images\Add-notes\arrow-down.svg" />
-    <Content Include="Front Image\images\Add-notes\banner-with-overlay.jpg" />
-    <Content Include="Front Image\images\Add-notes\banner.jpg" />
-    <Content Include="Front Image\images\Add-notes\logo.png" />
-    <Content Include="Front Image\images\Add-notes\upload-file.png" />
-    <Content Include="Front Image\images\Add-notes\upload-note.svg" />
-    <Content Include="Front Image\images\Add-notes\user-img.png" />
-    <Content Include="Front Image\images\book\computer-science.png" />
-    <Content Include="Front Image\images\book\search1.png" />
-    <Content Include="Front Image\images\book\search2.png" />
-    <Content Include="Front Image\images\book\search3.png" />
-    <Content Include="Front Image\images\book\search4.png" />
-    <Content Include="Front Image\images\book\search5.png" />
-    <Content Include="Front Image\images\book\search6.png" />
-    <Content Include="Front Image\images\Dashboard\delete.png" />
-    <Content Include="Front Image\images\Dashboard\edit.png" />
-    <Content Include="Front Image\images\Dashboard\eye.png" />
-    <Content Include="Front Image\images\Dashboard\my-earning.png" />
-    <Content Include="Front Image\images\FAQ\add.png" />
-    <Content Include="Front Image\images\FAQ\banner-with-overlay.jpg" />
-    <Content Include="Front Image\images\FAQ\banner.jpg" />
-    <Content Include="Front Image\images\FAQ\logo.png" />
-    <Content Include="Front Image\images\FAQ\minus.png" />
-    <Content Include="Front Image\images\Favicon\favicon.ico" />
-    <Content Include="Front Image\images\home\banner-with-overlay.jpg" />
-    <Content Include="Front Image\images\home\banner.jpg" />
-    <Content Include="Front Image\images\home\customer-1.png" />
-    <Content Include="Front Image\images\home\customer-2.png" />
-    <Content Include="Front Image\images\home\customer-3.png" />
-    <Content Include="Front Image\images\home\customer-4.png" />
-    <Content Include="Front Image\images\home\download.png" />
-    <Content Include="Front Image\images\home\facebook.png" />
-    <Content Include="Front Image\images\home\favicon.ico" />
-    <Content Include="Front Image\images\home\linkedin.png" />
-    <Content Include="Front Image\images\home\logo.png" />
-    <Content Include="Front Image\images\home\seller.png" />
-    <Content Include="Front Image\images\home\top-logo.png" />
-    <Content Include="Front Image\images\home\twitter.png" />
-    <Content Include="Front Image\images\icon\calendar.png" />
-    <Content Include="Front Image\images\icon\date.png" />
-    <Content Include="Front Image\images\icon\dots.png" />
-    <Content Include="Front Image\images\icon\eye.png" />
-    <Content Include="Front Image\images\icon\flag.png" />
-    <Content Include="Front Image\images\icon\left-arrow.png" />
-    <Content Include="Front Image\images\icon\pages.png" />
-    <Content Include="Front Image\images\icon\right-arrow.png" />
-    <Content Include="Front Image\images\icon\search-icon.png" />
-    <Content Include="Front Image\images\icon\star-white.png" />
-    <Content Include="Front Image\images\icon\star.png" />
-    <Content Include="Front Image\images\icon\university.png" />
-    <Content Include="Front Image\images\Logo\dark-logo.png" />
-    <Content Include="Front Image\images\Logo\white-logo.png" />
-    <Content Include="Front Image\images\pre-login\banner-with-overlay.jpg" />
-    <Content Include="Front Image\images\pre-login\eye.png" />
-    <Content Include="Front Image\images\pre-login\login-bg-img.png" />
-    <Content Include="Front Image\images\pre-login\logo.png" />
-    <Content Include="Front Image\images\pre-login\top-logo.png" />
-    <Content Include="Front Image\images\Thanks Popup\true.png" />
-    <Content Include="Front Image\images\User-Profile\banner-with-overlay.jpg" />
-    <Content Include="Front Image\images\User-Profile\banner.jpg" />
-    <Content Include="Front Image\images\User-Profile\calendar.png" />
-    <Content Include="Front Image\images\User-Profile\down-arrow.png" />
-    <Content Include="Front Image\images\User-Profile\reviewer-1.png" />
-    <Content Include="Front Image\images\User-Profile\reviewer-2.png" />
-    <Content Include="Front Image\images\User-Profile\reviewer-3.png" />
-    <Content Include="Front Image\images\User-Profile\upload.png" />
+    <Content Include="Image\images\Add-notes\arrow-down.svg" />
+    <Content Include="Image\images\Add-notes\banner-with-overlay.jpg" />
+    <Content Include="Image\images\Add-notes\banner.jpg" />
+    <Content Include="Image\images\Add-notes\logo.png" />
+    <Content Include="Image\images\Add-notes\upload-file.png" />
+    <Content Include="Image\images\Add-notes\upload-note.svg" />
+    <Content Include="Image\images\Add-notes\user-img.png" />
+    <Content Include="Image\images\book\computer-science.png" />
+    <Content Include="Image\images\book\search1.png" />
+    <Content Include="Image\images\book\search2.png" />
+    <Content Include="Image\images\book\search3.png" />
+    <Content Include="Image\images\book\search4.png" />
+    <Content Include="Image\images\book\search5.png" />
+    <Content Include="Image\images\book\search6.png" />
+    <Content Include="Image\images\Dashboard\delete.png" />
+    <Content Include="Image\images\Dashboard\edit.png" />
+    <Content Include="Image\images\Dashboard\eye.png" />
+    <Content Include="Image\images\Dashboard\my-earning.png" />
+    <Content Include="Image\images\FAQ\add.png" />
+    <Content Include="Image\images\FAQ\banner-with-overlay.jpg" />
+    <Content Include="Image\images\FAQ\banner.jpg" />
+    <Content Include="Image\images\FAQ\logo.png" />
+    <Content Include="Image\images\FAQ\minus.png" />
+    <Content Include="Image\images\Favicon\favicon.ico" />
+    <Content Include="Image\images\home\banner-with-overlay.jpg" />
+    <Content Include="Image\images\home\banner.jpg" />
+    <Content Include="Image\images\home\customer-1.png" />
+    <Content Include="Image\images\home\customer-2.png" />
+    <Content Include="Image\images\home\customer-3.png" />
+    <Content Include="Image\images\home\customer-4.png" />
+    <Content Include="Image\images\home\download.png" />
+    <Content Include="Image\images\home\facebook.png" />
+    <Content Include="Image\images\home\favicon.ico" />
+    <Content Include="Image\images\home\linkedin.png" />
+    <Content Include="Image\images\home\logo.png" />
+    <Content Include="Image\images\home\seller.png" />
+    <Content Include="Image\images\home\top-logo.png" />
+    <Content Include="Image\images\home\twitter.png" />
+    <Content Include="Image\images\icon\calendar.png" />
+    <Content Include="Image\images\icon\date.png" />
+    <Content Include="Image\images\icon\dots.png" />
+    <Content Include="Image\images\icon\eye.png" />
+    <Content Include="Image\images\icon\flag.png" />
+    <Content Include="Image\images\icon\left-arrow.png" />
+    <Content Include="Image\images\icon\pages.png" />
+    <Content Include="Image\images\icon\right-arrow.png" />
+    <Content Include="Image\images\icon\search-icon.png" />
+    <Content Include="Image\images\icon\star-white.png" />
+    <Content Include="Image\images\icon\star.png" />
+    <Content Include="Image\images\icon\university.png" />
+    <Content Include="Image\images\Logo\dark-logo.png" />
+    <Content Include="Image\images\Logo\white-logo.png" />
+    <Content Include="Image\images\pre-login\banner-with-overlay.jpg" />
+    <Content Include="Image\images\pre-login\eye.png" />
+    <Content Include="Image\images\pre-login\login-bg-img.png" />
+    <Content Include="Image\images\pre-login\logo.png" />
+    <Content Include="Image\images\pre-login\top-logo.png" />
+    <Content Include="Image\images\Thanks Popup\true.png" />
+    <Content Include="Image\images\User-Profile\banner-with-overlay.jpg" />
+    <Content Include="Image\images\User-Profile\banner.jpg" />
+    <Content Include="Image\images\User-Profile\calendar.png" />
+    <Content Include="Image\images\User-Profile\down-arrow.png" />
+    <Content Include="Image\images\User-Profile\reviewer-1.png" />
+    <Content Include="Image\images\User-Profile\reviewer-2.png" />
+    <Content Include="Image\images\User-Profile\reviewer-3.png" />
+    <Content Include="Image\images\User-Profile\upload.png" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
-    <Content Include="DataModel.Context.tt">
+    <Content Include="Models\Model1.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>DataModel.Context.cs</LastGenOutput>
-      <DependentUpon>DataModel.edmx</DependentUpon>
+      <DependentUpon>Model1.edmx</DependentUpon>
+      <LastGenOutput>Model1.Context.cs</LastGenOutput>
     </Content>
-    <Content Include="DataModel.tt">
+    <Content Include="Models\Model1.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>DataModel.edmx</DependentUpon>
-      <LastGenOutput>DataModel.cs</LastGenOutput>
+      <DependentUpon>Model1.edmx</DependentUpon>
+      <LastGenOutput>Model1.cs</LastGenOutput>
     </Content>
+    <Content Include="Scripts\Admin\js\bootstrap\bootstrap.bundle.min.js" />
+    <Content Include="Scripts\Admin\js\bootstrap\bootstrap.min.js" />
+    <Content Include="Scripts\Admin\js\bootstrap\popper.min.js" />
+    <Content Include="Scripts\Admin\js\jquery.js" />
+    <Content Include="Scripts\Admin\js\script.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
-    <EntityDeploy Include="DataModel.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>DataModel.Designer.cs</LastGenOutput>
-    </EntityDeploy>
-    <Content Include="DataModel.edmx.diagram">
-      <DependentUpon>DataModel.edmx</DependentUpon>
-    </Content>
-    <Content Include="Front Image\images\pre-login\Thumbs.db" />
-    <Content Include="Front Image\images\Thumbs.db" />
+    <Content Include="Image\images\pre-login\Thumbs.db" />
+    <Content Include="Image\images\Thumbs.db" />
     <Content Include="Content\Front\css\fontawesome\fonts\fontawesome-webfont.eot" />
     <Content Include="Content\Front\css\fontawesome\fonts\fontawesome-webfont.ttf" />
     <Content Include="Content\Front\css\fontawesome\fonts\fontawesome-webfont.woff" />
@@ -326,8 +365,23 @@
     <Content Include="EmailTemplates\TemporaryPassword.cshtml" />
     <Content Include="EmailTemplates\ContactUs.cshtml" />
     <Content Include="EmailTemplates\BuyerRequest.cshtml" />
-    <Content Include="Default Item\sample.pdf" />
+    <Content Include="DefaultItem\sample.pdf" />
     <Content Include="EmailTemplates\AllowDownload.cshtml" />
+    <EntityDeploy Include="Models\Model1.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>Model1.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\Model1.edmx.diagram">
+      <DependentUpon>Model1.edmx</DependentUpon>
+    </Content>
+    <Content Include="EmailTemplates\spamRecords.cshtml" />
+    <Content Include="Content\Admin\css\fontawesome\fonts\fontawesome-webfont.eot" />
+    <Content Include="Content\Admin\css\fontawesome\fonts\fontawesome-webfont.ttf" />
+    <Content Include="Content\Admin\css\fontawesome\fonts\fontawesome-webfont.woff" />
+    <Content Include="Content\Admin\css\fontawesome\fonts\fontawesome-webfont.woff2" />
+    <Content Include="Content\Admin\css\fontawesome\fonts\FontAwesome.otf" />
+    <Content Include="EmailTemplates\PublishNote.cshtml" />
+    <Content Include="EmailTemplates\UnPublishNote.cshtml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\Front\js\bootstrap\bootstrap.bundle.min.js" />
     <Content Include="Scripts\Front\js\bootstrap\bootstrap.min.js" />
@@ -370,6 +424,19 @@
     <Content Include="Views\Notes\Details.cshtml" />
     <Content Include="Views\Users\MyDownloads.cshtml" />
     <Content Include="Views\BuyerRequest\BuyerRequest.cshtml" />
+    <Content Include="Views\Users\MyProfile.cshtml" />
+    <Content Include="Views\Users\MySoldNotes.cshtml" />
+    <Content Include="Views\Shared\_LayoutHome.cshtml" />
+    <Content Include="Views\Account\ChangePassword.cshtml" />
+    <Content Include="Views\Users\MyRejectedNotes.cshtml" />
+    <Content Include="Views\Notes\SearchNotes.cshtml" />
+    <Content Include="Views\Shared\_AdminLayout.cshtml" />
+    <Content Include="Views\Admin\Dashboard.cshtml" />
+    <Content Include="Views\Admin\AdminNoteDetails.cshtml" />
+    <Content Include="Views\AdminNote\NotesUnderReview.cshtml" />
+    <Content Include="Views\AdminNote\PublishedNote.cshtml" />
+    <Content Include="Views\AdminNote\AdminDownload.cshtml" />
+    <Content Include="Views\AdminNote\AdminRejected.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

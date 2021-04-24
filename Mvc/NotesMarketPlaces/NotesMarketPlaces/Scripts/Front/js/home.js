@@ -15,7 +15,7 @@ $(function () {
             //  Show White Nav
             $("nav").addClass("white-navbar");
             //  Hide White Logo
-            $(".navbar-brand img").attr("src", "/Front Image/images/Logo/dark-logo.png");
+            $(".navbar-brand img").attr("src", "/Image/images/Logo/dark-logo.png");
             //  Hide white Mobile Nav Open Button
             $(".mobile-nav-open-btn").css("color", "#6255a5");
 
@@ -23,7 +23,7 @@ $(function () {
             //  Hide White Nav
             $("nav").removeClass("white-navbar");
             //  Show White Logo
-            $(".navbar-brand img").attr("src", "/Front Image/images/Logo/white-logo.png");
+            $(".navbar-brand img").attr("src", "/Image/images/Logo/white-logo.png");
             //  Show White Mobile Nav Open Button
             $(".mobile-nav-open-btn").css("color", "#fff");
         }
@@ -46,9 +46,9 @@ $("nav .navbar-toggler").click(function () {
         $("nav.navbar").toggleClass("navbar-scroll-content");
 
         if ($("nav.navbar").hasClass("white-navbar")) {
-            $(".navbar-brand img").attr("src", "/Front Image/images/Logo/dark-logo.png");
+            $(".navbar-brand img").attr("src", "/Image/images/Logo/dark-logo.png");
         } else {
-            $(".navbar-brand img").attr("src", "/Front Image/images/Logo/white-logo.png");
+            $(".navbar-brand img").attr("src", "/Image/images/Logo/white-logo.png");
         }
 
     }

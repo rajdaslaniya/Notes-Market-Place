@@ -4,13 +4,22 @@
 /* Large  Devices (Laptop and Full Screen Desktops) */
 
 @media (min-width: 1200px) and (max-width: 2800px) {
+
     /*----------------Table Search-----------------------*/
     .search {
         display: -webkit-box;
         display: -ms-flexbox;
         display: flex;
         padding: 0;
-        margin-right:0;
+        margin-right: 0;
+    }
+
+    #my-download,
+    #buyer-request,
+    #my-sold,
+    #my-rejected {
+        position: relative;
+        min-height: 73%;
     }
 }
 
@@ -191,16 +200,18 @@
         margin-bottom: 15px;
     }
 
-    /*-----------------Dropdown-----------------*/
+    /*---------------Dropdown---------------*/
     div.dropdown-menu.show {
-        -webkit-transform: translate3d(0px, -11px, 0px) !important;
-        transform: translate3d(0px, -11px, 0px) !important;
+        -webkit-transform: translate3d(-20px, -5px, 0px) !important;
+        transform: translate3d(-20px, -5px, 0px) !important;
+        border: none;
     }
 
     /*-----------------Form-----------------*/
     #group {
         width: 380px;
     }
+
     .form-box {
         width: 380px;
         background: #fff;
@@ -375,6 +386,14 @@
     ul.social-list i {
         margin-top: 30%;
     }
+
+    #buyer-request #table-search {
+        margin-right: -12px;
+    }
+
+    #buyer-request .btn-search {
+        margin-right: 0px;
+    }
 }
 
 /*===================================================
@@ -541,6 +560,7 @@
     #group {
         width: 380px;
     }
+
     .form-box {
         width: 380px;
         background: #fff;
@@ -760,6 +780,7 @@
             height: 65px;
             margin-bottom: 15px;
         }
+
     /*-----------------Footer-------------------------*/
     .footer p {
         margin-top: 10px;
@@ -796,8 +817,20 @@
                         <=575
 =====================================================*/
 @media (max-width: 575px) {
+
+    /*---------------Dropdown---------------*/
+    div.dropdown-menu.show {
+        -webkit-transform: translate3d(-20px, -5px, 0px) !important;
+        transform: translate3d(-20px, -5px, 0px) !important;
+        border: none;
+    }
+
     .blank {
         height: 70px;
+    }
+
+    .btn-add-note #button {
+        width: 100px;
     }
 
     /*-----------------Heading-----------------*/
@@ -962,6 +995,14 @@
         padding-left: 10px;
     }
 
+    #dashboard .distance {
+        margin-left: -3px;
+    }
+
+    #progress-notes #table-search {
+        margin-right: 0;
+    }
+
     /*-----------------Notes Details-----------------*/
     #details .image {
         text-align: center;
@@ -1036,7 +1077,7 @@
 
     .book-details {
         list-style: none;
-        margin: 15px 0;
+        margin: 15px 10px;
     }
 
         .book-details li {
@@ -1083,6 +1124,7 @@
     #group {
         width: 340px;
     }
+
     .form-box {
         width: 340px;
         padding: 20px 40px 20px 40px;
@@ -1221,6 +1263,15 @@
     #table-search {
         margin-top: 10px;
     }
+
+    #progress-notes #table-search {
+        margin-right: 14px;
+    }
+
+    #my-rejected .table-general {
+        margin-right: 0px;
+    }
+
     /*-----------------Footer-------------------------*/
     .footer p {
         margin-top: 10px;
@@ -1243,15 +1294,22 @@
         padding: 0;
     }
 
-    ul.social-list li a {
+        ul.social-list li a {
             width: 24px;
             height: 24px;
-    }
+        }
 
     ul.social-list i {
         margin-top: 20%;
     }
-    #progress-notes #table-search {
-        margin-right: 14px;
+}
+
+@media (max-width: 375px) {
+    .dashboard-box-fifth {
+        margin-right: 10px;
+    }
+
+    #my-rejected .table-general {
+        margin-right: 0px;
     }
 }

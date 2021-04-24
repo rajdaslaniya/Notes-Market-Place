@@ -1,0 +1,181 @@
+﻿@model IEnumerable<NotesMarketPlaces.ViewModels.AdminRejectedNotesViewModel>
+@{
+    ViewBag.Title = "Admin - Rejected Notes";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<!--Blank-->
+<section class="blank"></section>
+<!--End Blank-->
+<!--Rejected notes-->
+<section id="rejected-notes">
+    <div class="container">
+        <div class="content-box-md">
+            <div class="row">
+                <div class="heading col-lg-12">Rejected Notes</div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-12"><label for="sellername">Seller</label></div>
+            </div>
+            @using (Html.BeginForm("AdminReject", "AdminNote", FormMethod.Get))
+            {
+                <div class="row">
+                    <div class="form-group col-lg-7 col-md-7 col-sm-5 col-4">
+                        <div class="sellername">
+                            @Html.DropDownList("sellerid",new SelectList(ViewBag.SellerList,"Value","Text",ViewBag.Seller),"Select Seller",new {@class="form-control", @id="sellername" })
+                        </div>
+                    </div>
+                    <div class="col-lg-5 col-md-5 col-sm-7 col-8">
+                        <div class="row search" id="table-search">
+                            <div class="search-bar col-lg-9 col-md-9 col-sm-9 col-9 form-group">
+                                <input type="search" class="form-control" id="search" placeholder="Search" name="search" value="@ViewBag.RejectSearch">
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-3 col-3  btn-search">
+                                <button class="btn btn-color" title="Search" role="button" type="submit">Search</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+
+            <div class="row table-general table-responsive">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Sr no.</th>
+                                <th>@Html.ActionLink("Note Title", "AdminRejected", new { sortorder = ViewBag.SortOrder == null ? "Asc" : (ViewBag.SortOrder == "Asc" ? "Desc" : "Asc"), sortby = "NoteTitle" })</th>
+                                <th>@Html.ActionLink("Category", "AdminRejected", new { sortorder = ViewBag.SortOrder == null ? "Asc" : (ViewBag.SortOrder == "Asc" ? "Desc" : "Asc"), sortby = "Category" })</th>
+                                <th>@Html.ActionLink("Seller", "AdminRejected", new { sortorder = ViewBag.SortOrder == null ? "Asc" : (ViewBag.SortOrder == "Asc" ? "Desc" : "Asc"), sortby = "Seller" })</th>
+                                <th class="content-center"></th>
+                                <th>@Html.ActionLink("Date Edited", "AdminRejected", new { sortorder = ViewBag.SortOrder == null ? "Asc" : (ViewBag.SortOrder == "Asc" ? "Desc" : "Asc"), sortby = "DateEdited" })</th>
+                                <th>@Html.ActionLink("Reject By", "AdminRejected", new { sortorder = ViewBag.SortOrder == null ? "Asc" : (ViewBag.SortOrder == "Asc" ? "Desc" : "Asc"), sortby = "RejectedBy" })</th>
+                                <th>@Html.ActionLink("Remark", "AdminRejected", new { sortorder = ViewBag.SortOrder == null ? "Asc" : (ViewBag.SortOrder == "Asc" ? "Desc" : "Asc"), sortby = "Remark" })</th>
+                                <th class="content-center"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (Model.Count() == 0)
+                            {
+                                <tr class="content-center">
+                                    <td colspan="9">No Record Found</td>
+                                </tr>
+                            }
+                            else
+                            {
+                                foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <th scope="row">1</th>
+                                        <td>@item.NoteTitle</td>
+                                        <td>@item.Category</td>
+                                        <td>@item.Seller</td>
+                                        <td>
+                                            <div class="table-images">
+                                                <button type="button" class="btn" aria-haspopup="true" aria-expanded="false">
+                                                    <img src="~/Image/images/icon/eye.png" alt="menu" class="eye">
+                                                </button>
+                                            </div>
+                                        </td>
+                                        <td>@item.DateEdited.Value.ToString("dd-MM-yyyy,hh:mm")</td>
+                                        <td>@item.RejectedBy</td>
+                                        <td>@item.Remark</td>
+                                        <td class="content-center">
+                                            <div class="table-images">
+                                                <div class="btn-group dropleft">
+                                                    <button type="button" id="dropdownMenu2" class="btn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                        <img src="~/Image/images/icon/dots.png" alt="menu" class="dots">
+                                                    </button>
+                                                    <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                                                        <button class="dropdown-item" type="button" data-target="#approve-@item.NoteID" data-toggle="model">Approve</button>
+                                                        <a class="dropdown-item" type="button" href="@Url.Action("AdminDownloadNote", "Admin", new { noteid = item.NoteID })">Download Notes</a>
+                                                        <a class="dropdown-item" type="button" href="@Url.Action("AdminNoteDetails", "Admin", new { noteid = item.NoteID })">View More Details</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <!-- Approve Note -->
+                                    <div class="modal fade" id="approve-@item.NoteID" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-body" style="margin-top:10px">
+                                                    <div class="text-center">
+                                                        <h5 style="color:black">If you approve the notes – System will publish the notes over portal. Please press yes to continue.</h5>
+                                                    </div>
+                                                    @using (Html.BeginForm("Approve", "AdminNote"))
+                                                    {
+                                                        <input name="noteid" value="@item.NoteID" hidden />
+                                                        <div class="text-center">
+                                                            <button class="btn btn-primary" onclick="$('#approve' +@item.NoteID).submit(); $(this).dialog(close);">Yes</button>
+                                                            <button class="btn btn-default" data-dismiss="modal" aria-label="Close">No</button>
+                                                        </div>
+                                                    }
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--End Approve Note-->
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            @if (Model.Count() != 0)
+            {
+                <!-- Pagination -->
+                <div class="row justify-content-center">
+                    <nav aria-label="...">
+                        <ul class="pagination">
+
+                            <li class="page-item">
+                                @if (ViewBag.PageNumber == 1)
+                                {
+                                    <a class="page-link" href="@Url.Action("AdminRejected", new { page=@ViewBag.PageNumber,sortby=@ViewBag.SortBy,sortorder=@ViewBag.SortOrder,search=@ViewBag.RejectSearch})"><i class="fa fa-angle-left"></i></a>
+                                }
+                                else
+                                {
+                                    <a class="page-link" href="@Url.Action("AdminRejected", new { page=@ViewBag.PageNumber-1,sortby=@ViewBag.SortBy,sortorder=@ViewBag.SortOrder,search=@ViewBag.RejectSearch})"><i class="fa fa-angle-left"></i></a>
+                                }
+                            </li>
+
+                            @{
+                                double? TotalPages = ViewBag.TotalPages;
+
+                                for (int i = 1; i <= TotalPages; i++)
+                                {
+                                    if (i == ViewBag.PageNumber)
+                                    {
+                                        <li class="page-item active">
+                                            <a class="page-link">@i<span class="sr-only">(current)</span></a>
+                                        </li>
+                                    }
+                                    else
+                                    {
+                                        <li class="page-item">@Html.ActionLink(i.ToString(), "AdminRejected", new { page = @ViewBag.PageNumber, sortby = @ViewBag.SortBy, sortorder = @ViewBag.SortOrder, search = @ViewBag.RejectSearch }, new { @class = "page-link" })</li>
+                                    }
+                                }
+                            }
+
+                            <li class="page-item">
+                                @if (ViewBag.PageNumber == TotalPages)
+                                {
+                                    <a class="page-link" href="@Url.Action("AdminRejected", new { page=@ViewBag.PageNumber,sortby=@ViewBag.SortBy,sortorder=@ViewBag.SortOrder,search=@ViewBag.RejectSearch})"><i class="fa fa-angle-right"></i></a>
+                                }
+                                else
+                                {
+                                    <a class="page-link" href="@Url.Action("AdminRejected", new {page=@ViewBag.PageNumber+1,sortby=@ViewBag.SortBy,sortorder=@ViewBag.SortOrder,search=@ViewBag.RejectSearch})"><i class="fa fa-angle-right"></i></a>
+                                }
+                            </li>
+
+                        </ul>
+                    </nav>
+                </div>
+                <!--End Page Navigation-->
+            }
+
+        </div>
+    </div>
+</section>
+<!--End Rejected Notes-->

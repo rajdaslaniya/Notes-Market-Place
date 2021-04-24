@@ -1,0 +1,227 @@
+﻿@model IEnumerable<NotesMarketPlaces.ViewModels.PublishedNotesViewModel>
+@{
+    ViewBag.Title = "Admin - Published Note";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<!--Blank-->
+<section class="blank"></section>
+<!--End Blank-->
+<!--published notes-->
+<section id="published-notes">
+    <div class="container">
+        <div class="content-box-md">
+            <div class="row">
+                <div class="heading col-lg-12 col-md-12">Published Notes</div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12 col-md-12"><label for="sellername">Seller</label></div>
+            </div>
+            @using (Html.BeginForm("PublishedNote", "AdminNote", FormMethod.Get))
+            {
+                <div class="row">
+                    <div class="form-group col-lg-7 col-md-7 col-sm-5 col-4">
+                        <div class="sellername">
+                            @Html.DropDownList("sellername", new SelectList(@ViewBag.SellerList, "Value", "Text", @ViewBag.SellerName), "Select Seller", new { @class = "form-control", @id = "sellername" })
+                        </div>
+                    </div>
+                    <div class="col-lg-5 col-md-5 col-sm-7 col-8">
+                        <div class="row search" id="table-search">
+                            <div class="search-bar col-lg-9 col-md-9 col-sm-9 col-9 form-group">
+                                <input type="search" class="form-control" id="search" placeholder="Search" name="search" value="@ViewBag.PublishSearch">
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-3 col-3 btn-search">
+                                <button class="btn btn-color" type="submit" title="Search" role="button">Search</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+            <div class="row table-general table-responsive">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Sr no.</th>
+                                <th>@Html.ActionLink("Note Title", "PublishedNote", new { sortorder = ViewBag.SortOrder == null ? "Asc" : (ViewBag.SortOrder == "Asc" ? "Desc" : "Asc"), sortby = "NoteTitle" })</th>
+                                <th>@Html.ActionLink("Category", "PublishedNote", new { sortorder = ViewBag.SortOrder == null ? "Asc" : (ViewBag.SortOrder == "Asc" ? "Desc" : "Asc"), sortby = "NoteCategory" })</th>
+                                <th>@Html.ActionLink("Sell Type", "PublishedNote", new { sortorder = ViewBag.SortOrder == null ? "Asc" : (ViewBag.SortOrder == "Asc" ? "Desc" : "Asc"), sortby = "SellType" })</th>
+                                <th>@Html.ActionLink("Price", "PublishedNote", new { sortorder = ViewBag.SortOrder == null ? "Asc" : (ViewBag.SortOrder == "Asc" ? "Desc" : "Asc"), sortby = "Price" })</th>
+                                <th>@Html.ActionLink("Seller", "PublishedNote", new { sortorder = ViewBag.SortOrder == null ? "Asc" : (ViewBag.SortOrder == "Asc" ? "Desc" : "Asc"), sortby = "Seller" })</th>
+                                <th class="content-center"></th>
+                                <th>@Html.ActionLink("Published Date", "PublishedNote", new { sortorder = ViewBag.SortOrder == null ? "Asc" : (ViewBag.SortOrder == "Asc" ? "Desc" : "Asc"), sortby = "DateAdded" })</th>
+                                <th>@Html.ActionLink("Approved By", "PublishedNote", new { sortorder = ViewBag.SortOrder == null ? "Asc" : (ViewBag.SortOrder == "Asc" ? "Desc" : "Asc"), sortby = "ApprovedBy" })</th>
+                                <th>@Html.ActionLink("Number of Downloads", "PublishedNote", new { sortorder = ViewBag.SortOrder == null ? "Asc" : (ViewBag.SortOrder == "Asc" ? "Desc" : "Asc"), sortby = "Downloads" })</th>
+                                <th class="content-center"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (Model.Count() == 0)
+                            {
+                                <tr>
+                                    <td colspan="10"></td>
+                                </tr>
+                            }
+                            else
+                            {
+                                var srno = (ViewBag.PageNumber - 1) * 5;
+                                foreach (var item in Model)
+                                {
+                                    { srno = srno + 1; }
+                                    <tr>
+                                        <th scope="row">@srno</th>
+                                        <td>@item.Title</td>
+                                        <td>@item.Category</td>
+                                        <td>@item.SellType</td>
+                                        @if (item.SellType == "Paid")
+                                                    {
+                                            <td>$@item.Price</td>
+                                        }
+                                        else
+                                                {
+                                            <td>$0</td>
+                                        }
+                                        <td>@item.Seller</td>
+                                        <td>
+                                            <div class="table-images">
+                                                <button type="button" class="btn" aria-haspopup="true" aria-expanded="false">
+                                                    <img src="~/Image/images/icon/eye.png" alt="menu" class="eye">
+                                                </button>
+                                            </div>
+                                        </td>
+                                        <td>@item.PublishedDate.Value.ToString("dd-MM-yyyy,hh:mm")</td>
+                                        <td>@item.ApprovedBy</td>
+                                        <td class="content-center">@item.NumberOfDownloads</td>
+                                        <td class="content-center">
+                                            <div class="table-images">
+                                                <div class="btn-group dropleft">
+                                                    <button type="button" id="dropdownMenu2" class="btn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                        <img src="~/Image/images/icon/dots.png" alt="menu" class="dots">
+                                                    </button>
+                                                    <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                                                        <a class="dropdown-item" type="button" href="@Url.Action("AdminDownloadNote","Admin",new { noteid=item.NoteId})">Download Note</a>
+                                                        <a class="dropdown-item" type="button" href="@Url.Action("AdminNoteDetails","Admin",new { noteid=item.NoteId})">View More Details</a>
+                                                        <button class="dropdown-item" type="button" data-toggle="modal" data-target="#unpublish-@item.NoteId">Unpublish</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <div class="modal fade " id="unpublish-@item.NoteId" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    @using (Html.BeginForm("UnPublish", "Admin", FormMethod.Post, new { id = "makenoteunpublish-" + item.NoteId }))
+                                                    {
+                                                        @Html.AntiForgeryToken()
+                                                        <input hidden value="@item.NoteId" name="noteid" />
+                                                        <div>
+                                                            <h5 class="sub-heading">@item.Title</h5>
+                                                        </div>
+                                                        <div>
+
+                                                            <div class="form-group" id="modal-remark">
+                                                                <label for="remark">Remarks *</label>
+                                                                <textarea class="form-control" id="remark" name="Remark" placeholder="remark..." required></textarea>
+                                                            </div>
+
+                                                            <div id="reject-modal-btn">
+                                                                <div class="btn-modal-reject">
+                                                                    <a class="btn" data-toggle="modal" data-target="#confirmation-@item.NoteId" data-dismiss="modal" aria-label="Close">Reject</a>
+                                                                </div>
+                                                                <div class="btn-modal-cancle">
+                                                                    <a class="btn" title="Cancle" role="button" data-dismiss="modal">Cancle</a>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    }
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Section Add Remark END -->
+                                    <!-- Modal Confirmation -->
+                                    <div class="modal fade" id="confirmation-@item.NoteId" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-body" style="margin-top:10px">
+                                                    <div class="text-center">
+                                                        <h5 style="color:black">Are you sure you want to reject seller request?</h5>
+                                                    </div>
+                                                    <div class="text-center">
+                                                        <button class="btn btn-primary" onclick="$('#makenoteunpublish-'+@item.NoteId).submit(); $(this).dialog('close');">Yes</button>
+                                                        <button class="btn btn-default" data-dismiss="modal" aria-label="Close">No</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--End Confirmation-->
+                                }
+
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            @if (Model.Count() != 0)
+            {
+                <!-- Pagination -->
+                <div class="row justify-content-center">
+                    <nav aria-label="...">
+                        <ul class="pagination">
+
+                            <li class="page-item">
+                                @if (ViewBag.PageNumber == 1)
+                                {
+                                    <a class="page-link" href="@Url.Action("PublishedNote", new { page=@ViewBag.PageNumber,sortby=@ViewBag.SortBy,sortorder=@ViewBag.SortOrder,search=@ViewBag.PublishSearch})"><i class="fa fa-angle-left"></i></a>
+                                }
+                                else
+                                {
+                                    <a class="page-link" href="@Url.Action("PublishedNote", new { page=@ViewBag.PageNumber-1,sortby=@ViewBag.SortBy,sortorder=@ViewBag.SortOrder,search=@ViewBag.PublishSearch})"><i class="fa fa-angle-left"></i></a>
+                                }
+                            </li>
+
+                            @{
+                                double? TotalPages = ViewBag.TotalPages;
+
+                                for (int i = 1; i <= TotalPages; i++)
+                                {
+                                    if (i == ViewBag.PageNumber)
+                                    {
+                                        <li class="page-item active">
+                                            <a class="page-link">@i<span class="sr-only">(current)</span></a>
+                                        </li>
+                                    }
+                                    else
+                                    {
+                                        <li class="page-item">@Html.ActionLink(i.ToString(), "PublishedNote", new { page = @ViewBag.PageNumber, sortby = @ViewBag.SortBy, sortorder = @ViewBag.SortOrder, search = @ViewBag.PublishSearch }, new { @class = "page-link" })</li>
+                                    }
+                                }
+                            }
+
+                            <li class="page-item">
+                                @if (ViewBag.PageNumber == TotalPages)
+                                {
+                                    <a class="page-link" href="@Url.Action("PublishedNote", new { page=@ViewBag.PageNumber,sortby=@ViewBag.SortBy,sortorder=@ViewBag.SortOrder,search=@ViewBag.PublishSearch})"><i class="fa fa-angle-right"></i></a>
+                                }
+                                else
+                                {
+                                    <a class="page-link" href="@Url.Action("PublishedNote", new {page=@ViewBag.PageNumber+1,sortby=@ViewBag.SortBy,sortorder=@ViewBag.SortOrder,search=@ViewBag.PublishSearch})"><i class="fa fa-angle-right"></i></a>
+                                }
+                            </li>
+
+                        </ul>
+                    </nav>
+                </div>
+                <!--End Page Navigation-->
+            }
+        </div>
+    </div>
+</section>
+<!--End Published Notes-->

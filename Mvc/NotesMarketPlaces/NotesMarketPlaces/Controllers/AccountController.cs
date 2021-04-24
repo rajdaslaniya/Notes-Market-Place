@@ -1,19 +1,21 @@
 ﻿using System;
 using System.Linq;
 using System.Web.Mvc;
-using NotesMarketPlaces.Models;
 using System.Net.Mail;
 using System.Text;
 using System.Web.Hosting;
 using System.Web.Security;
 using NotesMarketPlaces.Send_Mail;
+using NotesMarketPlaces.Models;
+using NotesMarketPlaces.ViewModels;
+using System.Web;
 
 namespace NotesMarketPlaces.Controllers
 {
     [RoutePrefix("Account")]
     public class AccountController : Controller
     {
-        readonly private NotesMarketPlaceEntities _dbContext = new NotesMarketPlaceEntities();
+        readonly private NotesMarketPlaceEntities1 _dbContext = new NotesMarketPlaceEntities1();
 
 
         //Get : Account/SignUp
@@ -63,7 +65,7 @@ namespace NotesMarketPlaces.Controllers
 
                     string date = user.CreatedDate.Value.ToString("ddMMyyyyHHmmss");
                     //Send Mail For Cofirmation
-                    BuildEmailVerifyTemplate(user,date);
+                    BuildEmailVerifyTemplate(user, date);
                     //To Give a message to user for Sign up is Success
                     ViewBag.result = "Success";
                     //Clear a Model State
@@ -80,6 +82,7 @@ namespace NotesMarketPlaces.Controllers
 
         //For Varifying Email
         [Route("VerifyEmail")]
+        [AllowAnonymous]
         public ActionResult VerifyEmail(int key,string value)
         {
             ViewBag.Key = key;
@@ -89,6 +92,7 @@ namespace NotesMarketPlaces.Controllers
 
         //To Set is emailverified true in database after verification
         [Route("RegisterConfirm")]
+        [AllowAnonymous]
         public ActionResult RegisterConfirm(int key)
         {
             User user = _dbContext.Users.Where(x => x.ID == key).FirstOrDefault();
@@ -144,6 +148,7 @@ namespace NotesMarketPlaces.Controllers
         // GET: Account/Login
         [HttpGet]
         [Route("Login")]
+        [AllowAnonymous]
         public ActionResult Login()
         {
             if (User.Identity.IsAuthenticated)
@@ -160,6 +165,7 @@ namespace NotesMarketPlaces.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Route("Login")]
+        [AllowAnonymous]
         public ActionResult Login(LoginViewModel lvm)
         {
             if (ModelState.IsValid)
@@ -177,19 +183,31 @@ namespace NotesMarketPlaces.Controllers
                             //Check if password match
                             if (user.Password == lvm.Password)
                             {
+                                int memberid = _dbContext.UserRoles.Where(x => x.Name == "Member").Select(x => x.ID).FirstOrDefault();
                                 //Check if user is member
-                                if (user.RoleID == 3)
+                                if (user.RoleID == memberid)
                                 {
                                     //Set authentication cookie
                                     FormsAuthentication.SetAuthCookie(user.EmailID, lvm.RememberMe);
-                                    return RedirectToAction("Index", "Home");
+
+                                    //Check if userprofile is null or not
+                                    var userprofile = _dbContext.UserProfiles.Where(x => x.UserID == user.ID).FirstOrDefault();
+                                    if (userprofile == null)
+                                    {
+                                        return RedirectToAction("MyProfile","Users");
+                                    }
+                                    else
+                                    {
+                                        return RedirectToAction("SearchNotes", "Notes");
+                                    }
+                                    
                                 }
                                 //For user admin or super admin
                                 else
                                 {
                                     //Set authentication cookie
                                     FormsAuthentication.SetAuthCookie(user.EmailID, lvm.RememberMe);
-                                    return RedirectToAction("AdminDashboard");
+                                    return RedirectToAction("Dashboard","Admin");
                                 }
                             }
                             else
@@ -201,19 +219,19 @@ namespace NotesMarketPlaces.Controllers
                         }
                         else
                         {
-                            ModelState.AddModelError("EmailID", "Verify your email address");
+                            ModelState.AddModelError("Email", "Verify your email address");
                             return View(lvm);
                         }
                     }
                     else
                     {
-                        ModelState.AddModelError("EmailID", "Your account with this email is not active");
+                        ModelState.AddModelError("Email", "Your account with this email is not active");
                         return View(lvm);
                     }
                 }
                 else
                 {
-                    ModelState.AddModelError("EmailID", "Incorrect Email Id");
+                    ModelState.AddModelError("Email", "Incorrect Email Id");
                     return View(lvm);
                 }
             }
@@ -226,8 +244,19 @@ namespace NotesMarketPlaces.Controllers
         //Logout
         [Authorize]
         [Route("Logout")]
+        [Authorize(Roles ="SuperAdmin,Admin,Member")]
         public ActionResult Logout()
         {
+            Session.Clear();
+            Session.Abandon();
+            Session.RemoveAll();
+
+            FormsAuthentication.SignOut();
+
+
+            this.Response.Cache.SetExpires(DateTime.UtcNow.AddMinutes(-1));
+            this.Response.Cache.SetCacheability(HttpCacheability.NoCache);
+            this.Response.Cache.SetNoStore();
             FormsAuthentication.SignOut();
             Session.Abandon();
             return RedirectToAction("Login");
@@ -235,6 +264,7 @@ namespace NotesMarketPlaces.Controllers
 
         [HttpGet]
         [Route("ForgotPassword")]
+        [Authorize(Roles = "SuperAdmin,Admin,Member")]
         public ActionResult ForgotPassword()
         {
             
@@ -244,6 +274,7 @@ namespace NotesMarketPlaces.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Route("ForgotPassword")]
+        [Authorize(Roles = "SuperAdmin,Admin,Member")]
         public ActionResult ForgotPassword(ForgotViewModel forgotViewModel)
         {
             if (ModelState.IsValid)
@@ -308,11 +339,11 @@ namespace NotesMarketPlaces.Controllers
             body = body.ToString();
 
             //Get Support Email ID
-            var fromemail = _dbContext.SystemConfigurations.Where(x => x.Value == "SupportEmail").FirstOrDefault();
+            var fromemail = _dbContext.SystemConfigurations.Where(x => x.Key == "SupportEmail").FirstOrDefault();
 
             //Set from,to,subject,body
             string from, to, subject;
-            from = fromemail.Key.Trim();
+            from = fromemail.Value.Trim();
             to = user.EmailID.Trim();
             subject = "New Temporary Password has been created for you";
             StringBuilder sb = new StringBuilder();
@@ -329,6 +360,45 @@ namespace NotesMarketPlaces.Controllers
 
             //Send A Mail 
             SendingMail.SendEmail(mail);
+        }
+
+        //Get : ChangePassword
+        [HttpGet]
+        [Authorize]
+        [Route("ChangePassword")]
+        [Authorize(Roles = "SuperAdmin,Admin,Member")]
+        public ActionResult ChangePassword()
+        {
+            ViewBag.ChangePassword = "active";
+            return View();
+        }
+
+        //Post : ChangePassword
+        [HttpPost]
+        [Authorize]
+        [Route("ChangePassword")]
+        public ActionResult ChangePassword(ChangePasswordViewModel changePassword)
+        {
+            
+            if (ModelState.IsValid)
+            {
+                var user = _dbContext.Users.Where(x => x.EmailID == User.Identity.Name).FirstOrDefault();
+                if (changePassword.OldPassword != user.Password)
+                {
+                    ModelState.AddModelError("OldPassword", "Password Does Not Match.");
+                    return View(changePassword);
+                }
+                User usr = _dbContext.Users.Where(x=>x.EmailID==user.EmailID).FirstOrDefault();
+                usr.Password = changePassword.ConfirmPassword;
+                usr.ModifiedDate = DateTime.Now;
+                usr.ModifiedBy = user.ID;
+                _dbContext.SaveChanges();
+                return RedirectToAction("Login");
+            }
+            else
+            {
+                return View(changePassword);
+            }
         }
     }
 }

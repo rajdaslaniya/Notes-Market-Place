@@ -1,4 +1,4 @@
-/* =========================================
+﻿/* =========================================
                 Content Boxes
 ============================================ */
 
@@ -257,11 +257,24 @@ div.dropdown-menu.show {
 .dropdown-menu .dropdown-item {
     color: #6255a5;
 }
+nav li.profile-dropdown .dropdown-menu a.logout:hover {
+    color: #fff;
+}
 
-    .dropdown-menu .dropdown-item:hover,
-    .dropdown-menu .dropdown-item:focus {
-        color: #000;
-    }
+nav li.profile-dropdown .dropdown-menu a.logout {
+    color: #6255a5;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+nav .dropdown-menu .dropdown-item:hover,
+nav .dropdown-menu .dropdown-item:focus,
+nav .dropdown-menu .dropdown-item.active {
+    color: #fff !important;
+    text-decoration: none !important;
+    outline: 0px !important;
+    background-color: #6255a5 !important;
+}
 
 .dropleft .dropdown-menu {
     border: none;
@@ -275,14 +288,15 @@ div.dropdown-menu.show {
     font-weight: 400;
 }
 
-    .dropleft .dropdown-item:hover,
-    .dropleft .dropdown-item:focus,
-    .dropleft .dropdown-item:active {
-        color: #fff;
-        text-decoration: none;
-        outline: 0px;
-        background-color: #6255a5;
-    }
+
+.dropleft .dropdown-item:hover,
+.dropleft .dropdown-item:focus,
+.dropleft .dropdown-item.active {
+    color: #fff;
+    text-decoration: none;
+    outline: 0px;
+    background-color: #6255a5;
+}
 
 .dropleft div.dropdown-menu {
     padding: 0;
@@ -296,7 +310,7 @@ div.dropdown-menu.show {
     width: 100%;
     height: 620px;
     position: relative;
-    background: url('/Front Image/images/home/banner-with-overlay.jpg') no-repeat;
+    background: url('/Image/images/home/banner-with-overlay.jpg') no-repeat;
     background-size: 100% 100%;
 }
 
@@ -519,7 +533,7 @@ body, html {
     display: flex;
     min-height: 100%;
     width: 100%;
-    background: url('/Front Image/images/pre-login/banner-with-overlay.jpg') no-repeat;
+    background: url('/Image/images/pre-login/banner-with-overlay.jpg') no-repeat;
     background-size: cover;
     background-position:center;
     -webkit-box-align: center;
@@ -862,7 +876,7 @@ input[type="file"].image-upload {
     overflow: hidden;
     -webkit-box-sizing: border-box;
     box-sizing: border-box;
-    background: url("~/Front Images/images/User-Profile/upload.png") center no-repeat;
+    background: url("~/Images/images/User-Profile/upload.png") center no-repeat;
     background-size: 80px 70px;
 }
 /*-----------------Input type search---------------*/
@@ -873,7 +887,7 @@ input[type="search"] {
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
-    background: #fff url('/Front Image/images/icon/search-icon.png') no-repeat;
+    background: #fff url('/Image/images/icon/search-icon.png') no-repeat;
     background-size: 20px 20px;
     background-position: 10px;
 }
@@ -1014,6 +1028,7 @@ tr:focus {
     line-height: 26px;
     color: #6255a5;
     height: 50px;
+    margin-left: 30px;
     margin-bottom: 30px;
     margin-top: 30px;
 }
@@ -1032,7 +1047,7 @@ tr:focus {
         display: -webkit-box;
         display: -ms-flexbox;
         display: flex;
-        margin-left: -40px;
+        margin-left: -10px;
     }
 
     .book-details span.flag {
@@ -1144,7 +1159,10 @@ a.page-link {
 #details .image {
     height: 300px;
 }
-
+    #details .image img {
+        width: 250px;
+        height:300px;
+    }
 #btn-download a {
     width: 190px;
 }
@@ -1154,6 +1172,7 @@ a.page-link {
     border: 1px solid #d1d1d1;
     border-radius: 3px;
     height: 450px;
+    overflow:scroll;
 }
 
     .comment-box .img1 {
@@ -1191,11 +1210,13 @@ iframe {
 .modal-body {
     padding: 0px 50px 30px 50px;
 }
-
-    .modal-body img {
-        height: 65px;
-        width: 65px;
-    }
+.modal-confirm-body{
+    padding:20px;
+}
+.modal-body img {
+    height: 65px;
+    width: 65px;
+}
 
     .modal-body .text-center h2 {
         font-family: "Open Sans",sans-serif;
@@ -1214,12 +1235,56 @@ iframe {
         margin-bottom: 0px;
     }
 
-    .modal-body img {
-        height: 45px;
-        width: 45px;
-        margin-right: 30px;
-        margin-bottom: 30px;
+
+.rate {
+    float: left;
+    height: 46px;
+    padding: 0;
+}
+
+    .rate:not(:checked) > input {
+        position: absolute;
+        top: -9999px;
     }
+    .rate:not(:checked) > label {
+        float: right;
+        width: 30px;
+        overflow: hidden;
+        margin-right: 10px;
+        white-space: nowrap;
+        cursor: pointer;
+        font-size: 30px;
+        color: #ccc;
+    }
+    
+
+        .rate:not(:checked) > label:before {
+            content: '★ ';
+        }
+
+    .rate > input:checked ~ label {
+        color: #ffc700;
+    }
+
+    .rate:not(:checked) > label:hover,
+    .rate:not(:checked) > label:hover ~ label {
+        color: #deb217;
+    }
+
+    .rate > input:checked + label:hover,
+    .rate > input:checked + label:hover ~ label,
+    .rate > input:checked ~ label:hover,
+    .rate > input:checked ~ label:hover ~ label,
+    .rate > label:hover ~ input:checked ~ label {
+        color: #c59b08;
+    }
+    #moal-review-feedback{
+        margin-top:40px;
+    }
+    #moal-review-feedback textarea {
+        height: 100px;
+    }
+
 /* =========================================
                 Dashboard
 ============================================ */
@@ -1298,7 +1363,7 @@ input[type="file"].display-image {
     overflow: hidden;
     -webkit-box-sizing: border-box;
     box-sizing: border-box;
-    background: url("/Front Image/images/Add-notes/upload-file.png") center no-repeat;
+    background: url("/Image/images/Add-notes/upload-file.png") center no-repeat;
     background-size: 80px 70px;
 }
 
@@ -1310,7 +1375,7 @@ input[type="file"].note-preview {
     overflow: hidden;
     -webkit-box-sizing: border-box;
     box-sizing: border-box;
-    background: url("/Front Image/images/Add-notes/upload-file.png") center no-repeat;
+    background: url("/Image/images/Add-notes/upload-file.png") center no-repeat;
     background-size: 80px 70px;
 }
 
@@ -1322,7 +1387,7 @@ input[type="file"].upload-notes {
     overflow: hidden;
     -webkit-box-sizing: border-box;
     box-sizing: border-box;
-    background: url("/Front Image/images/Add-notes/upload-note.svg") center no-repeat;
+    background: url("/Image/images/Add-notes/upload-note.svg") center no-repeat;
     background-size: 80px 70px;
 }
 /*--------- Radio Button Custom CSS ----------*/
@@ -1376,9 +1441,10 @@ input[type="file"].upload-notes {
 #my-rejected .dropleft div.dropdown-menu.show,
 #my-sold .dropleft div.dropdown-menu.show,
 #buyer-request .dropleft div.dropdown-menu.show {
-    -webkit-transform: translate3d(-175px, -34px, 0px) !important;
+    -webkit-transform: translate3d(-180px, -30px, 0px) !important;
     transform: translate3d(-180px, -30px, 0px) !important;
 }
+
 
 .dropleft .dropdown-item {
     font-size: 15px;

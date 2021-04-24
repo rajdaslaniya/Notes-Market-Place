@@ -1,10 +1,7 @@
-﻿@model NotesMarketPlaces.Models.DetailsViewModel
+﻿@model NotesMarketPlaces.ViewModels.DetailsViewModel
 @{
     ViewBag.Title = "Details";
     Layout = "~/Views/Shared/_Layout.cshtml";
-    ViewBag.Navigation = "white-navbar";
-    ViewBag.Js = "/Scripts/Front/js/script.js";
-    ViewBag.SearchNotes = "active";
 }
 
 <!--Blank-->
@@ -24,7 +21,14 @@
                 <div class="col-lg-6 col-md-6">
                     <div class="row">
                         <div class="col-lg-6 col-md-6 col-sm-6 col-12 image">
-                            <img src="@Url.Content(Model.sellernotes.DisplayPicture)">
+                            @if (Model.sellernotes.DisplayPicture == null)
+                            {
+                                <img src="~/DefaultItem/Book-Image.png" alt="book" />
+                            }
+                            else
+                            {
+                                <img src="@Url.Content(Model.sellernotes.DisplayPicture)" alt="book">
+                            }
                         </div>
                         
                         <div class="col-lg-6 col-md-6 col-sm-6 col-12">
@@ -35,11 +39,23 @@
                             @if (User.Identity.IsAuthenticated)
                             {
                                 <!--If Note is Paid and Download user and logged in user same-->
-                                if (Model.sellernotes.IsPaid==true)
+                                if (Model.sellernotes.IsPaid == true && Model.sellernotes.SellerID != Model.UserID)
                                 {
-                                    <div id="btn-download">
-                                        <a class="btn btn-color" href="@Url.Action("RequestPaidNotes","Notes", new { noteid = Model.sellernotes.ID })" role="button">Download / $@Model.sellernotes.SellingPrice</a>
-                                    </div>
+                                    <!--if note is not alredy requestsed-->
+                                    if (Model.NoteRequested == false)
+                                    {
+                                        <div id="btn-download">
+                                            <a class="btn btn-color" data-toggle="modal" data-target="#confirmation">Download / $@Model.sellernotes.SellingPrice</a>
+                                        </div>
+                                    }
+                                    <!--if logged in user is allowed to download-->
+                                    if (Model.AllowDownload == true)
+                                    {
+                                        <div id="btn-download">
+                                            <a class="btn btn-color" href="@Url.Action("DownloadNote","Notes", new { noteid = Model.sellernotes.ID })" title="Download Note" role="button" download>Download / $@Model.sellernotes.SellingPrice </a>
+                                        </div>
+                                    }
+
                                 }
                                 else
                                 {
@@ -51,6 +67,7 @@
                             }
                             else
                             {
+                                <!--If user is not authenticated-->
                                 <a class="btn btn-color" href="@Url.Action("Login","Account")" title="Download Note" role="button" data-toggle="modal" data-target="#thankspopup">Download / Free </a>
                             }
                             <!-- Confirmation Modal -->
@@ -64,7 +81,7 @@
                                                 </p>
 
                                                 <div class="btn-confirm">
-                                                    <a class="btn btn-yes" href="@Url.Action("BuyerRequest", new { noteid = Model.sellernotes.ID })" id="confirmationbutton" onclick="$('#confirmation').modal('hide'); $('#thankspopup').modal('show');" role="button">YES</a>
+                                                    <a class="btn btn-yes" href="@Url.Action("RequestPaidNotes",new { noteid = Model.sellernotes.ID })" id="confirmationbutton" onclick="$('#confirmation').modal('hide'); $('#thankspopup').modal('show');" role="button">YES</a>
                                                     <a class="btn btn-no" data-dismiss="modal" aria-label="Close" role="button">NO</a>
                                                 </div>
                                             </div>
@@ -83,11 +100,11 @@
                                         </div>
                                         <div class="modal-body">
                                             <div class="text-center">
-                                                <img class="img-responsive" src="~/Front Image/images/Thanks Popup/true.png" alt="Thanks">
+                                                <img class="img-responsive" src="~/Image/images/Thanks Popup/true.png" alt="Thanks">
                                                 <h2>Thanks for Purchasing</h2>
                                             </div>
-                                            <h5>Dear Smith,</h5>
-                                            <p>As this is paid notes - you need to play to selller Rahul Shah offline.We will send hime an email that you want to download this note.He may contact you further for payment process completion.</p>
+                                            <h5>@Model.Buyer,</h5>
+                                            <p>As this is paid notes - you need to play to selller @Model.Seller offline.We will send hime an email that you want to download this note.He may contact you further for payment process completion.</p>
                                             <pre>In case,you have urgency.<br>Please contact us on+9195377345959.</pre>
                                             <p>Once he receives the payment and acknoledge us.selected notes you can see over my downloads tab for download.</p>
                                             <p>Have a good day.</p>
@@ -103,40 +120,100 @@
                     <div class="note-details">
                         <p>
                             <span class="first">Institution:</span>
-                            <span class="second">@Model.sellernotes.UniversityName</span>
+                            @if (@Model.sellernotes.Country == null)
+                            {
+                                <span class="second"></span>
+                            }
+                            else
+                            {
+                                <span class="second">University of @Model.sellernotes.UniversityName</span>
+                            }
                         </p>
                         <p>
                             <span class="first">Country:</span>
-                            <span class="second">@Model.sellernotes.Country1.Name</span>
+                            @if (@Model.sellernotes.Country == null)
+                            {
+                                <span class="second"></span>
+                            }
+                            else
+                            {
+                                <span class="second">@Model.sellernotes.Country1.Name</span>
+                            }
                         </p>
                         <p>
                             <span class="first">Course Name:</span>
-                            <span class="second">@Model.sellernotes.Course</span>
+                            @if (@Model.sellernotes.Course == null)
+                            {
+                                <span class="second"></span>
+                            }
+                            else
+                            {
+                                <span class="second">@Model.sellernotes.Course</span>
+                            }
                         </p>
                         <p>
                             <span class="first">Course Code:</span>
-                            <span class="second">@Model.sellernotes.CourseCode</span>
+                            @if (@Model.sellernotes.CourseCode == null)
+                            {
+                                <span class="second">Course Code</span>
+                            }
+                            else
+                            {
+                                <span class="second">@Model.sellernotes.CourseCode</span>
+                            }
                         </p>
                         <p>
                             <span class="first">Professor:</span>
-                            <span class="second">@Model.sellernotes.Professor</span>
+                            @if (@Model.sellernotes.CourseCode == null)
+                            {
+                                <span class="second"></span>
+                            }
+                            else
+                            {
+                                <span class="second">@Model.sellernotes.Professor</span>
+                            }
                         </p>
                         <p>
                             <span class="first">Number of Pages:</span>
-                            <span class="second">@Model.sellernotes.NumberofPages</span>
+                            @if (@Model.sellernotes.PublishedDate == null)
+                            {
+                                <span class="second"></span>
+                            }
+                            else
+                            {
+                                 <span class="second">@Model.sellernotes.NumberofPages</span>
+                            }
+                            
                         </p>
                         <p>
                             <span class="first">Approved Date:</span>
-                            <span class="second">@Model.sellernotes.CreatedDate.Value.ToString("MMMM dd yyyy")</span>
+                            @if (@Model.sellernotes.PublishedDate == null)
+                            {
+                                <span class="second"></span>
+                            }
+                            else
+                            {
+                                <span class="second">@Model.sellernotes.PublishedDate.Value.ToString("MMMM dd yyyy")</span>
+                            }
                         </p>
                         <p>
                             <span class="first">Rating</span>
                             <span class="rating second">
-                                <img src="~/Front Image/images/icon/star.png"><img src="~/Front Image/images/icon/star.png"><img src="~/Front Image/images/icon/star.png"><img src="~/Front Image/images/icon/star-white.png"><img src="~/Front Image/images/icon/star-white.png">100 Reviews
+                                @for (int i = 1; i <= 5; i++)
+                                {
+                                    if (i <= Model.AverageRating)
+                                    {
+                                        <img src="~/Image/images/icon/star.png" alt="star">
+                                    }
+                                    else
+                                    {
+                                        <img src="~/Image/images/icon/star-white.png" alt="star">
+                                    }
+                                } @Model.TotalReview Reviews
                             </span>
                         </p>
                         <p>
-                            <span class="first1">5 Users marked this note as inapporopriate</span>
+                            <span class="first1">@Model.TotalSpamReport Users marked this note as inapporopriate</span>
                         </p>
                     </div>
                 </div>
@@ -158,48 +235,32 @@
                         </div>
                     </div>
                     <div class="comment-box">
-
+                        @foreach(var item in Model.NotesReview){
                         <div class="row">
                             <div class="col-lg-2 col-md-2  col-sm-3 col-4 text-center">
-                                <img src="~/Front Image/images/User-Profile/reviewer-1.png" class="img-responsive img-rounded img1">
+                                <img src="@Url.Content(item.TblUserProfile.ProfilePicture)" alt="Profile" class="img-responsive img-rounded img1">
                             </div>
                             <div class="col-lg-10 col-md-10 col-sm-9 col-8">
-                                <h5>Richard Brown</h5>
+                                <h5>@item.TblUser.FirstName  @item.TblUser.LastName</h5>
                                 <br>
                                 <span class="rating">
-                                    <img src="~/Front Image/images/icon/star.png"><img src="~/Front Image/images/icon/star.png"><img src="~/Front Image/images/icon/star.png"><img src="~/Front Image/images/icon/star-white.png"><img src="~/Front Image/images/icon/star-white.png">
+                                    @for (int i = 1; i <= 5; i++)
+                                    {
+                                        if (i <= item.TblSellerNotesReview.Rating)
+                                        {
+                                            <img src="~/Image/images/icon/star.png">
+                                        }
+                                        else
+                                        {
+                                            <img src="~/Image/images/icon/star-white.png">
+                                        }
+                                    }
                                 </span>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Enim similique distinctio iusto.</p>
+                                <p>@item.TblSellerNotesReview.Comments</p>
                             </div>
                         </div>
                         <hr>
-                        <div class="row">
-                            <div class="col-lg-2 col-md-2 col-sm-3 col-4 text-center">
-                                <img src="~/Front Image/images/User-Profile/reviewer-2.png" class="img-responsive img-rounded img1">
-                            </div>
-                            <div class="col-lg-10 col-md-10 col-sm-9 col-8">
-                                <h5>Alice Ortiaz</h5>
-                                <br>
-                                <span class="rating">
-                                    <img src="~/Front Image/images/icon/star.png"><img src="~/Front Image/images/icon/star.png"><img src="~/Front Image/images/icon/star.png"><img src="~/Front Image/images/icon/star-white.png"><img src="~/Front Image/images/icon/star-white.png">
-                                </span>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Enim similique distinctio iusto.</p>
-                            </div>
-                        </div>
-                        <hr>
-                        <div class="row">
-                            <div class="col-lg-2 col-md-2 col-sm-3 col-4 text-center">
-                                <img src="~/Front Image/images/User-Profile/reviewer-3.png" class="img-responsive img-rounded img1">
-                            </div>
-                            <div class="col-lg-10 col-md-10 col-sm-9 col-8">
-                                <h5>Sara Passmore</h5>
-                                <br>
-                                <span class="rating">
-                                    <img src="~/Front Image/images/icon/star.png"><img src="~/Front Image/images/icon/star.png"><img src="~/Front Image/images/icon/star.png"><img src="~/Front Image/images/icon/star-white.png"><img src="~/Front Image/images/icon/star-white.png">
-                                </span>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Enim similique distinctio iusto.</p>
-                            </div>
-                        </div>
+                         }
                     </div>
                 </div>
             </div>

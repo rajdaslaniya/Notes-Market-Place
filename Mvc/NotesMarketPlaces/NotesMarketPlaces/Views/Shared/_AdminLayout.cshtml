@@ -1,0 +1,113 @@
+﻿@{ 
+    var _dbContext = new NotesMarketPlaces.Models.NotesMarketPlaceEntities1();
+    var user = _dbContext.Users.ToList();
+}
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0 ,user-scalable=no">
+    <title>@ViewBag.Title</title>
+    <link rel="shortcut icon" href="~/Image/images/Favicon/favicon.ico" type="image/x-icon">
+    <!--Link With font -->
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans
+                 :wght@300;400;600;700&display=swap" rel="stylesheet">
+    <!--Bootstrap Csss-->
+    <link rel="stylesheet" href="~/Content/Admin/css/bootstrap/bootstrap.min.css">
+    <!--Font Awesome-->
+    <link rel="stylesheet" href="~/Content/Admin/css/fontawesome/css/font-awesome.min.css">
+    <!-- External Css -->
+    <link rel="stylesheet" href="~/Content/Admin/css/style.css">
+    <!-- Responsive CSS -->
+    <link rel="stylesheet" href="~/Content/Admin/css/responsive.css">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <header>
+        <nav class="navbar navbar-expand-lg white-navbar navbar-fixed-height fixed-top">
+            <div class="container">
+                <div class="row">
+                    <!-- Logo -->
+                    <div class="navbar-header col-lg-3 col-10">
+                        <a class="navbar-brand text-left" href="@Url.Action("Dashboard","Admin")">
+                            <img src="~/Image/images/Logo/dark-logo.png" alt="logo">
+                        </a>
+                    </div>
+                    <button class="navbar-toggler collapsed col-2" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="mobile-nav-close-btn">&times;</span>
+                        <span class="mobile-nav-open-btn">&#9776;</span>
+                    </button>
+                    <div class="collapse navbar-collapse col-lg-9" id="navbarSupportedContent">
+                        <ul class="navbar-nav ml-auto">
+                            <li class="nav-item"><a class="nav-link @ViewBag.Dashboard" href="@Url.Action("Dashboard","Admin")">Dashboard</a></li>
+
+                            <li class="nav-item dashboard-dropdown">
+                                <a class="nav-link" href="dashboard.html" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Notes</a>
+                                <div class="dropdown-menu dropdown-menu1" aria-labelledby="dropdownMenuButton">
+                                    <a class="dropdown-item @ViewBag.NotesUnderReview" href="@Url.Action("NotesUnderReview","AdminNote")">Notes Under Review</a>
+                                    <a class="dropdown-item @ViewBag.PublishedNotes" href="@Url.Action("PublishedNote","AdminNote")">Published Notes</a>
+                                    <a class="dropdown-item @ViewBag.DownloadNotes" href="@Url.Action("AdminDownload","AdminNote")">Download Notes</a>
+                                    <a class="dropdown-item @ViewBag.RejectedNotes" href="@Url.Action("AdminRejected","AdminNote")">Rejected Notes</a>
+                                </div>
+                            </li>
+
+                            <li class="nav-item"><a class="nav-link @ViewBag.Members" href="member-details.html">Members</a></li>
+                            <li class="nav-item"><a class="nav-link @ViewBag.Reports" href="spam-records.html">Reports</a></li>
+                            <li class="nav-item setting-dropdown">
+                                <a class="nav-link" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Settings</a>
+                                <div class="dropdown-menu dropdown-menu3" aria-labelledby="dropdownMenuButton">
+                                    <a class="dropdown-item @ViewBag.ManageSystem" href="manage-system.html">Manage System Configuration</a>
+                                    <a class="dropdown-item @ViewBag.ManageAdmin" href="manage-administrator.html">Manage Administrator</a>
+                                    <a class="dropdown-item @ViewBag.ManageCategory" href="manage-category.html">Manage Category</a>
+                                    <a class="dropdown-item @ViewBag.ManageType" href="manage-type.html">Manage Type</a>
+                                    <a class="dropdown-item @ViewBag.ManageCountry" href="manage-country.html">Manage Countries</a>
+                                </div>
+                            </li>
+                            <li class="nav-item profile-dropdown">
+                                <a class="nav-link" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <img src="~/Image/images/home/customer-1.png" class="rounded-circle">
+                                </a>
+                                <div class="dropdown-menu dropdown-menu2" aria-labelledby="dropdownMenuButton">
+                                    <a class="dropdown-item @ViewBag.UpdateProfile" href="#">Update Profile</a>
+                                    <a class="dropdown-item @ViewBag.ChangePassword" href="#">Change Password</a>
+                                    <a class="dropdown-item" href="#">Logout</a>
+                                </div>
+                            </li>
+                            <li class="nav-item"><a class="nav-link" href="#">Logout</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <!-- Navigation Bar END -->
+
+    @RenderBody()
+    <!--Footer-->
+    <footer>
+        <div class="container">
+            <div class="row  foot">
+                <!-- Copyright -->
+                <div class="col-md-6 col-sm-8 footer-text" style="padding-left: 40px">
+                    version 1.1.24
+                </div>
+                <div class="col-md-6 col-sm-8 footer-text text-right">
+                    <p>Copyright &copy; TatvaSoft All Rights Reserved By</p>
+                </div>
+                <!--End Copyright-->
+            </div>
+        </div>
+    </footer>
+    <!--End Footer-->
+    <!--Jquery-->
+    <script src="~/Scripts/Admin/js/jquery.js"></script>
+    <!-- Popper JS -->
+    <script src="~/Scripts/Admin/js/bootstrap/popper.min.js"></script>
+    <!--Bootstrap Js -->
+    <script src="~/Scripts/Admin/js/bootstrap/bootstrap.min.js"></script>
+    <!-- Custom JS -->
+    <script src="~/Scripts/Admin/js/script.js"></script>
+
+</body>
+</html>

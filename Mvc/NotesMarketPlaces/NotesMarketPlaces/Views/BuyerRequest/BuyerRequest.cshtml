@@ -1,7 +1,6 @@
-﻿@model IEnumerable<NotesMarketPlaces.Models.BuyerRequestViewModel>  
+﻿@model IEnumerable<NotesMarketPlaces.ViewModels.BuyerRequestViewModel>  
 @{
-    ViewBag.Title = "BuyerRequest";
-    ViewBag.Js = "/Scripts/Front/js/script.js";
+    ViewBag.Title = "Buyer Request";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -13,6 +12,7 @@
 <section id="buyer-request">
     <div class="container">
         <div class="content-box-md">
+
             <!--Search in table-->
             @using (Html.BeginForm("BuyerRequest", "BuyerRequest", FormMethod.Get))
             {
@@ -21,10 +21,10 @@
                     <div class="col-lg-5 col-md-5 col-sm-7 col-12">
                         <div class="row search" id="table-search">
                             <div class="search-bar col-lg-9 col-md-9 col-sm-9 col-9 form-group">
-                                <input type="search" class="form-control" id="search" placeholder="Search"  value="@ViewBag.BuyerSearch" name="search">
+                                <input type="search" class="form-control" id="search" placeholder="Search" value="@ViewBag.BuyerSearch" name="search">
                             </div>
                             <div class="col-lg-3  col-md-3 col-sm-3 col-3 btn-search">
-                                <button class="btn btn-color"  title="Search" type="submit">Search</button>
+                                <button class="btn btn-color" title="Search" type="submit">Search</button>
                             </div>
                         </div>
                     </div>
@@ -36,11 +36,11 @@
                         <thead>
                             <tr>
                                 <th>Sr no.</th>
-                                <th>@Html.ActionLink("Note Title","BuyerRequest", new { sortorder = ViewBag.SortOrder == null ? "Asc" : (ViewBag.SortOrder == "Asc" ? "Desc" : "Asc"), sortby = "NoteTitle" })</th>
+                                <th>@Html.ActionLink("Note Title", "BuyerRequest", new { sortorder = ViewBag.SortOrder == null ? "Asc" : (ViewBag.SortOrder == "Asc" ? "Desc" : "Asc"), sortby = "NoteTitle" })</th>
                                 <th>@Html.ActionLink("Category", "BuyerRequest", new { sortorder = ViewBag.SortOrder == null ? "Asc" : (ViewBag.SortOrder == "Asc" ? "Desc" : "Asc"), sortby = "Category" })</th>
                                 <th>@Html.ActionLink("Buyer", "BuyerRequest", new { sortorder = ViewBag.SortOrder == null ? "Asc" : (ViewBag.SortOrder == "Asc" ? "Desc" : "Asc"), sortby = "Buyer" })</th>
-                                <th>Phone no.</th>
-                                <th>Sell type</th>
+                                <th>@Html.ActionLink("Phone No.", "BuyerRequest", new { sortorder = ViewBag.SortOrder == null ? "Asc" : (ViewBag.SortOrder == "Asc" ? "Desc" : "Asc"), sortby = "PhoneNumber" })</th>
+                                <th>@Html.ActionLink("Sell Type", "BuyerRequest", new { sortorder = ViewBag.SortOrder == null ? "Asc" : (ViewBag.SortOrder == "Asc" ? "Desc" : "Asc"), sortby = "SellType" })</th>
                                 <th>@Html.ActionLink("Price", "BuyerRequest", new { sortorder = ViewBag.SortOrder == null ? "Asc" : (ViewBag.SortOrder == "Asc" ? "Desc" : "Asc"), sortby = "Price" })</th>
                                 <th>@Html.ActionLink("Downloaded Date/Time", "BuyerRequest", new { sortorder = ViewBag.SortOrder == null ? "Asc" : (ViewBag.SortOrder == "Asc" ? "Desc" : "Asc"), sortby = "DownloadDate" })</th>
                                 <th class="content-center"></th>
@@ -59,86 +59,96 @@
 
                                 foreach (var item in Model)
                                 {
-                                    { srno = srno + 1;}
+                                    { srno = srno + 1; }
                                     <tr>
                                         <td class="content-center">@srno</td>
-                                        <td>@item.tblDownload.NoteTitle</td>
-                                        <td>@item.tblDownload.NoteCategory</td>
-                                        <td>@item.tblUser.EmailID</td>
-                                        <td>+@item.tblUserProfile.PhoneNumberCountryCode @item.tblUserProfile.PhoneNumber</td>
-                                        @if (@item.tblDownload.IsPaid == true)
+                                        <td>@item.NoteTitle</td>
+                                        <td>@item.Category</td>
+                                        <td>@item.Buyer</td>
+                                        <td>+@item.PhoneNumber</td>
+                                        <td>@item.SellType</td>
+                                        @if (@item.SellType == "Paid")
                                         {
-                                            <td>Paid</td>
-                                            <td>$@item.tblDownload.PurchasedPrice</td>
+                                            <td>$@item.Price</td>
                                         }
                                         else
                                         {
-                                            <td>Free</td>
                                             <td>0</td>
                                         }
-                                        <td>@item.tblDownload.CreatedDate.Value.ToString("dd MMM yyyy, hh : mm : ss")</td>
+                                        <td>@item.DownloadDate.Value.ToString("dd MMM yyyy, hh : mm : ss")</td>
                                         <td class="content-center">
                                             <div class="table-images">
                                                 <div class="btn-group dropleft">
                                                     <button type="button" id="dropdownMenu2" class="btn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                        <img src="~/Front Image/images/icon/dots.png" alt="menu" class="dots">
+                                                        <img src="~/Image/images/icon/dots.png" alt="menu" class="dots">
                                                     </button>
                                                     <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
-                                                        <a class="dropdown-item" type="button"  href="@Url.Action("AllowDownload","BuyerRequest",new {id=@item.tblDownload.ID })">Allow Donwload</a>
+                                                        <a class="dropdown-item" type="button" href="@Url.Action("AllowDownload","BuyerRequest",new {id=@item.DownloadID })">Allow Donwload</a>
                                                     </div>
                                                 </div>
                                             </div>
                                         </td>
                                     </tr>
-                                    }
                                 }
+                            }
                         </tbody>
                     </table>
                 </div>
             </div>
-            
-            <div class="row justify-content-center">
-                <nav aria-label="...">
-                    <ul class="pagination">
-                        <li class="page-item">
-                            @if (ViewBag.PageNumber == 1)
-                            {
-                                <a class="page-item" href="@Url.Action("BuyerRequest",new { page=@ViewBag.PageNumber,sortby=@ViewBag.SortBy,sortorder=@ViewBag.SortOrder})"><i class="fa fa-angle-left"></i></a>
-                            }
-                            else
-                            {
-                                <a class="page-item" href="@Url.Action("BuyerRequest",new { page=@ViewBag.PageNumber-1,sortby=@ViewBag.SortBy,sortorder=@ViewBag.SortOrder})"><i class="fa fa-angle-left"></i></a>
-                            }
-                        </li>
-                        @{
-                            double? TotalPages = ViewBag.TotalPages;
-                            for (int i = 1; i <= TotalPages; i++)
-                            {
-                                if (i == ViewBag.PageNumber)
+            @if (Model.Count() != 0)
+            {
+                <!--Pagination-->
+                <div class="row justify-content-center">
+
+                    <nav aria-label="...">
+                        <ul class="pagination">
+
+                            <li class="page-item">
+                                @if (ViewBag.PageNumber == 1)
                                 {
-                                    <li class="page-item active">
-                                        <a class="page-link">@i<span class="sr-only">(current)</span></a>
-                                    </li>
+                                    <a class="page-link" href="@Url.Action("BuyerRequest", new { page=@ViewBag.PageNumber,sortby=@ViewBag.SortBy,sortorder=@ViewBag.SortOrder,search=@ViewBag.BuyerSearch})"><i class="fa fa-angle-left"></i></a>
                                 }
                                 else
                                 {
-                                    <li class="page-item">@Html.ActionLink(i.ToString(), "BuyerRequest", new { page = @ViewBag.PageNumber, sortby = @ViewBag.SortBy, sortorder = @ViewBag.SortOrder }, new { @class = "page-link" })</li>
+                                    <a class="page-link" href="@Url.Action("BuyerRequest", new {  page=@ViewBag.PageNumber-1,sortby=@ViewBag.SortBy,sortorder=@ViewBag.SortOrder,search=@ViewBag.BuyerSearch})"><i class="fa fa-angle-left"></i></a>
+                                }
+                            </li>
+
+                            @{
+                                double? TotalPages = ViewBag.TotalPages;
+
+                                for (int i = 1; i <= TotalPages; i++)
+                                {
+                                    if (i == ViewBag.PageNumber)
+                                    {
+                                        <li class="page-item active">
+                                            <a class="page-link">@i<span class="sr-only">(current)</span></a>
+                                        </li>
+                                    }
+                                    else
+                                    {
+                                        <li class="page-item">@Html.ActionLink(i.ToString(), "BuyerRequest", new { page = @ViewBag.PageNumber, sortby = @ViewBag.SortBy, sortorder = @ViewBag.SortOrder, search = @ViewBag.BuyerSearch }, new { @class = "page-link" })</li>
+                                    }
                                 }
                             }
-                        }
-                        <li class="page-item">
-                            @if (ViewBag.PageNumber == TotalPages)
-                            {
-                                <a class="page-item" href="@Url.Action("BuyerRequest",new { page=@ViewBag.PageNumber,sortby=@ViewBag.SortBy,sortorder=@ViewBag.SortOrder})"><i class="fa fa-angle-right"></i></a>
-                            }
-                            else
-                            {
-                                <a class="page-item" href="@Url.Action("BuyerRequest",new { page=@ViewBag.PageNumber+1,sortby=@ViewBag.SortBy,sortorder=@ViewBag.SortOrder})"><i class="fa fa-angle-right"></i></a>
-                            }
-                        </li>
-                    </ul>
-                </nav>
-            </div>
+
+                            <li class="page-item">
+                                @if (ViewBag.PageNumber == TotalPages)
+                                {
+                                    <a class="page-link" href="@Url.Action("BuyerRequest", new { page=@ViewBag.PageNumber,sortby=@ViewBag.SortBy,sortorder=@ViewBag.SortOrder,search=@ViewBag.BuyerSearch})"><i class="fa fa-angle-right"></i></a>
+                                }
+                                else
+                                {
+                                    <a class="page-link" href="@Url.Action("BuyerRequest", new {page=@ViewBag.PageNumber+1,sortby=@ViewBag.SortBy,sortorder=@ViewBag.SortOrder,search=@ViewBag.BuyerSearch})"><i class="fa fa-angle-right"></i></a>
+                                }
+                            </li>
+
+                        </ul>
+                    </nav>
+
+                </div>
+                <!--End Pagination-->
+            }
         </div>
     </div>
 </section>

@@ -13,6 +13,8 @@
     <Property Name="ModifiedBy" Type="Int32" />
     <Property Name="IsActive" Type="Boolean" Nullable="false" />
     <NavigationProperty Name="SellerNotes" Relationship="Self.FK_SellerNotes_Country" FromRole="Countries" ToRole="SellerNotes" />
+    <Property Name="CountryCode" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="CoutryCode1" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
   </EntityType>
   <EntityType Name="Download">
     <Key>

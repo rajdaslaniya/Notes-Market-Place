@@ -1,0 +1,249 @@
+﻿@model NotesMarketPlaces.ViewModels.AdminDashboardViewModel
+@{
+    ViewBag.Title = "Admin - Dashboard";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<!--Blank-->
+<section class="blank"></section>
+<!--End Blank-->
+<!--Dashboard-->
+<section id="dashboard">
+    <div class="container content-box-md">
+        <div class="row">
+            <div class="col-lg-12 col-12 heading" style="margin-bottom: 30px">Dashboard</div>
+        </div>
+        <div class="row">
+            <div class="col-lg-4 col-md-4 col-sm-4 text-center" style="background-clip:padding-box">
+                <div class="dashboard-box">
+                    <div class="dashboard-item">
+                        <a href="published-notes.html"><h3>@Model.NotesReviewPublish</h3></a>
+                        <p>Number of Notes in Review for Pulish</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-4 text-center" style="background-clip:padding-box">
+                <div class="dashboard-box">
+                    <div class="dashboard-item">
+                        <a href="downloads-notes.html"><h3>@Model.NotesDownloads</h3></a>
+                        <p>Number of New Notes Downloaded<br>(Last 7 days)</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-4 text-center" style="background-clip:padding-box">
+                <div class="dashboard-box">
+                    <div class="dashboard-item">
+                        <a href="member-page.html"><h3>@Model.NewRegistration</h3></a>
+                        <p>Number of New Registrations(Last 7 days)</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!--End Dashboard-->
+<!--Dashboard notes-->
+<section id="dashboard-notes">
+    <div class="container">
+        <div class="content-box-md">
+            @using (Html.BeginForm("Dashboard", "Admin", FormMethod.Get))
+            {
+                <div class="row">
+                    <div class="col-lg-5 col-md-5 col-sm-5 sub-heading-1  col-12 my-auto">Published Notes</div>
+                    <div class="col-lg-7 col-md-7 col-sm-7 col-12">
+                        <div class="row search" id="table-search">
+                            <div class="search-bar col-lg-6 col-md-6 col-sm-6 col-6 form-group">
+                                <input type="search" class="form-control" id="search" placeholder="Search" name="dashboardsearch" value="@ViewBag.DashboardSearch">
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-sm-3 col-3 btn-search">
+                                <button class="btn btn-color" title="Search" type="submit">Search</button>
+                            </div>
+                            <div class="col-lg-4 col-md-4 col-sm-3 col-3 form-group search-month">
+                                @Html.DropDownList("monthsearch", new SelectList(@ViewBag.MonthSearch, "Value", "Text"), "Select Month", new { @class = "form-control", @id = "month" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+            <div class="row table-general table-responsive">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Sr no.</th>
+                                <th>@Html.ActionLink("Title", "Dashboard", new { sortorder = ViewBag.SortOrder == null ? "Asc" : (ViewBag.SortOrder == "Asc" ? "Desc" : "Asc"), sortby = "Title" })</th>
+                                <th>@Html.ActionLink("Category", "Dashboard", new { sortorder = ViewBag.SortOrder == null ? "Asc" : (ViewBag.SortOrder == "Asc" ? "Desc" : "Asc"), sortby = "Category" })</th>
+                                <th>Attchment Size</th>
+                                <th class="content-center">@Html.ActionLink("Sell Type", "Dashboard", new { sortorder = ViewBag.SortOrder == null ? "Asc" : (ViewBag.SortOrder == "Asc" ? "Desc" : "Asc"), sortby = "SellType" })</th>
+                                <th>@Html.ActionLink("Price", "Dashboard", new { sortorder = ViewBag.SortOrder == null ? "Asc" : (ViewBag.SortOrder == "Asc" ? "Desc" : "Asc"), sortby = "Price" })</th>
+                                <th>@Html.ActionLink("Publisher", "Dashboard", new { sortorder = ViewBag.SortOrder == null ? "Asc" : (ViewBag.SortOrder == "Asc" ? "Desc" : "Asc"), sortby = "Publisher" })</th>
+                                <th>@Html.ActionLink("Published Date", "Dashboard", new { sortorder = ViewBag.SortOrder == null ? "Asc" : (ViewBag.SortOrder == "Asc" ? "Desc" : "Asc"), sortby = "PublishedDate" })</th>
+                                <th class="content-center">Numbers of Downloads</th>
+                                <th class="content-center"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (Model.PublishedList.Count() == 0)
+                            {
+                                <tr class="content-center">
+                                    <td colspan="10">No Record Found</td>
+                                </tr>
+                            }
+                            else
+                            {
+                                var srno = (ViewBag.PageNumber - 1) * 5;
+                                foreach (var item in Model.PublishedList)
+                                {
+                                    { srno = srno + 1; }
+                                    <tr>
+                                        <td>@srno</td>
+                                        <td>@item.Title</td>
+                                        <td>@item.Category</td>
+                                        <td class="content-center">@item.AttachmentSize @item.FileSizeName</td>
+                                        <td class="content-center">@item.SellType</td>
+                                        @if (item.SellType == "Paid")
+                                        {
+                                            <td>$@item.Price</td>
+                                        }
+                                        else
+                                        {
+                                            <td>$0</td>
+                                        }
+                                        <td>@item.Publisher</td>
+                                        <td>@item.PublishedDate.Value.ToString("dd-MM-yyyy,hh:mm")</td>
+                                        <td class="content-center">@item.NumberOfDownloads</td>
+                                        <td class="content-center">
+                                            <div class="table-images">
+                                                <div class="btn-group dropleft">
+                                                    <button type="button" id="dropdownMenu2" class="btn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                        <img src="~/Image/images/icon/dots.png" alt="menu" class="dots">
+                                                    </button>
+                                                    <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                                                        <a class="dropdown-item" type="button" href="@Url.Action("AdminDownloadNote","Admin",new { noteid=item.NoteID})">Download Note</a>
+                                                        <a class="dropdown-item" type="button" href="@Url.Action("AdminNoteDetails","Admin",new { noteid=item.NoteID})">View Details</a>
+                                                        <a class="dropdown-item" type="button" data-toggle="modal" data-target="#unpublish-@item.NoteID" href="@Url.Action("UnPublish","Admin",new { noteid=item.NoteID})">Unpublish</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <div class="modal fade " id="unpublish-@item.NoteID" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    @using (Html.BeginForm("UnPublish", "AdminNote", FormMethod.Post, new { id = "makenoteunpublish-" + item.NoteID }))
+                                                    {
+                                                        @Html.AntiForgeryToken()
+                                                        <input hidden value="@item.NoteID" name="noteid" />
+                                                        <div>
+                                                            <h5 class="sub-heading">@item.Title</h5>
+                                                        </div>
+                                                        <div>
+
+                                                            <div class="form-group" id="modal-remark">
+                                                                <label for="remark">Remarks *</label>
+                                                                <textarea class="form-control" id="remark" name="Remark" placeholder="remark..." required></textarea>
+                                                            </div>
+
+                                                            <div id="reject-modal-btn">
+                                                                <div class="btn-modal-reject">
+                                                                    <a class="btn" data-toggle="modal" data-target="#confirmation-@item.NoteID" data-dismiss="modal" aria-label="Close">Reject</a>
+                                                                </div>
+                                                                <div class="btn-modal-cancle">
+                                                                    <a class="btn" title="Cancle" role="button" data-dismiss="modal">Cancle</a>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    }
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Section Add Remark END -->
+                                    <!-- Modal Confirmation -->
+                                    <div class="modal fade" id="confirmation-@item.NoteID" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-body" style="margin-top:10px">
+                                                    <div class="text-center">
+                                                        <h5 style="color:black">Are you sure you want to reject seller request?</h5>
+                                                    </div>
+                                                    <div class="text-center">
+                                                        <button class="btn btn-primary" onclick="$('#makenoteunpublish-'+@item.NoteID).submit(); $(this).dialog('close');">Yes</button>
+                                                        <button class="btn btn-default" data-dismiss="modal" aria-label="Close">No</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--End Confirmation-->
+                                }
+                            }
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            @if (Model.PublishedList.Count() != 0)
+            {
+                <!--Pagination-->
+                <div class="row justify-content-center">
+                    <nav aria-label="...">
+                        <ul class="pagination">
+
+                            <li class="page-item">
+                                @if (ViewBag.PageNumber == 1)
+                                {
+                                    <a class="page-link" href="@Url.Action("Dashboard", new { page=@ViewBag.PageNumber,sortby=@ViewBag.SortBy,sortorder=@ViewBag.SortOrder,dashboardsearch=@ViewBag.DashboardSearch})"><i class="fa fa-angle-left"></i></a>
+                                }
+                                else
+                                {
+                                    <a class="page-link" href="@Url.Action("Dashboard", new { page=@ViewBag.PageNumber-1,sortby=@ViewBag.SortBy,sortorder=@ViewBag.SortOrder,dashboardsearch=@ViewBag.DashboardSearch})"><i class="fa fa-angle-left"></i></a>
+                                }
+                            </li>
+
+                            @{
+                                double? TotalPages = ViewBag.TotalPages;
+
+                                for (int i = 1; i <= TotalPages; i++)
+                                {
+                                    if (i == ViewBag.PageNumber)
+                                    {
+                                        <li class="page-item active">
+                                            <a class="page-link">@i<span class="sr-only">(current)</span></a>
+                                        </li>
+                                    }
+                                    else
+                                    {
+                                        <li class="page-item">@Html.ActionLink(i.ToString(), "Dashboard", new { page = @ViewBag.PageNumber, sortby = @ViewBag.SortBy, sortorder = @ViewBag.SortOrder, dashboardsearch = @ViewBag.DashboardSearch }, new { @class = "page-link" })</li>
+                                    }
+                                }
+                            }
+
+                            <li class="page-item">
+                                @if (ViewBag.PageNumber == TotalPages)
+                                {
+                                    <a class="page-link" href="@Url.Action("Dashboard", new { page=@ViewBag.PageNumber,sortby=@ViewBag.SortBy,sortorder=@ViewBag.SortOrder,dashboardsearch=@ViewBag.DashboardSearch})"><i class="fa fa-angle-right"></i></a>
+                                }
+                                else
+                                {
+                                    <a class="page-link" href="@Url.Action("Dashboard", new {page=@ViewBag.PageNumber+1,sortby=@ViewBag.SortBy,sortorder=@ViewBag.SortOrder,dashboardsearch=@ViewBag.DashboardSearch})"><i class="fa fa-angle-right"></i></a>
+                                }
+                            </li>
+
+                        </ul>
+                    </nav>
+                </div>
+                <!--End Pagination-->
+            }
+
+        </div>
+    </div>
+</section>
+<!--End Dashboard Notes-->

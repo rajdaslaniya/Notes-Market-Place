@@ -6,17 +6,22 @@ using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using NotesMarketPlaces.ViewModels;
+using System.Web.Hosting;
+using System.Text;
+using System.Net.Mail;
+using NotesMarketPlaces.Send_Mail;
 
 namespace NotesMarketPlaces.Controllers
 {
     [RoutePrefix("SellYourNotes")]
     public class SellYourNotesController : Controller
     {
-        readonly private NotesMarketPlaceEntities _dbcontext = new NotesMarketPlaceEntities();
+        readonly private NotesMarketPlaceEntities1 _dbcontext = new NotesMarketPlaceEntities1();
 
         // GET: SellYourNotes
         [HttpGet]
-        [Authorize]
+        [Authorize(Roles = "Member")]
         public ActionResult Index(string inprogresssearch, string publishsearch, string sortorder, string sortby, string sortorderpublish, string sortbypublish, int inprogresspage = 1, int publishpage = 1)
         {
             //To Active a navigation bar
@@ -34,47 +39,97 @@ namespace NotesMarketPlaces.Controllers
 
             //To Create a object of SellYour Notes View Model
             SellYourNotesViewModel sellYourNotesView = new SellYourNotesViewModel();
+
             //To check user is Logged in or not
-            User user = _dbcontext.Users.Where(x => x.EmailID == User.Identity.Name).FirstOrDefault();
-            //Check String is null or nor
-            if (string.IsNullOrEmpty(inprogresssearch))
+            var user = _dbcontext.Users.Where(x => x.EmailID == User.Identity.Name).FirstOrDefault();
+
+            //Get ID for note status submitted for review,draft,rejected,published 
+            var submittedreviewid = _dbcontext.ReferenceDatas.Where(x => x.Value.ToLower()== "SubmittedForReview").Select(x=>x.ID).FirstOrDefault();
+            var inreviewid = _dbcontext.ReferenceDatas.Where(x => x.Value.ToLower() == "InReview").Select(x => x.ID).FirstOrDefault();
+            var draftid = _dbcontext.ReferenceDatas.Where(x => x.Value.ToLower() == "Draft").Select(x => x.ID).FirstOrDefault();
+            var rejectedid = _dbcontext.ReferenceDatas.Where(x => x.Value.ToLower() == "Rejected").Select(x => x.ID).FirstOrDefault();
+            var publishedid = _dbcontext.ReferenceDatas.Where(x => x.Value.ToLower() == "Published").Select(x => x.ID).FirstOrDefault();
+
+            //Count Total no. of Downloads a note
+            int download = _dbcontext.Downloads.Where(x => x.CreatedBy == user.ID&&x.IsSellerHasAllowedDownload==true&&x.AttachmentPath!=null).Count();
+
+            //Count a Total no. of Logged in user  rejected note
+            int rejected = _dbcontext.SellerNotes.Where(x => x.SellerID == user.ID && x.Status == rejectedid).Count();
+
+            //Count a Total no. of Logged in user paid note for request
+            int request = _dbcontext.Downloads.Where(x => x.CreatedBy == user.ID && x.IsSellerHasAllowedDownload == false&&x.AttachmentPath==null).Count();
+
+            //Count a Total no. of Sold Notes
+            int soldnotes = _dbcontext.Downloads.Where(x => x.Seller==user.ID && x.AttachmentPath!=null).Count();
+
+            //Total earning of logged in user
+            var totalearning = _dbcontext.Downloads.Where(x => x.Seller == user.ID && x.IsSellerHasAllowedDownload == true && x.AttachmentPath != null).Select(x => x.PurchasedPrice).Sum();
+
+            int earned;
+            if (totalearning != null)
             {
-                sellYourNotesView.InProressNotes = _dbcontext.SellerNotes.Where
-                                                   ( 
-                                                        x => x.SellerID == user.ID && 
-                                                        (x.Status == 6 || x.Status == 7 || x.Status == 8)
-                                                   );
+                earned = (int)totalearning;
             }
             else
+            {
+                earned = 0;
+            }
+
+
+            //Assign a Value of ViewModel
+            sellYourNotesView.MyDownload = download;
+            sellYourNotesView.BuyerRequestNotes = request;
+            sellYourNotesView.MyRejectedNotes = rejected;
+            sellYourNotesView.NumberOfSoldNotes = soldnotes;
+            sellYourNotesView.MoneyEarned = earned;
+
+            //Get InProgressNotes
+            sellYourNotesView.InProressNotes = from note in _dbcontext.SellerNotes
+                                               where ((note.Status ==draftid || note.Status == submittedreviewid || note.Status ==inreviewid )&& note.SellerID == user.ID)
+                                               select new InProgressNote
+                                               {
+                                                   NoteID = note.ID,
+                                                   Title = note.Title,
+                                                   Category = note.NotesCategory.Name,
+                                                   Status=note.ReferenceData.Value,
+                                                   AddedDate=note.CreatedDate.Value
+                                               };
+
+            //Check If String is null or not
+            if (!string.IsNullOrEmpty(inprogresssearch))
             {
                 inprogresssearch = inprogresssearch.ToLower();
-                sellYourNotesView.InProressNotes = _dbcontext.SellerNotes.Where
-                                                    (   
-                                                        x => x.SellerID == user.ID && 
-                                                        (x.Status == 6 || x.Status == 7 || x.Status == 8)
-                                                        && (x.Title.ToLower().Contains(inprogresssearch)) 
-                                                        || (x.NotesCategory.Name.ToLower().Contains(inprogresssearch)) 
-                                                        || (x.ReferenceData.Value.ToLower().Contains(inprogresssearch))
-                                                    );
+                sellYourNotesView.InProressNotes = sellYourNotesView.InProressNotes.Where(x => x.AddedDate.ToString().ToLower().Contains(inprogresssearch)||
+                                                                                          x.Category.ToLower().ToLower().Contains(inprogresssearch)||
+                                                                                          x.Title.ToLower().ToLower().Contains(inprogresssearch)||
+                                                                                          x.Status.ToLower().Contains(inprogresssearch)
+                                                                                          ).ToList();
             }
-            //Check String is null or nor
-            if (string.IsNullOrEmpty(publishsearch))
-            {
-                sellYourNotesView.PublishedNotes = _dbcontext.SellerNotes.Where(x => x.SellerID == user.ID && (x.Status == 9));
-            }
-            else
 
+            sellYourNotesView.PublishedNotes = from note in _dbcontext.SellerNotes
+                                               where note.Status == publishedid && note.SellerID == user.ID
+                                               select new PublishedNote
+                                               {
+                                                   NoteID=note.ID,
+                                                   Title=note.Title,
+                                                   Category=note.NotesCategory.Name,
+                                                   SellType=note.IsPaid==true?"Paid":"False",
+                                                   Price=note.SellingPrice,
+                                                   PublishedDate=note.PublishedDate.Value
+                                               };
+           
+            //Check String is null or nor
+            if (!string.IsNullOrEmpty(publishsearch))
             {
-                publishsearch = publishsearch.ToLower();
-                sellYourNotesView.PublishedNotes = _dbcontext.SellerNotes.Where
-                                                    (
-                                                        x => x.SellerID == user.ID &&
-                                                        (x.Status == 9) &&
-                                                        (x.Title.ToLower().Contains(publishsearch) || 
-                                                        x.NotesCategory.Name.ToLower().Contains(publishsearch) ||
-                                                        x.SellingPrice.ToString().ToLower().Contains(publishsearch))
-                                                    );
+                sellYourNotesView.PublishedNotes = sellYourNotesView.PublishedNotes.Where
+                                                        (
+                                                            x => x.Title.ToLower().Contains(publishsearch) ||
+                                                            x.Category.ToLower().Contains(publishsearch) ||
+                                                            x.Price.ToString().ToLower().Contains(publishsearch)||
+                                                            x.SellType.ToString().Contains(publishsearch)
+                                                        ).ToList();
             }
+            
             //Going for sorting 
             sellYourNotesView.InProressNotes = SortTableDashboard(sortorder, sortby, sellYourNotesView.InProressNotes);
             sellYourNotesView.PublishedNotes = SortTableDashboard(sortorder, sortby, sellYourNotesView.PublishedNotes);
@@ -89,27 +144,27 @@ namespace NotesMarketPlaces.Controllers
             return View(sellYourNotesView);
         }
 
-        private IEnumerable<SellerNote> SortTableDashboard(string sortorder, string sortby, IEnumerable<SellerNote> table)
+        private IEnumerable<PublishedNote> SortTableDashboard(string sortorder, string sortby, IEnumerable<PublishedNote> table)
         {
             switch (sortby)
             {
-                case "CreatedDate":
+                case "PublishedDate":
                     {
                         switch (sortorder)
                         {
                             case "Asc":
                                 {
-                                    table = table.OrderBy(x => x.CreatedDate);
+                                    table = table.OrderBy(x => x.PublishedDate);
                                     return table;
                                 }
                             case "Desc":
                                 {
-                                    table = table.OrderByDescending(x => x.CreatedDate);
+                                    table = table.OrderByDescending(x => x.PublishedDate);
                                     return table;
                                 }
                             default:
                                 {
-                                    table = table.OrderBy(x => x.CreatedDate);
+                                    table = table.OrderBy(x => x.PublishedDate);
                                     return table;
                                 }
                         }
@@ -141,38 +196,38 @@ namespace NotesMarketPlaces.Controllers
                         {
                             case "Asc":
                                 {
-                                    table = table.OrderBy(x => x.NotesCategory.Name);
+                                    table = table.OrderBy(x => x.Category);
                                     return table;
                                 }
                             case "Desc":
                                 {
-                                    table = table.OrderByDescending(x => x.NotesCategory.Name);
+                                    table = table.OrderByDescending(x => x.Category);
                                     return table;
                                 }
                             default:
                                 {
-                                    table = table.OrderBy(x => x.NotesCategory.Name);
+                                    table = table.OrderBy(x => x.Category);
                                     return table;
                                 }
                         }
                     }
-                case "Status":
+                case "SellType":
                     {
                         switch (sortorder)
                         {
                             case "Asc":
                                 {
-                                    table = table.OrderBy(x => x.ReferenceData.Value);
+                                    table = table.OrderBy(x => x.SellType);
                                     return table;
                                 }
                             case "Desc":
                                 {
-                                    table = table.OrderByDescending(x => x.ReferenceData.Value);
+                                    table = table.OrderByDescending(x => x.SellType);
                                     return table;
                                 }
                             default:
                                 {
-                                    table = table.OrderBy(x => x.ReferenceData.Value);
+                                    table = table.OrderBy(x => x.SellType);
                                     return table;
                                 }
                         }
@@ -183,38 +238,17 @@ namespace NotesMarketPlaces.Controllers
                         {
                             case "Asc":
                                 {
-                                    table = table.OrderBy(x => x.SellingPrice);
+                                    table = table.OrderBy(x => x.Price);
                                     return table;
                                 }
                             case "Desc":
                                 {
-                                    table = table.OrderByDescending(x => x.SellingPrice);
+                                    table = table.OrderByDescending(x => x.Price);
                                     return table;
                                 }
                             default:
                                 {
-                                    table = table.OrderBy(x => x.SellingPrice);
-                                    return table;
-                                }
-                        }
-                    }
-                case "SeallType":
-                    {
-                        switch (sortorder)
-                        {
-                            case "Asc":
-                                {
-                                    table = table.OrderBy(x => x.IsPaid);
-                                    return table;
-                                }
-                            case "Desc":
-                                {
-                                    table = table.OrderByDescending(x => x.IsPaid);
-                                    return table;
-                                }
-                            default:
-                                {
-                                    table = table.OrderBy(x => x.IsPaid);
+                                    table = table.OrderBy(x => x.Price);
                                     return table;
                                 }
                         }
@@ -225,17 +259,17 @@ namespace NotesMarketPlaces.Controllers
                         {
                             case "Asc":
                                 {
-                                    table = table.OrderBy(x => x.CreatedDate);
+                                    table = table.OrderBy(x => x.PublishedDate);
                                     return table;
                                 }
                             case "Desc":
                                 {
-                                    table = table.OrderByDescending(x => x.CreatedDate);
+                                    table = table.OrderByDescending(x => x.PublishedDate);
                                     return table;
                                 }
                             default:
                                 {
-                                    table = table.OrderBy(x => x.CreatedDate);
+                                    table = table.OrderBy(x => x.PublishedDate);
                                     return table;
                                 }
                         }
@@ -243,25 +277,162 @@ namespace NotesMarketPlaces.Controllers
             }
         }
 
+        private IEnumerable<InProgressNote> SortTableDashboard(string sortorder, string sortby, IEnumerable<InProgressNote> table)
+        {
+            switch (sortby)
+            {
+                case "CreatedDate":
+                    {
+                        switch (sortorder)
+                        {
+                            case "Asc":
+                                {
+                                    table = table.OrderBy(x => x.AddedDate);
+                                    return table;
+                                }
+                            case "Desc":
+                                {
+                                    table = table.OrderByDescending(x => x.AddedDate);
+                                    return table;
+                                }
+                            default:
+                                {
+                                    table = table.OrderBy(x => x.AddedDate);
+                                    return table;
+                                }
+                        }
+                    }
+                case "Title":
+                    {
+                        switch (sortorder)
+                        {
+                            case "Asc":
+                                {
+                                    table = table.OrderBy(x => x.Title);
+                                    return table;
+                                }
+                            case "Desc":
+                                {
+                                    table = table.OrderByDescending(x => x.Title);
+                                    return table;
+                                }
+                            default:
+                                {
+                                    table = table.OrderBy(x => x.Title);
+                                    return table;
+                                }
+                        }
+                    }
+                case "Category":
+                    {
+                        switch (sortorder)
+                        {
+                            case "Asc":
+                                {
+                                    table = table.OrderBy(x => x.Category);
+                                    return table;
+                                }
+                            case "Desc":
+                                {
+                                    table = table.OrderByDescending(x => x.Category);
+                                    return table;
+                                }
+                            default:
+                                {
+                                    table = table.OrderBy(x => x.Category);
+                                    return table;
+                                }
+                        }
+                    }
+                case "Status":
+                    {
+                        switch (sortorder)
+                        {
+                            case "Asc":
+                                {
+                                    table = table.OrderBy(x => x.Status);
+                                    return table;
+                                }
+                            case "Desc":
+                                {
+                                    table = table.OrderByDescending(x => x.Status);
+                                    return table;
+                                }
+                            default:
+                                {
+                                    table = table.OrderBy(x => x.Status);
+                                    return table;
+                                }
+                        }
+                    }
+                
+                default:
+                    {
+                        switch (sortorder)
+                        {
+                            case "Asc":
+                                {
+                                    table = table.OrderBy(x => x.AddedDate);
+                                    return table;
+                                }
+                            case "Desc":
+                                {
+                                    table = table.OrderByDescending(x => x.AddedDate);
+                                    return table;
+                                }
+                            default:
+                                {
+                                    table = table.OrderBy(x => x.AddedDate);
+                                    return table;
+                                }
+                        }
+                    }
+            }
+        }
 
+        [Authorize(Roles = "Member")]
         [HttpGet]
-        [Route("DeleteDraft")]
+        [Route("DeleteDraft/{id}")]
         public ActionResult DeleteDraft(int id)
         {
             //To find in sellernote with id
             SellerNote note = _dbcontext.SellerNotes.Find(id);
+
+            if (note == null)
+            {
+                return HttpNotFound();
+            }
             //To find Sellernotesattachment with note id
-            SellerNotesAttachement notesAttachement = _dbcontext.SellerNotesAttachements.FirstOrDefault(x => x.NoteID == id);
+            IEnumerable<SellerNotesAttachement> notesAttachement = _dbcontext.SellerNotesAttachements.Where(x => x.NoteID == id&& x.IsActive==true).ToList();
+
+            //if note attachment count is 0
+            if (notesAttachement.Count() == 0)
+            {
+                return HttpNotFound();
+            }
+
+
             string notefolderpath = Server.MapPath("~/Members/" + note.SellerID + "/" + note.ID);
             string notesattachementFolderpath = Server.MapPath("~/Members/" + note.SellerID + "/" + note.ID+"/Attachments");
 
+            //Get directoty info
             DirectoryInfo notefolder = new DirectoryInfo(notefolderpath);
+            DirectoryInfo attachmentfolder = new DirectoryInfo(notesattachementFolderpath);
+
+            //Empty Directory
             EmptyFolder(notefolder);
+            EmptyFolder(attachmentfolder);
+
             //Delete Folder
             Directory.Delete(notefolderpath);
-
+            //Remove a note detail in Sellernotes
             _dbcontext.SellerNotes.Remove(note);
-            _dbcontext.SellerNotesAttachements.Remove(notesAttachement);
+
+            foreach(var item in notesAttachement)
+            {
+                SellerNotesAttachement attachement = _dbcontext.SellerNotesAttachements.Where(x => x.ID == item.ID).FirstOrDefault();
+                _dbcontext.SellerNotesAttachements.Remove(attachement);
+            }
             //Save Changes in Database
             _dbcontext.SaveChanges();
 
@@ -284,16 +455,16 @@ namespace NotesMarketPlaces.Controllers
         }
         // GET: Notes
         [HttpGet]
-        [Authorize]
+        [Authorize(Roles = "Member")]
         [Route("AddNotes")]
         public ActionResult AddNotes()
         {
             //To Add List in View Model
             AddNotesViewModel addNotesViewModel = new AddNotesViewModel
             {
-                NoteCategoryList = _dbcontext.NotesCategories.ToList(),
-                NoteTypeList = _dbcontext.NotesTypes.ToList(),
-                CountryList = _dbcontext.Countries.ToList()
+                NoteCategoryList = _dbcontext.NotesCategories.Where(x=>x.IsActive==true).ToList(),
+                NoteTypeList = _dbcontext.NotesTypes.Where(x=>x.IsActive==true).ToList(),
+                CountryList = _dbcontext.Countries.Where(x=>x.IsActive==true).ToList()
             };
 
             return View(addNotesViewModel);
@@ -301,20 +472,27 @@ namespace NotesMarketPlaces.Controllers
 
         // POST: Notes/AddNotes
         [HttpPost]
-        [Authorize]
+        [Authorize(Roles = "Member")]
         [ValidateAntiForgeryToken]
+        [Route("AddNotes")]
         public ActionResult AddNotes(AddNotesViewModel addnotesviewmodel)
         {
             //To check upload notes field is empty or not
             if (addnotesviewmodel.UploadNotes[0] == null)
             {
                 ModelState.AddModelError("UploadNotes", "This Field is Required");
+                addnotesviewmodel.NoteCategoryList = _dbcontext.NotesCategories.Where(x => x.IsActive == true).ToList();
+                addnotesviewmodel.NoteTypeList = _dbcontext.NotesTypes.Where(x => x.IsActive == true).ToList();
+                addnotesviewmodel.CountryList = _dbcontext.Countries.Where(x => x.IsActive == true).ToList();
                 return View(addnotesviewmodel);
             }
             //If Note type is paid and Note Preview is null or not
             if(addnotesviewmodel.IsPaid==true && addnotesviewmodel.NotesPreview == null)
             {
                 ModelState.AddModelError("NotesPreview", "This is required field");
+                addnotesviewmodel.NoteCategoryList = _dbcontext.NotesCategories.Where(x => x.IsActive == true).ToList();
+                addnotesviewmodel.NoteTypeList = _dbcontext.NotesTypes.Where(x => x.IsActive == true).ToList();
+                addnotesviewmodel.CountryList = _dbcontext.Countries.Where(x => x.IsActive == true).ToList();
                 return View(addnotesviewmodel);
             }
             if (ModelState.IsValid)
@@ -325,7 +503,7 @@ namespace NotesMarketPlaces.Controllers
                 //Add Data in Database
                 sellernotes.SellerID = user.ID;
                 sellernotes.Title = addnotesviewmodel.Title;
-                sellernotes.Status = 6;
+                sellernotes.Status = _dbcontext.ReferenceDatas.Where(x=>x.Value.ToLower()== "Draft").Select(x=>x.ID).FirstOrDefault();
                 sellernotes.Category = addnotesviewmodel.Category;
                 sellernotes.NotesType = addnotesviewmodel.NoteType;
                 sellernotes.NumberofPages = addnotesviewmodel.NumberofPages;
@@ -352,17 +530,11 @@ namespace NotesMarketPlaces.Controllers
                 //Save Changes in Database
                 _dbcontext.SaveChanges();
 
+                //Get Seller note
                 sellernotes = _dbcontext.SellerNotes.Find(sellernotes.ID);
 
-                if (addnotesviewmodel.DisplayPicture == null)
-                {
-                    string displaypicturefilename = "Book-Image.png";
-                    string displaypicturepath = "~/Default Item/";
-                    string displaypicturefilepath = Path.Combine(Server.MapPath(displaypicturepath), displaypicturefilename);
-                    sellernotes.DisplayPicture = displaypicturepath + displaypicturefilename;
-                    addnotesviewmodel.DisplayPicture.SaveAs(displaypicturefilepath);
-                }
-                else
+                //If Display Picture is not null then save  picture into directory and directory path into database
+                if (addnotesviewmodel.DisplayPicture != null)
                 {
                     string displaypicturefilename = System.IO.Path.GetFileName(addnotesviewmodel.DisplayPicture.FileName);
                     string displaypicturepath = "~/Members/" + user.ID + "/" + sellernotes.ID + "/";
@@ -371,7 +543,7 @@ namespace NotesMarketPlaces.Controllers
                     sellernotes.DisplayPicture = displaypicturepath + displaypicturefilename;
                     addnotesviewmodel.DisplayPicture.SaveAs(displaypicturefilepath);
                 }
-
+                //If NotesPreview is not null then save  picture into directory and directory path into database
                 if (addnotesviewmodel.NotesPreview != null)
                 {
                     string notespreviewfilename = System.IO.Path.GetFileName(addnotesviewmodel.NotesPreview.FileName);
@@ -387,12 +559,17 @@ namespace NotesMarketPlaces.Controllers
                 _dbcontext.Entry(sellernotes).Property(x => x.NotesPreview).IsModified = true;
                 _dbcontext.SaveChanges();
 
+
+                //If Uploads Notes is not null then save  picture into directory and directory path into database
                 if (addnotesviewmodel.UploadNotes != null)
                 {
+                    //Attachment if file null or not
                     foreach (HttpPostedFileBase file in addnotesviewmodel.UploadNotes)
                     {
+                        //checked if file is null or not
                         if (file != null)
-                        {
+                        {   
+                            //Save file in directory
                             string notesattachementfilename = System.IO.Path.GetFileName(file.FileName);
                             string notesattachementpath = "~/Members/" + user.ID + "/" + sellernotes.ID + "/Attachements/";
                             CreateDirectoryIfMissing(notesattachementpath);
@@ -416,16 +593,15 @@ namespace NotesMarketPlaces.Controllers
                     }
                 }
                 
-
                 return RedirectToAction("Index", "SellYourNotes");
             }
             else
             {
                 AddNotesViewModel viewModel = new AddNotesViewModel
                 {
-                    NoteCategoryList = _dbcontext.NotesCategories.ToList(),
-                    NoteTypeList = _dbcontext.NotesTypes.ToList(),
-                    CountryList = _dbcontext.Countries.ToList()
+                    NoteCategoryList = _dbcontext.NotesCategories.Where(x=>x.IsActive==true).ToList(),
+                    NoteTypeList = _dbcontext.NotesTypes.Where(x => x.IsActive == true).ToList(),
+                    CountryList = _dbcontext.Countries.Where(x => x.IsActive == true).ToList()
                 };
 
                 return View(viewModel);
@@ -433,16 +609,16 @@ namespace NotesMarketPlaces.Controllers
         }
         // GET: Notes
         [HttpGet]
-        [Authorize]
+        [Authorize(Roles = "Member")]
         [Route("EditNotes")]
         public ActionResult EditNotes(int id)
         {
             //To check user is logged in or not
             User user = _dbcontext.Users.Where(x => x.EmailID == User.Identity.Name).FirstOrDefault();
-            SellerNote note = _dbcontext.SellerNotes.Where(x => x.ID == id).FirstOrDefault();
+            SellerNote note = _dbcontext.SellerNotes.Where(x => x.ID == id &&x.IsActive==true&&x.SellerID==user.ID).FirstOrDefault();
             SellerNotesAttachement sellerNotesAttachement = _dbcontext.SellerNotesAttachements.Where(x => x.NoteID == note.ID).FirstOrDefault();
             //If User and note seller are Same
-            if (user.ID == note.SellerID)
+            if (note!=null)
             {
                 //Create a object to View Model
                 EditNotesViewModel editNotesViewModel = new EditNotesViewModel
@@ -464,9 +640,9 @@ namespace NotesMarketPlaces.Controllers
                     IsPaid = note.IsPaid,
                     SellingPrice = note.SellingPrice,
                     Preview = note.NotesPreview,
-                    NoteCategoryList = _dbcontext.NotesCategories.ToList(),
-                    NoteTypeList = _dbcontext.NotesTypes.ToList(),
-                    CountryList = _dbcontext.Countries.ToList(),
+                    NoteCategoryList = _dbcontext.NotesCategories.Where(x=>x.IsActive==true).ToList(),
+                    NoteTypeList = _dbcontext.NotesTypes.Where(x => x.IsActive == true).ToList(),
+                    CountryList = _dbcontext.Countries.Where(x => x.IsActive == true).ToList(),
                 };
 
                 return View(editNotesViewModel);
@@ -480,7 +656,7 @@ namespace NotesMarketPlaces.Controllers
 
         //Post:/EditNotes
         [HttpPost]
-        [Authorize]
+        [Authorize(Roles = "Member")]
         [Route("EditNotes")]
         public ActionResult EditNotes(int id,EditNotesViewModel editNotesViewModel)
         {
@@ -500,7 +676,8 @@ namespace NotesMarketPlaces.Controllers
                 {
                     return HttpNotFound();
                 }
-                sellernotes.Status = 6;
+                _dbcontext.SellerNotes.Attach(sellernotes);
+                sellernotes.Title = editNotesViewModel.Title;
                 sellernotes.Category = editNotesViewModel.Category;
                 sellernotes.NotesType = editNotesViewModel.NoteType;
                 sellernotes.NumberofPages = editNotesViewModel.NumberofPages;
@@ -510,21 +687,24 @@ namespace NotesMarketPlaces.Controllers
                 sellernotes.Course = editNotesViewModel.Course;
                 sellernotes.CourseCode = editNotesViewModel.CourseCode;
                 sellernotes.Professor = editNotesViewModel.Professor;
-                sellernotes.IsPaid = editNotesViewModel.IsPaid;
-                if (sellernotes.IsPaid)
+                if (sellernotes.IsPaid==true)
                 {
+                    sellernotes.IsPaid =true;
                     sellernotes.SellingPrice = editNotesViewModel.SellingPrice;
                 }
                 else
                 {
+                    sellernotes.IsPaid = false;
                     sellernotes.SellingPrice = 0;
                 }
                 sellernotes.ModifiedDate = DateTime.Now;
                 sellernotes.ModifiedBy = user.ID;
                 _dbcontext.SaveChanges();
 
+                //if display picture is not null
                 if (editNotesViewModel.DisplayPicture != null)
                 {
+                    //if note object has already ppreviously uploaded picture then delete it
                     if (sellernotes.DisplayPicture != null)
                     {
                         string path = Server.MapPath(sellernotes.DisplayPicture);
@@ -542,9 +722,10 @@ namespace NotesMarketPlaces.Controllers
                     sellernotes.DisplayPicture = displaypicturepath + displaypicturefilename;
                     editNotesViewModel.DisplayPicture.SaveAs(displaypicturefilepath);
                 }
-
+                //if note preview is not null
                 if (editNotesViewModel.NotesPreview != null)
                 {
+                    //if note object has already ppreviously uploaded picture then delete it
                     if (sellernotes.NotesPreview != null)
                     {
                         string path = Server.MapPath(sellernotes.NotesPreview);
@@ -570,20 +751,30 @@ namespace NotesMarketPlaces.Controllers
                     string path = Server.MapPath(notesattachment[0].FilePath);
                     DirectoryInfo dir = new DirectoryInfo(path);
                     EmptyFolder(dir);
+
+                    //Remove previously uploaded attachment from database
+                    foreach (var item in notesattachment)
+                    {
+                        SellerNotesAttachement attachement = _dbcontext.SellerNotesAttachements.Where(x => x.ID == item.ID).FirstOrDefault();
+                        _dbcontext.SellerNotesAttachements.Remove(attachement);
+                    }
+                    //Add Newly upload file is null or not
                     foreach(HttpPostedFileBase file in editNotesViewModel.UploadNotes)
                     {
                         if (file != null)
                         {
+                            //Save file in directory
                             string notesattachementfilename = System.IO.Path.GetFileName(file.FileName);
                             string notesattachementpath = "~/Members/" + user.ID + "/" + sellernotes.ID + "/Attachements/";
                             CreateDirectoryIfMissing(notesattachementpath);
-                            string notesattachementfilepath = Path.Combine(Server.MapPath(notesattachementpath),notesattachementfilename);
+                            string notesattachementfilepath = Path.Combine(Server.MapPath(notesattachementpath), notesattachementfilename);
                             file.SaveAs(notesattachementfilepath);
+
                             SellerNotesAttachement sellerNotesAttachement = new SellerNotesAttachement
                             {
                                 NoteID = sellernotes.ID,
                                 FileName = notesattachementfilename,
-                                FilePath = notesattachementfilepath,
+                                FilePath = notesattachementpath,
                                 CreatedDate = DateTime.Now,
                                 CreatedBy = user.ID,
                                 IsActive = true
@@ -594,25 +785,14 @@ namespace NotesMarketPlaces.Controllers
                             _dbcontext.SaveChanges();
                         }
                     }
-                    
-
                 }
-
                 _dbcontext.SaveChanges();
-                _dbcontext.Dispose();
-
                 return RedirectToAction("Index", "SellYourNotes");
             }
             else
             {
-                EditNotesViewModel viewModel = new EditNotesViewModel
-                {
-                    NoteCategoryList = _dbcontext.NotesCategories.ToList(),
-                    NoteTypeList = _dbcontext.NotesTypes.ToList(),
-                    CountryList = _dbcontext.Countries.ToList()
-                };
 
-                return View(viewModel);
+                return RedirectToAction("EditNotes", new { id = editNotesViewModel.ID }); ;
             }
         }
         private void CreateDirectoryIfMissing(string folderpath)
@@ -622,7 +802,7 @@ namespace NotesMarketPlaces.Controllers
                 Directory.CreateDirectory(Server.MapPath(folderpath));
         }
 
-        [Authorize]
+        [Authorize(Roles = "Member")]
         [Route("SellYourNotes/Publish")]
         public ActionResult Publish(int id)
         {
@@ -636,17 +816,51 @@ namespace NotesMarketPlaces.Controllers
             //User Id find in database
             var user = _dbcontext.Users.Where(x => x.EmailID == User.Identity.Name).FirstOrDefault();
 
+            //Seller full name
+            string sellrname = user.FirstName + " " + user.LastName;
+            //Send Email address
+            string email = user.EmailID;
+            
             //Note Seller and user is Same
             if (note.SellerID == user.ID)
             {
                 _dbcontext.SellerNotes.Attach(note);
-                note.Status = 9;
+                note.Status = 7;
                 note.PublishedDate = DateTime.Now;
                 note.ModifiedDate = DateTime.Now;
                 note.ModifiedBy = user.ID;
                 _dbcontext.SaveChanges();
+                PublishedNote(note.Title,email, sellrname);
             }
             return RedirectToAction("Index", "SellYourNotes");
+        }
+
+        public void PublishedNote(string note,string email, string sellername)
+        {
+            string body = System.IO.File.ReadAllText(HostingEnvironment.MapPath("~/EmailTemplates/") + "PublishNote" + ".cshtml");
+            body = body.Replace("ViewBag.SellerName", sellername);
+            body = body.Replace("ViewBag.NoteTitle", note);
+            body = body.ToString();
+            //get support email
+            var fromemail = _dbcontext.SystemConfigurations.Where(x => x.Key == "SupportEmail").FirstOrDefault();
+
+            //Set from to subject ,body
+            string from, to, subject;
+            from = fromemail.Value.Trim();
+            to = email.Trim();
+            subject = sellername + " sent this note for review";
+            StringBuilder sb = new StringBuilder();
+            sb.Append(body);
+            body = sb.ToString();
+
+            //create a mailmessage object
+            MailMessage mail = new MailMessage();
+            mail.From = new MailAddress(from, "NotesMarketPlace");
+            mail.To.Add(new MailAddress(to));
+            mail.Subject = subject;
+            mail.Body = body;
+            mail.IsBodyHtml = true;
+            SendingMail.SendEmail(mail);
         }
     }
 }

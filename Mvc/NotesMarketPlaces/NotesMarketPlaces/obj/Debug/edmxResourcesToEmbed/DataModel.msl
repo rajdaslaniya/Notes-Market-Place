@@ -4,9 +4,9 @@
     <EntitySetMapping Name="Countries">
       <EntityTypeMapping TypeName="NotesMarketPlaceModel.Country">
         <MappingFragment StoreEntitySet="Countries">
+          <ScalarProperty Name="CoutryCode1" ColumnName="CoutryCode" />
           <ScalarProperty Name="ID" ColumnName="ID" />
           <ScalarProperty Name="Name" ColumnName="Name" />
-          <ScalarProperty Name="CoutryCode" ColumnName="CoutryCode" />
           <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
           <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
           <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />

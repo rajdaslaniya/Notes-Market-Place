@@ -6,7 +6,7 @@
     <title>@ViewBag.Title</title>
     
     <!-- Icon set in title -->
-    <link rel="shortcut icon" href="~/Front Image/images/Favicon/favicon.ico">
+    <link rel="shortcut icon" href="~/Image/images/Favicon/favicon.ico">
 
     <!--Link With font -->
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans
@@ -34,14 +34,14 @@
 <body>
     <!--Navigation-->
     <header>
-        <nav class="navbar navbar-expand-lg navbar-fixed-height fixed-top @ViewBag.Navigation">
+        <nav class="navbar navbar-expand-lg navbar-fixed-height fixed-top white-navbar">
             <div class="container">
                 <div class="row">
 
                     <!-- Logo -->
                     <div class="navbar-header col-lg-3 col-10">
                         <a class="navbar-brand text-left" href="@Url.Action("Index","Home")">
-                            <img src="~/Front Image/images/Logo/dark-logo.png" alt="logo">
+                            <img src="~/Image/images/Logo/dark-logo.png" alt="logo">
                         </a>
                     </div>
 
@@ -51,32 +51,44 @@
                         <span class="mobile-nav-open-btn">&#9776;</span>
                     </button>
 
-
+                    @{
+                        var _dbcontext = new NotesMarketPlaces.Models.NotesMarketPlaceEntities1();
+                    }
                     <div class="collapse navbar-collapse col-lg-9" id="navbarSupportedContent">
                         <ul class="navbar-nav ml-auto">
-                            <li class="nav-item"><a class="nav-link @ViewBag.SearchNotes" href="@Url.Action("SearchNotes","Home")">Search Notes</a></li>
+                            <li class="nav-item"><a class="nav-link @ViewBag.SearchNotes" href="@Url.Action("SearchNotes","Notes")">Search Notes</a></li>
                             <li class="nav-item"><a class="nav-link @ViewBag.SellYourNotes" href="@Url.Action("Index","SellYourNotes")">Sell Your Notes</a></li>
                             <li class="nav-item"><a class="nav-link @ViewBag.BuyerRequest" href="@Url.Action("BuyerRequest","BuyerRequest")">Buyer Request</a></li>
                             <li class="nav-item"><a class="nav-link @ViewBag.FAQ" href="@Url.Action("FAQ","Home")">FAQ</a></li>
                             <li class="nav-item"><a class="nav-link @ViewBag.ContactUs" href="@Url.Action("ContactUs","Home")">Contact Us</a></li>
                             @if (User.Identity.IsAuthenticated)
                             {
+                                var user = _dbcontext.Users.Where(x => x.EmailID == User.Identity.Name).FirstOrDefault();
+                                var profile = _dbcontext.UserProfiles.Where(x => x.UserID == user.ID).FirstOrDefault();
                                 <li class="nav-item profile-dropdown">
                                     <a class="nav-link" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        <img src="~/Front Image/images/User-Profile/reviewer-1.png" class="rounded-circle">
+                                        @if (profile == null)
+                                        {
+                                            <img src="~/DefaultItem/Reviewer-Image.png" class="rounded-circle" />
+                                        }
+                                        else
+                                        {
+                                            <img src="@Url.Content(profile.ProfilePicture)" class="rounded-circle">
+                                        }
                                     </a>
                                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                        <a class="dropdown-item" href="user-profile.html">My Profile</a>
+                                        <a class="dropdown-item @ViewBag.MyProfile" href="@Url.Action("MyProfile","Users")">My Profile</a>
                                         <a class="dropdown-item @ViewBag.MyDownloads" href="@Url.Action("MyDownloads","Users")">My Downloads</a>
-                                        <a class="dropdown-item" href="my sold notes.html">My Sold Notes</a>
-                                        <a class="dropdown-item" href="my rejected notes.html">My Rejected Notes</a>
-                                        <a class="dropdown-item" href="change-password.html">Change Password</a>
-                                        <a class="dropdown-item logout" href="#">Logout</a>
+                                        <a class="dropdown-item @ViewBag.MySoldNotes" href="@Url.Action("MySoldNotes","Users")">My Sold Notes</a>
+                                        <a class="dropdown-item @ViewBag.RejectedNotes" href="@Url.Action("MyRejectedNotes","Users")">My Rejected Notes</a>
+                                        <a class="dropdown-item @ViewBag.ChangePassword" href="@Url.Action("ChangePassword","Account")">Change Password</a>
+                                        <a class="dropdown-item logout" href="@Url.Action("Logout","Account")">Logout</a>
                                     </div>
                                 </li>
                                 <li class="nav-item"><a class="nav-link" href="@Url.Action("Logout","Account")">Logout</a></li>
                             }
-                            else{ 
+                            else
+                            {
                                 <li class="nav-item"><a class="nav-link" href="@Url.Action("Login","Account")">Login</a></li>
                             }
                         </ul>
@@ -120,7 +132,7 @@
     <script src="~/Scripts/Front/js/bootstrap/bootstrap.min.js"></script>
 
     <!--Home Js-->
-    <script src="@ViewBag.Js"></script>
+    <script src="~/Scripts/Front/js/script.js"></script>
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")

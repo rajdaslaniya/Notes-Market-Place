@@ -1,0 +1,149 @@
+﻿@model IEnumerable<NotesMarketPlaces.ViewModels.MySoldNotesViewModel>
+@{
+    ViewBag.Title = "My Sold Notes";
+    ViewBag.MySoldNotes = "active";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!--Blank-->
+<section class="blank">
+</section>
+<!--End Blank-->
+<!--My Sold-->
+<section id="my-sold">
+    <div class="container">
+        <div class="content-box-md">
+            @using (Html.BeginForm("MySoldNotes", "Users", FormMethod.Get))
+            {
+                <div class="row">
+                    <div class="col-lg-7 col-md-7 col-sm-5 col-12 heading  my-auto">My Sold Notes</div>
+                    <div class="col-lg-5 col-md-5 col-sm-7 col-12">
+                        <div class="row search" id="table-search">
+                            <div class="search-bar col-lg-9 col-md-9 col-sm-9 col-9 form-group">
+                                <input type="search" name="mysoldnotessearch" value="@ViewBag.MySoldNotesSearch" class="form-control" id="search" placeholder="Search">
+                            </div>
+                            <div class="col-lg-3  col-md-3 col-sm-3 col-3 btn-search">
+                                <button class="btn btn-color" title="Search">Search</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+            <div class="row table-general table-responsive">
+                <div class="col-lg-12">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Sr no.</th>
+                                <th>@Html.ActionLink("Note Title", "MySoldNotes", new { sortorder = ViewBag.SortOrder == null ? "Asc" : (ViewBag.SortOrder == "Asc" ? "Desc" : "Asc"), sortby = "NoteTitle" })</th>
+                                <th>@Html.ActionLink("Note Category", "MySoldNotes", new { sortorder = ViewBag.SortOrder == null ? "Asc" : (ViewBag.SortOrder == "Asc" ? "Desc" : "Asc"), sortby = "NoteCategory" })</th>
+                                <th>@Html.ActionLink("Buyer", "MySoldNotes", new { sortorder = ViewBag.SortOrder == null ? "Asc" : (ViewBag.SortOrder == "Asc" ? "Desc" : "Asc"), sortby = "Buyer" })</th>
+                                <th>@Html.ActionLink("Sell type", "MySoldNotes", new { sortorder = ViewBag.SortOrder == null ? "Asc" : (ViewBag.SortOrder == "Asc" ? "Desc" : "Asc"), sortby = "SellType" })</th>
+                                <th>@Html.ActionLink("Price", "MySoldNotes", new { sortorder = ViewBag.SortOrder == null ? "Asc" : (ViewBag.SortOrder == "Asc" ? "Desc" : "Asc"), sortby = "NotePrice" })</th>
+                                <th>@Html.ActionLink("Download Date/Time", "MySoldNotes", new { sortorder = ViewBag.SortOrder == null ? "Asc" : (ViewBag.SortOrder == "Asc" ? "Desc" : "Asc"), sortby = "DowloadDate" })</th>
+                                <th class="content-center"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (Model.Count() == 0)
+                            {
+                                <tr class="content-center">
+                                    <td colspan="8">No Record found</td>
+                                </tr>
+                            }
+                            else
+                            {
+                                var srno = (ViewBag.PageNumber - 1) * 10;
+                                foreach (var item in Model)
+                                {
+                                    { srno = srno + 1; }
+                                    <tr>
+                                        <td>@srno</td>
+                                        <td>@item.NoteTitle</td>
+                                        <td>@item.Category</td>
+                                        <td>@item.Buyer</td>
+                                        <td>@item.SellType</td>
+                                        @if (@item.SellType == "Paid")
+                                        {
+                                            <td>$@item.Price</td>
+                                        }
+                                        else
+                                        {
+                                            <td>0</td>
+                                        }
+                                        <td>@item.DownloadedDate.Value.ToString("dd MMM yyyy, hh:mm:ss")</td>
+                                        <td class="content-center">
+                                            <div class="table-images">
+                                                <a href="@Url.Action("Details","Notes",new { id=@item.NoteID})"><img src="~/Image/images/Dashboard/eye.png" alt="view" class="eye"></a>
+                                                <div class="btn-group dropleft">
+                                                    <button type="button" id="dropdownMenu2" class="btn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                        <img src="~/Image/images/icon/dots.png" alt="menu" class="dots">
+                                                    </button>
+                                                    <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                                                        <a class="dropdown-item" type="button" href="@Url.Action("DownloadNote","Notes",new { noteid=@item.NoteID})">Download Note</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            @if (Model.Count() != 0)
+            {
+                <!--Pagination-->
+                <div class="row justify-content-center">
+                    <nav aria-label="...">
+                        <ul class="pagination">
+
+                            <li class="page-item">
+                                @if (ViewBag.PageNumber == 1)
+                                {
+                                    <a class="page-link" href="@Url.Action("MySoldNotes", new { page=@ViewBag.PageNumber,sortby=@ViewBag.SortBy,sortorder=@ViewBag.SortOrder,mysoldnotessearch=@ViewBag.MySoldNotesSearch})"><i class="fa fa-angle-left"></i></a>
+                                }
+                                else
+                                {
+                                    <a class="page-link" href="@Url.Action("MySoldNotes", new {  page=@ViewBag.PageNumber-1,sortby=@ViewBag.SortBy,sortorder=@ViewBag.SortOrder,mysoldnotessearch=@ViewBag.MySoldNotesSearch})"><i class="fa fa-angle-left"></i></a>
+                                }
+                            </li>
+
+                            @{
+                                double? TotalPages = ViewBag.TotalPages;
+
+                                for (int i = 1; i <= TotalPages; i++)
+                                {
+                                    if (i == ViewBag.PageNumber)
+                                    {
+                                        <li class="page-item active">
+                                            <a class="page-link">@i<span class="sr-only">(current)</span></a>
+                                        </li>
+                                    }
+                                    else
+                                    {
+                                        <li class="page-item">@Html.ActionLink(i.ToString(), "MySoldNotes", new { pagenumber = @ViewBag.PageNumber, sortby = @ViewBag.SortBy, sortorder = @ViewBag.SortOrder, mysoldnotessearch = @ViewBag.MySoldNotesSearch }, new { @class = "page-link" })</li>
+                                    }
+                                }
+                            }
+
+                            <li class="page-item">
+                                @if (ViewBag.PageNumber == TotalPages)
+                                {
+                                    <a class="page-link" href="@Url.Action("MySoldNotes", new { pagenumber=@ViewBag.PageNumber,sortby=@ViewBag.SortBy,sortorder=@ViewBag.SortOrder,mysoldnotessearch=@ViewBag.MySoldNotesSearch})"><i class="fa fa-angle-right"></i></a>
+                                }
+                                else
+                                {
+                                    <a class="page-link" href="@Url.Action("MySoldNotes", new {pagenumber=@ViewBag.PageNumber+1,sortby=@ViewBag.SortBy,sortorder=@ViewBag.SortOrder,mysoldnotessearch=@ViewBag.MySoldNotesSearch})"><i class="fa fa-angle-right"></i></a>
+                                }
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+                <!--End Pagination-->
+            }
+        </div>
+    </div>
+</section>
+<!--End My Sold-->
