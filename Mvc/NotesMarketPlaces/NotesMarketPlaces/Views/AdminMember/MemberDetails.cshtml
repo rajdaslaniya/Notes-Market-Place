@@ -1,0 +1,318 @@
+﻿@model NotesMarketPlaces.ViewModels.MemberDetailsViewModel
+@{
+    ViewBag.Title = "MemberDetails";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    var _dbContext = new NotesMarketPlaces.Models.NotesMarketPlaceEntities1();
+    var defaultImage = _dbContext.SystemConfigurations.Where(x => x.Key == "defaultprofile").FirstOrDefault();
+}
+<!--Blank-->
+<section class="blank"></section>
+<!--End Blank-->
+<!--Member Details-->
+<section id="member-details">
+    <div class="content-box-lg">
+        <div class="container">
+            <div class="row">
+                <div class="heading col-lg-12 col-md-12">Member Details</div>
+            </div>
+            <div class="row" style="background-clip:padding-box">
+                <div class="col-lg-3 col-md-3 col-sm-4 col-12 image1">
+                    @if (Model.DisplayImage == null)
+                    {
+                        <img src="@Url.Content(defaultImage.Value)" alt="Photo">
+                    }
+                    else
+                    {
+                        <img src="@Url.Content(Model.DisplayImage)" alt="Photo">
+                    }
+                </div>
+                <div class="col-lg-9 col-md-9 col-sm-8 col-12">
+                    <div class="row">
+                        <div class="col-lg-6 col-md-7 col-sm-6 col-6">
+                            <div class="row second">
+                                <div class="col-lg-12 col-md-12 col-sm-12">
+                                    <div class="row">
+                                        <div class="col-lg-5">
+                                            <p class="first">First Name:</p>
+                                        </div>
+                                        <div class="col-lg-7">
+                                            <p class="last">@Model.FirstName</p>
+                                        </div>
+
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-5">
+                                            <p class="first">Last Name:</p>
+                                        </div>
+
+                                        <div class="col-lg-7">
+                                            <p class="last">@Model.LastName</p>
+                                        </div>
+
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-5">
+                                            <p class="first">Email:</p>
+                                        </div>
+                                        <div class="col-lg-7">
+                                            <p class="last">@Model.Email</p>
+                                        </div>
+
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-5">
+                                            <p class="first">DOB:</p>
+                                        </div>
+
+                                        <div class="col-lg-7">
+                                            @if (Model.DOB == null)
+                                            {
+                                                <p class="last">NA</p>
+                                            }
+                                            else
+                                            {
+                                                <p class="last">@Model.DOB.Value.ToString("dd-MM-yyyy")</p>
+                                            }
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-5">
+                                            <p class="first">Phone Number:</p>
+                                        </div>
+
+                                        <div class="col-lg-7">
+                                            <p class="last">@Model.PhoneNumber</p>
+                                        </div>
+
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-5">
+                                            <p class="first">College/University:</p>
+                                        </div>
+
+                                        <div class="col-lg-7">
+                                            @if (Model.College == null)
+                                            {
+                                                <p class="last">University of</p>
+                                            }
+                                            else
+                                            {
+                                                <p class="last">University of @Model.College</p>
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-5 col-sm-6 col-6">
+                            <div class="row" style="background-clip:padding-box;padding-left: 10px;">
+                                <div class="col-lg-12 col-md-12 col-sm-12">
+                                    <div class="row">
+                                        <div class="col-lg-5"><p class="first">Address 1:</p></div>
+
+                                        <div class="col-lg-7"><p class="last">@Model.Address1</p></div>
+
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-5"><p class="first">Address 2:</p></div>
+
+                                        <div class="col-lg-7"><p class="last">@Model.Address2</p></div>
+
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-5"><p class="first">City:</p></div>
+
+                                        <div class="col-lg-7"><p class="last">@Model.City</p></div>
+
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-lg-5"><p class="first">State:</p></div>
+
+                                        <div class="col-lg-7"><p class="last">@Model.State</p></div>
+
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-5"><p class="first">Country:</p></div>
+
+                                        <div class="col-lg-7"><p class="last">@Model.Country</p></div>
+
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-5">
+                                            <p class="first">Zip Code:</p>
+                                        </div>
+
+                                        <div class="col-lg-7">
+                                            <p class="last">@Model.ZipCode</p>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <hr>
+            <div class="row">
+                <div class="sub-heading-2 col-lg-12 col-md-12">Notes</div>
+            </div>
+            <div class="row table-general table-responsive">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Sr no.</th>
+                                <th>@Html.ActionLink("Note Title", "MemberDetails", new { sortorder = ViewBag.SortOrder == null ? "Asc" : (ViewBag.SortOrder == "Asc" ? "Desc" : "Asc"), sortby = "NoteTitle" })</th>
+                                <th>@Html.ActionLink("Category", "MemberDetails", new { sortorder = ViewBag.SortOrder == null ? "Asc" : (ViewBag.SortOrder == "Asc" ? "Desc" : "Asc"), sortby = "Category" })</th>
+                                <th>@Html.ActionLink("Status", "MemberDetails", new { sortorder = ViewBag.SortOrder == null ? "Asc" : (ViewBag.SortOrder == "Asc" ? "Desc" : "Asc"), sortby = "Status" })</th>
+                                <th class="content-center">@Html.ActionLink("Downloaded Notes", "MemberDetails", new { sortorder = ViewBag.SortOrder == null ? "Asc" : (ViewBag.SortOrder == "Asc" ? "Desc" : "Asc"), sortby = "DownloadNotes" })</th>
+                                <th class="content-center">@Html.ActionLink("Total Earning", "MemberDetails", new { sortorder = ViewBag.SortOrder == null ? "Asc" : (ViewBag.SortOrder == "Asc" ? "Desc" : "Asc"), sortby = "TotalEarning" })</th>
+                                <th>@Html.ActionLink("Date Added", "MemberDetails", new { sortorder = ViewBag.SortOrder == null ? "Asc" : (ViewBag.SortOrder == "Asc" ? "Desc" : "Asc"), sortby = "DateAdded" })</th>
+                                <th>@Html.ActionLink("Published Date", "MemberDetails", new { sortorder = ViewBag.SortOrder == null ? "Asc" : (ViewBag.SortOrder == "Asc" ? "Desc" : "Asc"), sortby = "PublishDate" })</th>
+                                <th class="content-center"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (Model.Note.Count() == 0)
+                            {
+                                <tr class="content-center">
+                                    <td colspan="9">No Record Found</td>
+                                </tr>
+                            }
+                            else
+                            {
+                                var srno = (ViewBag.PageNumber - 1) * 5;
+                                foreach (var item in Model.Note)
+                                {
+                                    { srno = srno + 1; }
+                                    <tr>
+                                        <th scope="row">@srno</th>
+                                        <td>@item.NoteTitle</td>
+                                        <td>@item.Category</td>
+                                        <td>@item.Status</td>
+                                        <td class="content-center">@item.DownloadedNotes</td>
+                                        @if (item.TotalEarning == null)
+                                        {
+                                            <td class="content-center">$0</td>
+                                        }
+                                        else
+                                        {
+                                            <td class="content-center">$@item.TotalEarning</td>
+                                        }
+                                        <td>@item.DateAdded.Value.ToString("dd-MM-yyyy,hh:mm")</td>
+                                        @if (item.PublishedDate == null)
+                                        {
+                                            <td>NA</td>
+                                        }
+                                        else
+                                        {
+                                            <td>@item.PublishedDate.Value.ToString("dd-MM-yyyy,hh:mm")</td>
+
+                                        }
+                                        <td class="content-center">
+                                            <div class="table-images">
+                                                <div class="btn-group dropleft">
+                                                    <button type="button" id="dropdownMenu2" class="btn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                        <img src="~/Image/images/icon/dots.png" alt="menu" class="dots">
+                                                    </button>
+                                                    <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                                                        <a class="dropdown-item" type="button" href="@Url.Action("AdminDownloadNote","Admin",new { noteid=item.NoteID})">Download Note</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                }
+
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!--End Member Details-->
+@if (Model.Note.Count() != 0)
+{
+    <div class="row justify-content-center">
+
+        <nav aria-label="...">
+            <ul class="pagination flex-wrap">
+
+                <li class="page-item">
+                    @if (ViewBag.PageNumber == 1)
+                    {
+                        <a class="page-link" href="@Url.Action("MemberDetails", new { sortby=@ViewBag.SortBy,sortorder=@ViewBag.SortOrder,  page = ViewBag.PageNumber })"><i class="fa fa-angle-left"></i></a>
+                    }
+                    else
+                    {
+                        <a class="page-link" href="@Url.Action("MemberDetails", new {  note = ViewBag.Note, sortby=@ViewBag.SortBy,sortorder=@ViewBag.SortOrder,  page = @ViewBag.PageNumber - 1 })"><i class="fa fa-angle-left"></i></a>
+                    }
+                </li>
+
+                @{
+                    double? TotalPages = ViewBag.TotalPages;
+
+                    if (ViewBag.PageNumber != 1 && ViewBag.PageNumber - 2 > 1)
+                    {
+                        int page = Convert.ToInt32(@ViewBag.PageNumber) - 3;
+                        <li class="page-item">@Html.ActionLink("1", "MemberDetails", new {  sortby = @ViewBag.SortBy, sortorder = @ViewBag.SortOrder, page = 1 }, new { @class = "page-link" })</li>
+                        if (page != 1)
+                        {
+                            <li class="page-item more-pages-dots">@Html.ActionLink("...", "MemberDetails", new {  sortby = @ViewBag.SortBy, sortorder = @ViewBag.SortOrder,  page = page }, new { @class = "page-link more-pages-dots" })</li>
+                        }
+                    }
+
+                    for (int i = 2; i > 0; i--)
+                    {
+                        if (ViewBag.PageNumber - i > 0)
+                        {
+                            int page = Convert.ToInt32(@ViewBag.PageNumber) - i;
+                            <li class="page-item">@Html.ActionLink(page.ToString(), "MemberDetails", new { sortby = @ViewBag.SortBy, sortorder = @ViewBag.SortOrder,  page = page }, new { @class = "page-link" })</li>
+                        }
+                    }
+
+                    <li class="page-item active">
+                        <a class="page-link">@ViewBag.PageNumber<span class="sr-only">(current)</span></a>
+                    </li>
+
+                    for (int i = 1; i < 3; i++)
+                    {
+                        if (ViewBag.PageNumber + i <= TotalPages)
+                        {
+                            int page = Convert.ToInt32(@ViewBag.PageNumber) + i;
+                            <li class="page-item">@Html.ActionLink(page.ToString(), "MemberDetails", new { sortby = @ViewBag.SortBy, sortorder = @ViewBag.SortOrder, page = page }, new { @class = "page-link" })</li>
+                        }
+                    }
+
+                    if (ViewBag.PageNumber != TotalPages && ViewBag.PageNumber + 2 < TotalPages)
+                    {
+                        int page = Convert.ToInt32(@ViewBag.PageNumber) + 3;
+                        if (page != TotalPages)
+                        {
+                            <li class="page-item">@Html.ActionLink("...", "MemberDetails", new {  sortby = @ViewBag.SortBy, sortorder = @ViewBag.SortOrder, page = page }, new { @class = "page-link more-pages-dots" })</li>
+                        }
+                        <li class="page-item">@Html.ActionLink(TotalPages.ToString(), "MemberDetails", new {  sortby = @ViewBag.SortBy, sortorder = @ViewBag.SortOrder,  page = TotalPages }, new { @class = "page-link" })</li>
+                    }
+
+                }
+
+                <li class="page-item">
+                    @if (ViewBag.PageNumber == ViewBag.TotalPages)
+                    {
+                        <a class="page-link" href="@Url.Action("MemberDetails", new { sortby=@ViewBag.SortBy,sortorder=@ViewBag.SortOrder,  page = @ViewBag.PageNumber })"><i class="fa fa-angle-right"></i></a>
+                    }
+                    else
+                    {
+                        <a class="page-link" href="@Url.Action("MemberDetails", new { sortby=@ViewBag.SortBy,sortorder=@ViewBag.SortOrder, page = @ViewBag.PageNumber + 1 })"><i class="fa fa-angle-right"></i></a>
+                    }
+                </li>
+
+            </ul>
+        </nav>
+
+    </div>
+}

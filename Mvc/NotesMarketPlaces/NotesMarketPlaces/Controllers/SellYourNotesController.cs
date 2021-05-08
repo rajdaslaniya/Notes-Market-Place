@@ -10,11 +10,11 @@ using NotesMarketPlaces.ViewModels;
 using System.Web.Hosting;
 using System.Text;
 using System.Net.Mail;
-using NotesMarketPlaces.Send_Mail;
+using NotesMarketPlaces.SendMail;
 
 namespace NotesMarketPlaces.Controllers
 {
-    [RoutePrefix("SellYourNotes")]
+    [OutputCache(Duration = 0)]
     public class SellYourNotesController : Controller
     {
         readonly private NotesMarketPlaceEntities1 _dbcontext = new NotesMarketPlaceEntities1();
@@ -22,6 +22,7 @@ namespace NotesMarketPlaces.Controllers
         // GET: SellYourNotes
         [HttpGet]
         [Authorize(Roles = "Member")]
+        [Route("SellYourNotes")]
         public ActionResult Index(string inprogresssearch, string publishsearch, string sortorder, string sortby, string sortorderpublish, string sortbypublish, int inprogresspage = 1, int publishpage = 1)
         {
             //To Active a navigation bar
@@ -99,7 +100,7 @@ namespace NotesMarketPlaces.Controllers
             if (!string.IsNullOrEmpty(inprogresssearch))
             {
                 inprogresssearch = inprogresssearch.ToLower();
-                sellYourNotesView.InProressNotes = sellYourNotesView.InProressNotes.Where(x => x.AddedDate.ToString().ToLower().Contains(inprogresssearch)||
+                sellYourNotesView.InProressNotes = sellYourNotesView.InProressNotes.Where(x => x.AddedDate.Value.ToString("dd-MM-yyyy").ToLower().Contains(inprogresssearch)||
                                                                                           x.Category.ToLower().ToLower().Contains(inprogresssearch)||
                                                                                           x.Title.ToLower().ToLower().Contains(inprogresssearch)||
                                                                                           x.Status.ToLower().Contains(inprogresssearch)
@@ -126,7 +127,8 @@ namespace NotesMarketPlaces.Controllers
                                                             x => x.Title.ToLower().Contains(publishsearch) ||
                                                             x.Category.ToLower().Contains(publishsearch) ||
                                                             x.Price.ToString().ToLower().Contains(publishsearch)||
-                                                            x.SellType.ToString().Contains(publishsearch)
+                                                            x.SellType.ToString().Contains(publishsearch)||
+                                                            x.PublishedDate.Value.ToString("dd-MM-yyyy").Contains(publishsearch)
                                                         ).ToList();
             }
             
@@ -135,8 +137,8 @@ namespace NotesMarketPlaces.Controllers
             sellYourNotesView.PublishedNotes = SortTableDashboard(sortorder, sortby, sellYourNotesView.PublishedNotes);
 
             //Total Page Count
-            ViewBag.TotalPageInProgress = Math.Ceiling(sellYourNotesView.InProressNotes.Count() / 5.0);
-            ViewBag.TotalPagePublish = Math.Ceiling(sellYourNotesView.PublishedNotes.Count() / 5.0);
+            ViewBag.TotalPagesInProgress = Math.Ceiling(sellYourNotesView.InProressNotes.Count() / 5.0);
+            ViewBag.TotalPagesPublish = Math.Ceiling(sellYourNotesView.PublishedNotes.Count() / 5.0);
 
             //Going to next number
             sellYourNotesView.InProressNotes = sellYourNotesView.InProressNotes.Skip((inprogresspage - 1) * 5).Take(5);
@@ -818,8 +820,6 @@ namespace NotesMarketPlaces.Controllers
 
             //Seller full name
             string sellrname = user.FirstName + " " + user.LastName;
-            //Send Email address
-            string email = user.EmailID;
             
             //Note Seller and user is Same
             if (note.SellerID == user.ID)
@@ -830,12 +830,12 @@ namespace NotesMarketPlaces.Controllers
                 note.ModifiedDate = DateTime.Now;
                 note.ModifiedBy = user.ID;
                 _dbcontext.SaveChanges();
-                PublishedNote(note.Title,email, sellrname);
+                PublishedNote(note.Title, sellrname);
             }
             return RedirectToAction("Index", "SellYourNotes");
         }
 
-        public void PublishedNote(string note,string email, string sellername)
+        public void PublishedNote(string note, string sellername)
         {
             string body = System.IO.File.ReadAllText(HostingEnvironment.MapPath("~/EmailTemplates/") + "PublishNote" + ".cshtml");
             body = body.Replace("ViewBag.SellerName", sellername);
@@ -843,11 +843,12 @@ namespace NotesMarketPlaces.Controllers
             body = body.ToString();
             //get support email
             var fromemail = _dbcontext.SystemConfigurations.Where(x => x.Key == "SupportEmail").FirstOrDefault();
+            var toemail = _dbcontext.SystemConfigurations.Where(x => x.Key == "notifyemail").FirstOrDefault();
 
             //Set from to subject ,body
             string from, to, subject;
             from = fromemail.Value.Trim();
-            to = email.Trim();
+            to = toemail.Value.Trim();
             subject = sellername + " sent this note for review";
             StringBuilder sb = new StringBuilder();
             sb.Append(body);

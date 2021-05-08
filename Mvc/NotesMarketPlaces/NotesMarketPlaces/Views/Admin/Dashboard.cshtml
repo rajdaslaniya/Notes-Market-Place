@@ -17,7 +17,7 @@
             <div class="col-lg-4 col-md-4 col-sm-4 text-center" style="background-clip:padding-box">
                 <div class="dashboard-box">
                     <div class="dashboard-item">
-                        <a href="published-notes.html"><h3>@Model.NotesReviewPublish</h3></a>
+                        <a href="@Url.Action("NotesUnderReview","AdminNote")"><h3>@Model.NotesReviewPublish</h3></a>
                         <p>Number of Notes in Review for Pulish</p>
                     </div>
                 </div>
@@ -25,7 +25,7 @@
             <div class="col-lg-4 col-md-4 col-sm-4 text-center" style="background-clip:padding-box">
                 <div class="dashboard-box">
                     <div class="dashboard-item">
-                        <a href="downloads-notes.html"><h3>@Model.NotesDownloads</h3></a>
+                        <a href="@Url.Action("AdminDownload","AdminNote")"><h3>@Model.NotesDownloads</h3></a>
                         <p>Number of New Notes Downloaded<br>(Last 7 days)</p>
                     </div>
                 </div>
@@ -33,7 +33,7 @@
             <div class="col-lg-4 col-md-4 col-sm-4 text-center" style="background-clip:padding-box">
                 <div class="dashboard-box">
                     <div class="dashboard-item">
-                        <a href="member-page.html"><h3>@Model.NewRegistration</h3></a>
+                        <a href="@Url.Action("Member","AdminMember")"><h3>@Model.NewRegistration</h3></a>
                         <p>Number of New Registrations(Last 7 days)</p>
                     </div>
                 </div>
@@ -59,7 +59,7 @@
                                 <button class="btn btn-color" title="Search" type="submit">Search</button>
                             </div>
                             <div class="col-lg-4 col-md-4 col-sm-3 col-3 form-group search-month">
-                                @Html.DropDownList("monthsearch", new SelectList(@ViewBag.MonthSearch, "Value", "Text"), "Select Month", new { @class = "form-control", @id = "month" })
+                                @Html.DropDownList("monthsearch", new SelectList(@ViewBag.MonthSearch, "Value", "Text",ViewBag.Month), "Select Month", new { @class = "form-control", @id = "dashboard-month" })
                             </div>
                         </div>
                     </div>
@@ -73,12 +73,12 @@
                                 <th>Sr no.</th>
                                 <th>@Html.ActionLink("Title", "Dashboard", new { sortorder = ViewBag.SortOrder == null ? "Asc" : (ViewBag.SortOrder == "Asc" ? "Desc" : "Asc"), sortby = "Title" })</th>
                                 <th>@Html.ActionLink("Category", "Dashboard", new { sortorder = ViewBag.SortOrder == null ? "Asc" : (ViewBag.SortOrder == "Asc" ? "Desc" : "Asc"), sortby = "Category" })</th>
-                                <th>Attchment Size</th>
+                                <th>@Html.ActionLink("Attchment Size", "Dashboard", new { sortorder = ViewBag.SortOrder == null ? "Asc" : (ViewBag.SortOrder == "Asc" ? "Desc" : "Asc"), sortby = "AttchmentSize" })</th>
                                 <th class="content-center">@Html.ActionLink("Sell Type", "Dashboard", new { sortorder = ViewBag.SortOrder == null ? "Asc" : (ViewBag.SortOrder == "Asc" ? "Desc" : "Asc"), sortby = "SellType" })</th>
                                 <th>@Html.ActionLink("Price", "Dashboard", new { sortorder = ViewBag.SortOrder == null ? "Asc" : (ViewBag.SortOrder == "Asc" ? "Desc" : "Asc"), sortby = "Price" })</th>
                                 <th>@Html.ActionLink("Publisher", "Dashboard", new { sortorder = ViewBag.SortOrder == null ? "Asc" : (ViewBag.SortOrder == "Asc" ? "Desc" : "Asc"), sortby = "Publisher" })</th>
                                 <th>@Html.ActionLink("Published Date", "Dashboard", new { sortorder = ViewBag.SortOrder == null ? "Asc" : (ViewBag.SortOrder == "Asc" ? "Desc" : "Asc"), sortby = "PublishedDate" })</th>
-                                <th class="content-center">Numbers of Downloads</th>
+                                <th class="content-center">@Html.ActionLink("Numbers of Downloads", "Dashboard", new { sortorder = ViewBag.SortOrder == null ? "Asc" : (ViewBag.SortOrder == "Asc" ? "Desc" : "Asc"), sortby = "NumberDownloads" })</th>
                                 <th class="content-center"></th>
                             </tr>
                         </thead>
@@ -99,7 +99,7 @@
                                         <td>@srno</td>
                                         <td>@item.Title</td>
                                         <td>@item.Category</td>
-                                        <td class="content-center">@item.AttachmentSize @item.FileSizeName</td>
+                                        <td class="content-center">@item.FileSizeName</td>
                                         <td class="content-center">@item.SellType</td>
                                         @if (item.SellType == "Paid")
                                         {
@@ -189,60 +189,87 @@
                     </table>
                 </div>
             </div>
-
             @if (Model.PublishedList.Count() != 0)
             {
-                <!--Pagination-->
                 <div class="row justify-content-center">
+
                     <nav aria-label="...">
-                        <ul class="pagination">
+                        <ul class="pagination flex-wrap">
 
                             <li class="page-item">
                                 @if (ViewBag.PageNumber == 1)
                                 {
-                                    <a class="page-link" href="@Url.Action("Dashboard", new { page=@ViewBag.PageNumber,sortby=@ViewBag.SortBy,sortorder=@ViewBag.SortOrder,dashboardsearch=@ViewBag.DashboardSearch})"><i class="fa fa-angle-left"></i></a>
+                                    <a class="page-link" href="@Url.Action("Dashboard", new { monthsearch = ViewBag.Month, sortby=@ViewBag.SortBy,sortorder=@ViewBag.SortOrder,dashboardsearch=@ViewBag.DashboardSearch, page = ViewBag.PageNumber })"><i class="fa fa-angle-left"></i></a>
                                 }
                                 else
                                 {
-                                    <a class="page-link" href="@Url.Action("Dashboard", new { page=@ViewBag.PageNumber-1,sortby=@ViewBag.SortBy,sortorder=@ViewBag.SortOrder,dashboardsearch=@ViewBag.DashboardSearch})"><i class="fa fa-angle-left"></i></a>
+                                    <a class="page-link" href="@Url.Action("Dashboard", new { monthsearch = ViewBag.Month, note = ViewBag.Note, sortby=@ViewBag.SortBy,sortorder=@ViewBag.SortOrder, dashboardsearch=@ViewBag.DashboardSearch, page = @ViewBag.PageNumber - 1 })"><i class="fa fa-angle-left"></i></a>
                                 }
                             </li>
 
                             @{
                                 double? TotalPages = ViewBag.TotalPages;
 
-                                for (int i = 1; i <= TotalPages; i++)
+                                if (ViewBag.PageNumber != 1 && ViewBag.PageNumber - 2 > 1)
                                 {
-                                    if (i == ViewBag.PageNumber)
+                                    int page = Convert.ToInt32(@ViewBag.PageNumber) - 3;
+                                    <li class="page-item">@Html.ActionLink("1", "Dashboard", new { monthsearch = ViewBag.Month, note = ViewBag.Note, sortby = @ViewBag.SortBy, sortorder = @ViewBag.SortOrder, dashboardsearch = @ViewBag.DashboardSearch, page = 1 }, new { @class = "page-link" })</li>
+                                    if (page != 1)
                                     {
-                                        <li class="page-item active">
-                                            <a class="page-link">@i<span class="sr-only">(current)</span></a>
-                                        </li>
-                                    }
-                                    else
-                                    {
-                                        <li class="page-item">@Html.ActionLink(i.ToString(), "Dashboard", new { page = @ViewBag.PageNumber, sortby = @ViewBag.SortBy, sortorder = @ViewBag.SortOrder, dashboardsearch = @ViewBag.DashboardSearch }, new { @class = "page-link" })</li>
+                                        <li class="page-item more-pages-dots">@Html.ActionLink("...", "Dashboard", new { monthsearch = ViewBag.Month, sortby = @ViewBag.SortBy, sortorder = @ViewBag.SortOrder, dashboardsearch = @ViewBag.DashboardSearch,  page = page }, new { @class = "page-link more-pages-dots" })</li>
                                     }
                                 }
+
+                                for (int i = 2; i > 0; i--)
+                                {
+                                    if (ViewBag.PageNumber - i > 0)
+                                    {
+                                        int page = Convert.ToInt32(@ViewBag.PageNumber) - i;
+                                        <li class="page-item">@Html.ActionLink(page.ToString(), "Dashboard", new { monthsearch = ViewBag.Month, sortby = @ViewBag.SortBy, sortorder = @ViewBag.SortOrder, dashboardsearch = @ViewBag.DashboardSearch, page = page }, new { @class = "page-link" })</li>
+                                    }
+                                }
+
+                                <li class="page-item active">
+                                    <a class="page-link">@ViewBag.PageNumber<span class="sr-only">(current)</span></a>
+                                </li>
+
+                                for (int i = 1; i < 3; i++)
+                                {
+                                    if (ViewBag.PageNumber + i <= TotalPages)
+                                    {
+                                        int page = Convert.ToInt32(@ViewBag.PageNumber) + i;
+                                        <li class="page-item">@Html.ActionLink(page.ToString(), "Dashboard", new { monthsearch = ViewBag.Month, sortby = @ViewBag.SortBy, sortorder = @ViewBag.SortOrder, dashboardsearch = @ViewBag.DashboardSearch,  page = page }, new { @class = "page-link" })</li>
+                                    }
+                                }
+
+                                if (ViewBag.PageNumber != TotalPages && ViewBag.PageNumber + 2 < TotalPages)
+                                {
+                                    int page = Convert.ToInt32(@ViewBag.PageNumber) + 3;
+                                    if (page != TotalPages)
+                                    {
+                                        <li class="page-item">@Html.ActionLink("...", "Dashboard", new { monthsearch = ViewBag.Month, sortby = @ViewBag.SortBy, sortorder = @ViewBag.SortOrder, dashboardsearch = @ViewBag.DashboardSearch, page = page }, new { @class = "page-link more-pages-dots" })</li>
+                                    }
+                                    <li class="page-item">@Html.ActionLink(TotalPages.ToString(), "Dashboard", new { monthsearch = ViewBag.Month, sortby = @ViewBag.SortBy, sortorder = @ViewBag.SortOrder, dashboardsearch = @ViewBag.DashboardSearch, page = TotalPages }, new { @class = "page-link" })</li>
+                                }
+
                             }
 
                             <li class="page-item">
-                                @if (ViewBag.PageNumber == TotalPages)
+                                @if (ViewBag.PageNumber == ViewBag.TotalPages)
                                 {
-                                    <a class="page-link" href="@Url.Action("Dashboard", new { page=@ViewBag.PageNumber,sortby=@ViewBag.SortBy,sortorder=@ViewBag.SortOrder,dashboardsearch=@ViewBag.DashboardSearch})"><i class="fa fa-angle-right"></i></a>
+                                    <a class="page-link" href="@Url.Action("Dashboard", new { monthsearch = ViewBag.Month, sortby=@ViewBag.SortBy,sortorder=@ViewBag.SortOrder, dashboardsearch=@ViewBag.DashboardSearch, page = @ViewBag.PageNumber })"><i class="fa fa-angle-right"></i></a>
                                 }
                                 else
                                 {
-                                    <a class="page-link" href="@Url.Action("Dashboard", new {page=@ViewBag.PageNumber+1,sortby=@ViewBag.SortBy,sortorder=@ViewBag.SortOrder,dashboardsearch=@ViewBag.DashboardSearch})"><i class="fa fa-angle-right"></i></a>
+                                    <a class="page-link" href="@Url.Action("Dashboard", new { monthsearch = ViewBag.Month,sortby=@ViewBag.SortBy,sortorder=@ViewBag.SortOrder, dashboardsearch=@ViewBag.DashboardSearch,  page = @ViewBag.PageNumber + 1 })"><i class="fa fa-angle-right"></i></a>
                                 }
                             </li>
 
                         </ul>
                     </nav>
-                </div>
-                <!--End Pagination-->
-            }
 
+                </div>
+            }
         </div>
     </div>
 </section>

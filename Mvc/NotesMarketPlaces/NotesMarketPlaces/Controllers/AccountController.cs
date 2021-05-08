@@ -5,7 +5,7 @@ using System.Net.Mail;
 using System.Text;
 using System.Web.Hosting;
 using System.Web.Security;
-using NotesMarketPlaces.Send_Mail;
+using NotesMarketPlaces.SendMail;
 using NotesMarketPlaces.Models;
 using NotesMarketPlaces.ViewModels;
 using System.Web;
@@ -21,6 +21,7 @@ namespace NotesMarketPlaces.Controllers
         //Get : Account/SignUp
         [HttpGet]
         [Route("SignUp")]
+        [AllowAnonymous]
         public ActionResult SignUp()
         {
             return View();
@@ -29,7 +30,8 @@ namespace NotesMarketPlaces.Controllers
         //Post : Account/SignUp
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Route("Signup")]
+        [Route("SignUp")]
+        [AllowAnonymous]
         public ActionResult SignUp(SignUpViewModal suvm)
         {
             if (ModelState.IsValid)
@@ -43,6 +45,7 @@ namespace NotesMarketPlaces.Controllers
                 }
                 else
                 {
+                    
                     //Create user and Save data in Database
                     User user = new User {
                         FirstName = suvm.FirstName.ToString(),
@@ -51,8 +54,7 @@ namespace NotesMarketPlaces.Controllers
                         Password = suvm.ConfirmPassword,
                         EmailID = suvm.EmailID,
                         CreatedDate = DateTime.Now,
-                        IsActive = true,
-                        CreatedBy = 1
+                        IsActive = true
                     };
 
                     //Add Object in database
@@ -116,8 +118,8 @@ namespace NotesMarketPlaces.Controllers
             var url = "https://localhost:44379/" + "Account/VerifyEmail?key=" + user.ID+"&value"+date;
 
             //Replace url and first Name
-            body = body.Replace("@ViewBag.ConfirmationLink", url);
-            body = body.Replace("@ViewBag.FirstName", user.FirstName);
+            body = body.Replace("ViewBag.ConfirmationLink", url);
+            body = body.Replace("ViewBag.FirstName", user.FirstName);
             body = body.ToString();
             
             //Get Support Email
@@ -264,7 +266,7 @@ namespace NotesMarketPlaces.Controllers
 
         [HttpGet]
         [Route("ForgotPassword")]
-        [Authorize(Roles = "SuperAdmin,Admin,Member")]
+        [AllowAnonymous]
         public ActionResult ForgotPassword()
         {
             
@@ -272,9 +274,8 @@ namespace NotesMarketPlaces.Controllers
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
         [Route("ForgotPassword")]
-        [Authorize(Roles = "SuperAdmin,Admin,Member")]
+        [AllowAnonymous]
         public ActionResult ForgotPassword(ForgotViewModel forgotViewModel)
         {
             if (ModelState.IsValid)
@@ -334,8 +335,8 @@ namespace NotesMarketPlaces.Controllers
         {
             string body = System.IO.File.ReadAllText(HostingEnvironment.MapPath("~/EmailTemplates/") + "TemporaryPassword" + ".cshtml");
             
-            body = body.Replace("@ViewBag.FirstName", user.FirstName);
-            body = body.Replace("@ViewBag.Password",user.Password);
+            body = body.Replace("ViewBag.FirstName", user.FirstName);
+            body = body.Replace("ViewBag.Password",user.Password);
             body = body.ToString();
 
             //Get Support Email ID

@@ -2,6 +2,8 @@
 @{
     ViewBag.Title = "Admin - Note Details";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    var _dbContext = new NotesMarketPlaces.Models.NotesMarketPlaceEntities1();
+    var defaultImage = _dbContext.SystemConfigurations.Where(x => x.Key == "defaultnote").FirstOrDefault();
 }
 
 <!--Blank-->
@@ -24,7 +26,7 @@
                             @if (Model.sellerNote.DisplayPicture == null)
                             {
                                 <div class="images">
-                                    <img src="~/DefaultItem/Book-Image.png">
+                                    <img src="@Url.Content(defaultImage.Value)" alt="book" />
                                 </div>
                             }
                             else

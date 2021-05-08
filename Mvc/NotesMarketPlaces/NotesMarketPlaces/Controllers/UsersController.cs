@@ -1,5 +1,5 @@
 ﻿using NotesMarketPlaces.Models;
-using NotesMarketPlaces.Send_Mail;
+using NotesMarketPlaces.SendMail;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -231,7 +231,7 @@ namespace NotesMarketPlaces.Controllers
                                                                                                 Category=download.NoteCategory,
                                                                                                 DownloadDate=download.AttachmentDownloadedDate,
                                                                                                 Price=(int)download.PurchasedPrice,
-                                                                                                SellType=download.IsPaid == true ? "Paid" : "False",
+                                                                                                SellType=download.IsPaid == true ? "Paid" : "Free",
                                                                                                 ReviewID=notereview.ID,
                                                                                                 Ratings=(int)notereview.Rating,
                                                                                                 Comments=notereview.Comments,
@@ -244,7 +244,9 @@ namespace NotesMarketPlaces.Controllers
                 myDownloads = myDownloads.Where(x => x.Title.ToLower().Contains(mydownloadsearch)||
                                                 x.Category.ToLower().Contains(mydownloadsearch)||
                                                 x.Buyer.ToLower().Contains(mydownloadsearch)||
-                                                x.Price.ToString().ToLower().Contains(mydownloadsearch));
+                                                x.Price.ToString().ToLower().Contains(mydownloadsearch)||
+                                                x.SellType.Contains(mydownloadsearch)||
+                                                x.DownloadDate.Value.ToString("dd MMM yyyy,hh:mm:ss").Contains(mydownloadsearch));
             }
 
             //Sorting and searching 
@@ -417,6 +419,7 @@ namespace NotesMarketPlaces.Controllers
         [HttpPost]
         [Authorize(Roles = "Member")]
         [ValidateAntiForgeryToken]
+        [Route("Note/AddReview")]
         public ActionResult AddReview(FormCollection form)
         {
             //Check comment is null or not
@@ -471,6 +474,7 @@ namespace NotesMarketPlaces.Controllers
         
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Member")]
+        [Route("Note/SpamReports")]
         public ActionResult SpamReports(FormCollection form)
         {
             int DownloadID = Convert.ToInt32(form["downloadid"].ToString());
@@ -512,19 +516,20 @@ namespace NotesMarketPlaces.Controllers
             string body = System.IO.File.ReadAllText(HostingEnvironment.MapPath("~/EmailTemplates/") + "spamRecords" + ".cshtml");
 
             //SellerName Replace in Template
-            body = body.Replace("@ViewBag.SellerName", seller.FirstName+" "+seller.LastName);
+            body = body.Replace("ViewBag.SellerName", seller.FirstName+" "+seller.LastName);
             //Buyer Name Replace in Template
-            body = body.Replace("@ViewBag.MemberName", membername);
+            body = body.Replace("ViewBag.MemberName", membername);
             //Notes title Replace in Template
-            body = body.Replace("@ViewBag.NoteTitle", notes.Title);
+            body = body.Replace("ViewBag.NoteTitle", notes.Title);
             body = body.ToString();
             //Get Support Email
             var fromemail = _dbcontext.SystemConfigurations.Where(x => x.Key == "SupportEmail").FirstOrDefault();
+            var toemail = _dbcontext.SystemConfigurations.Where(x => x.Key == "SupportEmail").FirstOrDefault();
             //Mail From 
             string from, subject, to;
             from = fromemail.Value.Trim();
             subject = membername + "Reported an issue for"+notes.Title;
-            to = seller.EmailID.Trim();
+            to = toemail.Value.Trim();
 
             StringBuilder sb = new StringBuilder();
             sb.Append(body);
@@ -544,12 +549,12 @@ namespace NotesMarketPlaces.Controllers
         [Authorize(Roles = "Member")]
         [HttpGet]
         [Route("SoldNotes")]
-        public ActionResult MySoldNotes(string mysoldnotessearch, string sortby, string sortorder, int pagenumber = 1)
+        public ActionResult MySoldNotes(string mysoldnotessearch, string sortby, string sortorder, int page = 1)
         {
             
             //Assigning A vaue of viewbag
             ViewBag.MySoldNotesSearch = mysoldnotessearch;
-            ViewBag.PageNumber = pagenumber;
+            ViewBag.PageNumber = page;
             ViewBag.SortOrder = sortorder;
             ViewBag.SortBy = sortby;
 
@@ -580,7 +585,8 @@ namespace NotesMarketPlaces.Controllers
                                                 x.Category.ToLower().Contains(mysoldnotessearch) ||
                                                 x.Buyer.ToLower().Contains(mysoldnotessearch) ||
                                                 x.Price.ToString().ToLower().Contains(mysoldnotessearch)||
-                                                x.SellType.ToLower().Contains(mysoldnotessearch));
+                                                x.SellType.ToLower().Contains(mysoldnotessearch)||
+                                                x.DownloadedDate.Value.ToString("dd MMM yyyy,hh:mm:ss").Contains(mysoldnotessearch));
             }
 
             //Sorting and searching 
@@ -591,7 +597,7 @@ namespace NotesMarketPlaces.Controllers
             ViewBag.TotalPages = Math.Ceiling((mysoldnotes.Count()) / 10.0);
 
             //Skip a next or Previous
-            mysoldnotes = mysoldnotes.Skip((pagenumber - 1) * 10).Take(10);
+            mysoldnotes = mysoldnotes.Skip((page - 1) * 10).Take(10);
 
             return View(mysoldnotes); 
         }

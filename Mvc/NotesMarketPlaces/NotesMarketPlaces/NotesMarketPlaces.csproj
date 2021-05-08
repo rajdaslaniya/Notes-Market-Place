@@ -148,21 +148,25 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\AdminAccountController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\AdminNoteController.cs" />
+    <Compile Include="Controllers\AdminReportsController.cs" />
+    <Compile Include="Controllers\AdminSettingsController.cs" />
     <Compile Include="Controllers\BuyerRequestController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\AdminMemberController.cs" />
     <Compile Include="Controllers\NotesController.cs" />
     <Compile Include="Controllers\SellYourNotesController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
     <Compile Include="Models\Country.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Download.cs">
       <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Global.asax.cs">
-      <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\Model1.Context.cs">
       <AutoGen>True</AutoGen>
@@ -179,26 +183,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Model1.edmx</DependentUpon>
     </Compile>
-    <Compile Include="Models\UserRoleProvider.cs" />
-    <Compile Include="ViewModels\AddNotesViewModel.cs" />
-    <Compile Include="ViewModels\AdminDashboardViewModel.cs" />
-    <Compile Include="ViewModels\AdminDownloadViewModel.cs" />
-    <Compile Include="ViewModels\AdminNoteDetailsViewModel.cs" />
-    <Compile Include="ViewModels\AdminRejectedNotesViewModel.cs" />
-    <Compile Include="ViewModels\BuyerRequestViewModel.cs" />
-    <Compile Include="ViewModels\ChangePasswordViewModel.cs" />
-    <Compile Include="ViewModels\ContactUsViewModel.cs" />
-    <Compile Include="ViewModels\DetailsViewModel.cs" />
-    <Compile Include="ViewModels\DownloadNotesViewModel.cs" />
-    <Compile Include="ViewModels\EditNotesViewModel.cs" />
-    <Compile Include="ViewModels\ForgotViewModel.cs" />
-    <Compile Include="ViewModels\LoginViewModel.cs" />
-    <Compile Include="ViewModels\MyDownloadsViewModel.cs" />
-    <Compile Include="ViewModels\MyProfileViewModel.cs" />
-    <Compile Include="ViewModels\MySoldNotesViewModel.cs" />
-    <Compile Include="ViewModels\PublishedNotesViewModel.cs" />
-    <Compile Include="ViewModels\SearchNotesViewModel.cs" />
-    <Compile Include="ViewModels\SellYourNotesViewModel.cs" />
     <Compile Include="Models\NotesCategory.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -220,9 +204,6 @@
     <Compile Include="Models\SellerNotesReview.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="SendMail\SendingMail.cs" />
-    <Compile Include="ViewModels\SignUpViewModal.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Models\SystemConfiguration.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -235,7 +216,43 @@
     <Compile Include="Models\UserRole.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\UserRoleProvider.cs" />
+    <Compile Include="ViewModels\AddAdministrativeViewModel.cs" />
+    <Compile Include="ViewModels\AddCategoryViewModel.cs" />
+    <Compile Include="ViewModels\AddCountryViewModel.cs" />
+    <Compile Include="ViewModels\AddNotesViewModel.cs" />
+    <Compile Include="ViewModels\AddTypesViewModel.cs" />
+    <Compile Include="ViewModels\AdminDashboardViewModel.cs" />
+    <Compile Include="ViewModels\AdminDownloadViewModel.cs" />
+    <Compile Include="ViewModels\AdminNoteDetailsViewModel.cs" />
+    <Compile Include="ViewModels\AdminRejectedNotesViewModel.cs" />
+    <Compile Include="ViewModels\AdminSpamRecordsViewModel.cs" />
+    <Compile Include="ViewModels\BuyerRequestViewModel.cs" />
+    <Compile Include="ViewModels\ChangePasswordViewModel.cs" />
+    <Compile Include="ViewModels\ContactUsViewModel.cs" />
+    <Compile Include="ViewModels\DetailsViewModel.cs" />
+    <Compile Include="ViewModels\DownloadNotesViewModel.cs" />
+    <Compile Include="ViewModels\EditNotesViewModel.cs" />
+    <Compile Include="ViewModels\ForgotViewModel.cs" />
+    <Compile Include="ViewModels\LoginViewModel.cs" />
+    <Compile Include="ViewModels\ManageAdministratorViewModel.cs" />
+    <Compile Include="ViewModels\ManageCategoryViewModel.cs" />
+    <Compile Include="ViewModels\ManageCountryViewModel.cs" />
+    <Compile Include="ViewModels\ManageSystemViewModel.cs" />
+    <Compile Include="ViewModels\ManageTypesViewModel.cs" />
+    <Compile Include="ViewModels\MemberDetailsViewModel.cs" />
+    <Compile Include="ViewModels\MemberViewModel.cs" />
+    <Compile Include="ViewModels\MyDownloadsViewModel.cs" />
+    <Compile Include="ViewModels\MyProfileViewModel.cs" />
+    <Compile Include="ViewModels\MySoldNotesViewModel.cs" />
+    <Compile Include="ViewModels\PublishedNotesViewModel.cs" />
+    <Compile Include="ViewModels\SearchNotesViewModel.cs" />
+    <Compile Include="ViewModels\SellYourNotesViewModel.cs" />
+    <Compile Include="SendMail\SendingMail.cs" />
+    <Compile Include="ViewModels\SignUpViewModal.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\UnderReviewViewModel.cs" />
+    <Compile Include="ViewModels\UpdateAdminProfileViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\Admin\css\animate\animate.css" />
@@ -263,10 +280,6 @@
     <Content Include="Content\Front\css\geneal.css" />
     <Content Include="Content\Front\css\responsive.css" />
     <Content Include="Content\Front\css\style.css" />
-    <Content Include="DefaultItem\Book-Image.png" />
-    <Content Include="DefaultItem\Customer-Image.png" />
-    <Content Include="DefaultItem\Reviewer-Image.png" />
-    <Content Include="DefaultItem\Display-Picture.png" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Image\images\Add-notes\arrow-down.svg" />
@@ -365,7 +378,6 @@
     <Content Include="EmailTemplates\TemporaryPassword.cshtml" />
     <Content Include="EmailTemplates\ContactUs.cshtml" />
     <Content Include="EmailTemplates\BuyerRequest.cshtml" />
-    <Content Include="DefaultItem\sample.pdf" />
     <Content Include="EmailTemplates\AllowDownload.cshtml" />
     <EntityDeploy Include="Models\Model1.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
@@ -437,6 +449,23 @@
     <Content Include="Views\AdminNote\PublishedNote.cshtml" />
     <Content Include="Views\AdminNote\AdminDownload.cshtml" />
     <Content Include="Views\AdminNote\AdminRejected.cshtml" />
+    <Content Include="Views\AdminMember\Member.cshtml" />
+    <Content Include="Views\AdminMember\MemberDetails.cshtml" />
+    <Content Include="Views\AdminAccount\UpdateProfile.cshtml" />
+    <Content Include="Views\AdminSettings\ManageAdministrator.cshtml" />
+    <Content Include="Views\AdminSettings\AddAdmin.cshtml" />
+    <Content Include="Views\AdminSettings\EditAdmin.cshtml" />
+    <Content Include="Views\AdminSettings\ManageCountry.cshtml" />
+    <Content Include="Views\AdminSettings\AddCountry.cshtml" />
+    <Content Include="Views\AdminSettings\EditCountry.cshtml" />
+    <Content Include="Views\AdminSettings\EditTypes.cshtml" />
+    <Content Include="Views\AdminSettings\AddTypes.cshtml" />
+    <Content Include="Views\AdminSettings\ManageTypes.cshtml" />
+    <Content Include="Views\AdminSettings\EditCategory.cshtml" />
+    <Content Include="Views\AdminSettings\AddCategory.cshtml" />
+    <Content Include="Views\AdminSettings\ManageCategory.cshtml" />
+    <Content Include="Views\AdminReports\SpamReports.cshtml" />
+    <Content Include="Views\AdminSettings\ManageSystem.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

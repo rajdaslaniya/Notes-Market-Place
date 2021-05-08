@@ -10,11 +10,12 @@ using System.Web;
 using System.Web.Hosting;
 using System.Web.Mvc;
 using NotesMarketPlaces.Models;
-using NotesMarketPlaces.Send_Mail;
+using NotesMarketPlaces.SendMail;
 using NotesMarketPlaces.ViewModels;
 
 namespace NotesMarketPlaces.Controllers
 {
+    [OutputCache(Duration = 0)]
     [RoutePrefix("Admin")]
     public class AdminController : Controller
     {
@@ -22,6 +23,7 @@ namespace NotesMarketPlaces.Controllers
 
         [Authorize(Roles = "SuperAdmin,Admin")]
         [HttpGet]
+        [Route("Dashboard")]
         public ActionResult Dashboard(string dashboardsearch,string monthsearch, string sortorder, string sortby, int page = 1)
         {
             ViewBag.Dashboard = "active";
@@ -30,7 +32,7 @@ namespace NotesMarketPlaces.Controllers
             ViewBag.SoryBy = sortby;
             ViewBag.SortOrder = sortorder;
             ViewBag.PageNumber = page;
-
+            ViewBag.Month = monthsearch;
             //Find a user is logged in or not
             var users = _dbContext.Users.Where(x => x.EmailID == User.Identity.Name && x.RoleID==1 ||x.RoleID==2).FirstOrDefault();
 
@@ -78,20 +80,20 @@ namespace NotesMarketPlaces.Controllers
                     notedetail.NoteID = item.ID;
                     notedetail.Price = item.SellingPrice;
                     notedetail.Publisher = publisher.FirstName +" "+ publisher.LastName;
-                    notedetail.SellType = item.IsPaid==true?"Paid":"False";
+                    notedetail.SellType = item.IsPaid==true?"Paid":"Free";
                     notedetail.Category = item.NotesCategory.Name;
                     notedetail.PublishedDate = item.PublishedDate;
                     notedetail.NumberOfDownloads = downloadNotes;
                     //Check Size of file
                     if ((filesize/1024) > 1024)
                     {
-                        notedetail.AttachmentSize = (int)filesize/(1024*1024);
-                        notedetail.FileSizeName = "MB";
+                         var AttachmentSize = (int)filesize/(1024*1024);
+                        notedetail.FileSizeName = AttachmentSize+" "+"MB";
                     }
                     else
                     {
-                        notedetail.AttachmentSize = (int)filesize/1024;
-                        notedetail.FileSizeName = "Kb";
+                        var AttachmentSize = (int)filesize/1024;
+                        notedetail.FileSizeName = AttachmentSize+" "+"Kb";
                     }
                     //Add A item in list
                     notelist.Add(notedetail);
@@ -123,7 +125,9 @@ namespace NotesMarketPlaces.Controllers
                                                                        x.SellType.ToLower().Contains(dashboardsearch) ||
                                                                        x.Price.ToString().ToLower().Contains(dashboardsearch)||
                                                                        x.Publisher.ToLower().Contains(dashboardsearch)||
-                                                                       x.PublishedDate.ToString().Contains(dashboardsearch)).AsEnumerable();
+                                                                       x.PublishedDate.Value.ToString("dd-MM-yyyy,hh:mm").Contains(dashboardsearch)||
+                                                                       x.NumberOfDownloads.ToString().Contains(dashboardsearch)||
+                                                                       x.FileSizeName.ToString().Contains(dashboardsearch)).AsEnumerable();
             }
 
             if (!string.IsNullOrEmpty(monthsearch))
@@ -163,6 +167,48 @@ namespace NotesMarketPlaces.Controllers
                             default:
                                 {
                                     publishedList = publishedList.OrderBy(x => x.Title);
+                                    return publishedList;
+                                }
+                        }
+                    }
+                case "AttchmentSize":
+                    {
+                        switch (sortorder)
+                        {
+                            case "Asc":
+                                {
+                                    publishedList = publishedList.OrderBy(x => x.FileSizeName);
+                                    return publishedList;
+                                }
+                            case "Desc":
+                                {
+                                    publishedList = publishedList.OrderByDescending(x => x.FileSizeName);
+                                    return publishedList;
+                                }
+                            default:
+                                {
+                                    publishedList = publishedList.OrderBy(x => x.FileSizeName);
+                                    return publishedList;
+                                }
+                        }
+                    }
+                case "NumberDownloads":
+                    {
+                        switch (sortorder)
+                        {
+                            case "Asc":
+                                {
+                                    publishedList = publishedList.OrderBy(x => x.NumberOfDownloads);
+                                    return publishedList;
+                                }
+                            case "Desc":
+                                {
+                                    publishedList = publishedList.OrderByDescending(x => x.NumberOfDownloads);
+                                    return publishedList;
+                                }
+                            default:
+                                {
+                                    publishedList = publishedList.OrderBy(x => x.NumberOfDownloads);
                                     return publishedList;
                                 }
                         }
@@ -298,6 +344,7 @@ namespace NotesMarketPlaces.Controllers
         }
 
         [Authorize(Roles = "SuperAdmin,Admin")]
+        [Route("Notes/{noteid}/Download")]
         public ActionResult AdminDownloadNote(int noteid)
         {
             //To Find Note
@@ -344,7 +391,9 @@ namespace NotesMarketPlaces.Controllers
 
             return RedirectToAction("Dashboard", "Admin");
         }
+
         [Authorize(Roles = "SuperAdmin,Admin")]
+        [Route("UnPublishNote")]
         public ActionResult UnPublish(FormCollection form)
         {
             int noteid = Convert.ToInt32(form["noteid"]);
@@ -392,11 +441,11 @@ namespace NotesMarketPlaces.Controllers
             string body = System.IO.File.ReadAllText(HostingEnvironment.MapPath("~/EmailTemplates/") + "PublishNote" + ".cshtml");
 
             //SellerName Replace in Template
-            body = body.Replace("@ViewBag.SellerName", sellername);
+            body = body.Replace("ViewBag.SellerName", sellername);
             //Notes title Replace in Template
-            body = body.Replace("@ViewBag.NoteTitle", notetitle);
+            body = body.Replace("ViewBag.NoteTitle", notetitle);
             //
-            body = body.Replace("@ViewBag.Remark", adminremark);
+            body = body.Replace("ViewBag.Remark", adminremark);
             body = body.ToString();
             //Get Support Email
             var fromemail = _dbContext.SystemConfigurations.Where(x => x.Key == "SupportEmail").FirstOrDefault();
@@ -423,7 +472,7 @@ namespace NotesMarketPlaces.Controllers
 
         [Authorize(Roles = "SuperAdmin,Admin")]
         [HttpGet]
-        [Route("Admin/Notes/{noteid}")]
+        [Route("Notes/{noteid}")]
         public ActionResult AdminNoteDetails(int noteid)
         {
             //Find a note in SellerNotes Table

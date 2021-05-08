@@ -16,7 +16,6 @@ namespace NotesMarketPlaces.ViewModels
             public int NoteID { get; set; }
             public string Title { get; set; }
             public string Category { get; set; }
-            public int AttachmentSize { get; set; }
             public string FileSizeName { get; set; }
             public string SellType { get; set; }
             public decimal? Price { get; set; }

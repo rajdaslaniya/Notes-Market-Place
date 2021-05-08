@@ -22,7 +22,7 @@
                 <div class="row">
                     <div class="form-group col-lg-7 col-md-7 col-sm-5 col-4">
                         <div class="sellername">
-                            @Html.DropDownList("sellername", new SelectList(@ViewBag.SellerList, "Value", "Text", @ViewBag.SellerName), "Select Seller", new { @class = "form-control", @id = "sellername" })
+                            @Html.DropDownList("sellername", new SelectList(@ViewBag.SellerList, "Value", "Text", @ViewBag.SellerName), "Select Seller", new { @class = "form-control", @id = "publishednotes-seller" })
                         </div>
                     </div>
                     <div class="col-lg-5 col-md-5 col-sm-7 col-8">
@@ -74,19 +74,19 @@
                                         <td>@item.Category</td>
                                         <td>@item.SellType</td>
                                         @if (item.SellType == "Paid")
-                                                    {
+                                        {
                                             <td>$@item.Price</td>
                                         }
                                         else
-                                                {
+                                        {
                                             <td>$0</td>
                                         }
                                         <td>@item.Seller</td>
                                         <td>
                                             <div class="table-images">
-                                                <button type="button" class="btn" aria-haspopup="true" aria-expanded="false">
+                                                <a type="button" href="@Url.Action("MemberDetails","AdminMember",new { memberid=item.SellerID})" class="btn" aria-haspopup="true" aria-expanded="false">
                                                     <img src="~/Image/images/icon/eye.png" alt="menu" class="eye">
-                                                </button>
+                                                </a>
                                             </div>
                                         </td>
                                         <td>@item.PublishedDate.Value.ToString("dd-MM-yyyy,hh:mm")</td>
@@ -171,55 +171,84 @@
             </div>
             @if (Model.Count() != 0)
             {
-                <!-- Pagination -->
                 <div class="row justify-content-center">
+
                     <nav aria-label="...">
-                        <ul class="pagination">
+                        <ul class="pagination flex-wrap">
 
                             <li class="page-item">
                                 @if (ViewBag.PageNumber == 1)
                                 {
-                                    <a class="page-link" href="@Url.Action("PublishedNote", new { page=@ViewBag.PageNumber,sortby=@ViewBag.SortBy,sortorder=@ViewBag.SortOrder,search=@ViewBag.PublishSearch})"><i class="fa fa-angle-left"></i></a>
+                                    <a class="page-link" href="@Url.Action("PublishedNote", new { sellername = ViewBag.SellerName, sortby=@ViewBag.SortBy,sortorder=@ViewBag.SortOrder,search=@ViewBag.PublishSearch,  page = ViewBag.PageNumber })"><i class="fa fa-angle-left"></i></a>
                                 }
                                 else
                                 {
-                                    <a class="page-link" href="@Url.Action("PublishedNote", new { page=@ViewBag.PageNumber-1,sortby=@ViewBag.SortBy,sortorder=@ViewBag.SortOrder,search=@ViewBag.PublishSearch})"><i class="fa fa-angle-left"></i></a>
+                                    <a class="page-link" href="@Url.Action("PublishedNote", new { sellername = ViewBag.SellerName, sortby=@ViewBag.SortBy,sortorder=@ViewBag.SortOrder, search=@ViewBag.PublishSearch, page = @ViewBag.PageNumber - 1 })"><i class="fa fa-angle-left"></i></a>
                                 }
                             </li>
 
                             @{
                                 double? TotalPages = ViewBag.TotalPages;
 
-                                for (int i = 1; i <= TotalPages; i++)
+                                if (ViewBag.PageNumber != 1 && ViewBag.PageNumber - 2 > 1)
                                 {
-                                    if (i == ViewBag.PageNumber)
+                                    int page = Convert.ToInt32(@ViewBag.PageNumber) - 3;
+                                    <li class="page-item">@Html.ActionLink("1", "PublishedNote", new { sellername = ViewBag.SellerName, note = ViewBag.Note, sortby = @ViewBag.SortBy, sortorder = @ViewBag.SortOrder, search = @ViewBag.PublishSearch,  page = 1 }, new { @class = "page-link" })</li>
+                                    if (page != 1)
                                     {
-                                        <li class="page-item active">
-                                            <a class="page-link">@i<span class="sr-only">(current)</span></a>
-                                        </li>
-                                    }
-                                    else
-                                    {
-                                        <li class="page-item">@Html.ActionLink(i.ToString(), "PublishedNote", new { page = @ViewBag.PageNumber, sortby = @ViewBag.SortBy, sortorder = @ViewBag.SortOrder, search = @ViewBag.PublishSearch }, new { @class = "page-link" })</li>
+                                        <li class="page-item more-pages-dots">@Html.ActionLink("...", "PublishedNote", new { sellername = ViewBag.SellerName, sortby = @ViewBag.SortBy, sortorder = @ViewBag.SortOrder, search = @ViewBag.PublishSearch, page = page }, new { @class = "page-link more-pages-dots" })</li>
                                     }
                                 }
+
+                                for (int i = 2; i > 0; i--)
+                                {
+                                    if (ViewBag.PageNumber - i > 0)
+                                    {
+                                        int page = Convert.ToInt32(@ViewBag.PageNumber) - i;
+                                        <li class="page-item">@Html.ActionLink(page.ToString(), "PublishedNote", new { sellername = ViewBag.SellerName, sortby = @ViewBag.SortBy, sortorder = @ViewBag.SortOrder, search = @ViewBag.PublishSearch, page = page }, new { @class = "page-link" })</li>
+                                    }
+                                }
+
+                                <li class="page-item active">
+                                    <a class="page-link">@ViewBag.PageNumber<span class="sr-only">(current)</span></a>
+                                </li>
+
+                                for (int i = 1; i < 3; i++)
+                                {
+                                    if (ViewBag.PageNumber + i <= TotalPages)
+                                    {
+                                        int page = Convert.ToInt32(@ViewBag.PageNumber) + i;
+                                        <li class="page-item">@Html.ActionLink(page.ToString(), "PublishedNote", new { sellername = ViewBag.SellerName, sortby = @ViewBag.SortBy, sortorder = @ViewBag.SortOrder, search = @ViewBag.PublishSearch, page = page }, new { @class = "page-link" })</li>
+                                    }
+                                }
+
+                                if (ViewBag.PageNumber != TotalPages && ViewBag.PageNumber + 2 < TotalPages)
+                                {
+                                    int page = Convert.ToInt32(@ViewBag.PageNumber) + 3;
+                                    if (page != TotalPages)
+                                    {
+                                        <li class="page-item">@Html.ActionLink("...", "PublishedNote", new { sellername = ViewBag.SellerName, sortby = @ViewBag.SortBy, sortorder = @ViewBag.SortOrder, search = @ViewBag.PublishSearch,  page = page }, new { @class = "page-link more-pages-dots" })</li>
+                                    }
+                                    <li class="page-item">@Html.ActionLink(TotalPages.ToString(), "PublishedNote", new { sellername = ViewBag.SellerName, sortby = @ViewBag.SortBy, sortorder = @ViewBag.SortOrder, search = @ViewBag.PublishSearch, page = TotalPages }, new { @class = "page-link" })</li>
+                                }
+
                             }
 
                             <li class="page-item">
-                                @if (ViewBag.PageNumber == TotalPages)
+                                @if (ViewBag.PageNumber == ViewBag.TotalPages)
                                 {
-                                    <a class="page-link" href="@Url.Action("PublishedNote", new { page=@ViewBag.PageNumber,sortby=@ViewBag.SortBy,sortorder=@ViewBag.SortOrder,search=@ViewBag.PublishSearch})"><i class="fa fa-angle-right"></i></a>
+                                    <a class="page-link" href="@Url.Action("PublishedNote", new { sellername = ViewBag.SellerName, sortby=@ViewBag.SortBy,sortorder=@ViewBag.SortOrder, search=@ViewBag.PublishSearch, page = @ViewBag.PageNumber })"><i class="fa fa-angle-right"></i></a>
                                 }
                                 else
                                 {
-                                    <a class="page-link" href="@Url.Action("PublishedNote", new {page=@ViewBag.PageNumber+1,sortby=@ViewBag.SortBy,sortorder=@ViewBag.SortOrder,search=@ViewBag.PublishSearch})"><i class="fa fa-angle-right"></i></a>
+                                    <a class="page-link" href="@Url.Action("PublishedNote", new { sellername = ViewBag.SellerName,sortby=@ViewBag.SortBy,sortorder=@ViewBag.SortOrder, search=@ViewBag.PublishSearch, page = @ViewBag.PageNumber + 1 })"><i class="fa fa-angle-right"></i></a>
                                 }
                             </li>
 
                         </ul>
                     </nav>
+
                 </div>
-                <!--End Page Navigation-->
             }
         </div>
     </div>

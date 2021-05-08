@@ -33,7 +33,7 @@
                    
                     <div class="form-group" id="password">
                         @Html.LabelFor(model => model.Password, new { @class = "control-label" })
-                        <label id="forgot">@Html.ActionLink("Forgot Password?", "ForgotPassword")</label>
+                        <label id="forgot">@Html.ActionLink("Forgot Password?", "ForgotPassword", "Account")</label>
                         <div>
                             @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control", @id = "password-field", @placeholder = "Enter your password", @type = "password" } })
                             <span toggle="#password-field" class="field-icon toggle-password" id="icon">
@@ -57,7 +57,7 @@
                     <button type="submit" class="btn btn-primary">Login</button>
                     <br>
 
-                    <p class="form-last-heading">Don't have an account?@Html.ActionLink("Sign Up", "SignUp")</p>
+                    <p class="form-last-heading">Don't have an account? @Html.ActionLink("Sign Up", "SignUp")</p>
 
                     <!--End Login Form-->
                 }

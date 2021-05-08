@@ -1,0 +1,191 @@
+﻿@model IEnumerable<NotesMarketPlaces.ViewModels.ManageTypesViewModel>
+@{
+    ViewBag.Title = "Manage Types";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<!--Blank-->
+<section class="blank"></section>
+<!--End Blank-->
+<!--Manage Type-->
+<section id="manage-type">
+    <div class="container">
+        <div class="content-box-md">
+            <div class="row">
+                <div class="heading col-lg-12">Manage Type</div>
+            </div>
+            @using (Html.BeginForm("ManageCategory", "AdminSettings", FormMethod.Get))
+            {
+                <div class="row">
+
+                    <div class="col-lg-7 col-md-7 col-sm-5 col-5">
+                        <a class="btn btn-color" href="@Url.Action("AddCategory","AdminSettings")" title="Search" role="button">Add Type</a>
+                    </div>
+                    <div class="col-lg-5 col-md-5 col-sm-7 col-12">
+                        <div class="row search" id="table-search">
+                            <div class="search-bar col-lg-9 col-md-9 col-sm-9 col-9 form-group">
+                                <input type="search" class="form-control" id="search" placeholder="Search" name="search" value="@ViewBag.ManageTypeSearch">
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-3 col-3 btn-search">
+                                <button class="btn btn-color" type="submit" title="Search" role="button">Search</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+            <div class="row table-general table-responsive">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Sr no.</th>
+                                <th>@Html.ActionLink("Type", "ManageTypes", new { sortorder = ViewBag.SortOrder == null ? "Asc" : (ViewBag.SortOrder == "Asc" ? "Desc" : "Asc"), sortby = "Type" })</th>
+                                <th>@Html.ActionLink("Description", "ManageTypes", new { sortorder = ViewBag.SortOrder == null ? "Asc" : (ViewBag.SortOrder == "Asc" ? "Desc" : "Asc"), sortby = "Description" })</th>
+                                <th>@Html.ActionLink("Date Added", "ManageTypes", new { sortorder = ViewBag.SortOrder == null ? "Asc" : (ViewBag.SortOrder == "Asc" ? "Desc" : "Asc"), sortby = "DateAdded" })</th>
+                                <th>@Html.ActionLink("Added By", "ManageTypes", new { sortorder = ViewBag.SortOrder == null ? "Asc" : (ViewBag.SortOrder == "Asc" ? "Desc" : "Asc"), sortby = "AddedBy" })</th>
+                                <th class="content-center">@Html.ActionLink("Active", "ManageTypes", new { sortorder = ViewBag.SortOrder == null ? "Asc" : (ViewBag.SortOrder == "Asc" ? "Desc" : "Asc"), sortby = "Active" })</th>
+                                <th class="content-center">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (Model.Count() == 0)
+                            {
+                                <tr class="content-center">
+                                    <td colspan="7">No Record Found</td>
+                                </tr>
+                            }
+                            else
+                            {
+                                var srno = (ViewBag.PageNumber - 1) * 5;
+                                foreach (var item in Model)
+                                {
+                                    { srno = srno + 1; }
+                                    <tr>
+                                        <th scope="row">@srno</th>
+                                        <td>@item.Type</td>
+                                        <td>@item.Description</td>
+                                        <td>@item.DateAdded.Value.ToString("dd-MM-yyyy,hh:mm")</td>
+                                        <td>@item.AddedBy</td>
+                                        <td class="content-center">@item.Active</td>
+                                        <td class="content-center">
+                                            <div class="table-images">
+                                                <a type="button" class="btn" aria-haspopup="true" aria-expanded="false" href="@Url.Action("EditTypes","AdminSettings",new { id=item.ID})">
+                                                    <img src="~/Image/images/Dashboard/edit.png" alt="menu" class="edit">
+                                                </a>
+                                                <button type="button" class="btn" aria-haspopup="true" aria-expanded="false" data-toggle="modal" data-target="#confirmation-@item.ID">
+                                                    <img src="~/Image/images/Dashboard/delete.png" alt="delete" class="delete">
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <!-- Confirmation -->
+                                    <div class="modal fade" id="confirmation-@item.ID" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-body" style="margin-top:10px">
+                                                    <div class="text-center">
+                                                        <h5 style="color:black">Are you sure you want to make this type inactive?</h5>
+                                                    </div>
+
+                                                    <div class="text-center">
+                                                        <a class="btn btn-primary" href="@Url.Action("DeleteTypes","AdminSettings",new { id=item.ID})">Yes</a>
+                                                        <button class="btn btn-default" data-dismiss="modal" aria-label="Close">No</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--End Confirmation-->
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            @if (Model.Count() != 0)
+            {
+                <div class="row justify-content-center">
+
+                    <nav aria-label="...">
+                        <ul class="pagination flex-wrap">
+
+                            <li class="page-item">
+                                @if (ViewBag.PageNumber == 1)
+                                {
+                                    <a class="page-link" href="@Url.Action("ManageTypes", new { sortby=@ViewBag.SortBy,sortorder=@ViewBag.SortOrder,search=@ViewBag.ManageTypeSearch,  page = ViewBag.PageNumber })"><i class="fa fa-angle-left"></i></a>
+                                }
+                                else
+                                {
+                                    <a class="page-link" href="@Url.Action("ManageTypes", new {  sortby=@ViewBag.SortBy,sortorder=@ViewBag.SortOrder, search=@ViewBag.ManageTypeSearch, page = @ViewBag.PageNumber - 1 })"><i class="fa fa-angle-left"></i></a>
+                                }
+                            </li>
+
+                            @{
+                                double? TotalPages = ViewBag.TotalPages;
+
+                                if (ViewBag.PageNumber != 1 && ViewBag.PageNumber - 2 > 1)
+                                {
+                                    int page = Convert.ToInt32(@ViewBag.PageNumber) - 3;
+                                    <li class="page-item">@Html.ActionLink("1", "ManageTypes", new { sortby = @ViewBag.SortBy, sortorder = @ViewBag.SortOrder, search = @ViewBag.ManageTypeSearch, page = 1 }, new { @class = "page-link" })</li>
+                                    if (page != 1)
+                                    {
+                                        <li class="page-item more-pages-dots">@Html.ActionLink("...", "ManageTypes", new { sortby = @ViewBag.SortBy, sortorder = @ViewBag.SortOrder, search = @ViewBag.ManageTypeSearch, page = page }, new { @class = "page-link more-pages-dots" })</li>
+                                    }
+                                }
+
+                                for (int i = 2; i > 0; i--)
+                                {
+                                    if (ViewBag.PageNumber - i > 0)
+                                    {
+                                        int page = Convert.ToInt32(@ViewBag.PageNumber) - i;
+                                        <li class="page-item">@Html.ActionLink(page.ToString(), "ManageTypes", new { sortby = @ViewBag.SortBy, sortorder = @ViewBag.SortOrder, search = @ViewBag.ManageTypeSearch, page = page }, new { @class = "page-link" })</li>
+                                    }
+                                }
+
+                                <li class="page-item active">
+                                    <a class="page-link">@ViewBag.PageNumber<span class="sr-only">(current)</span></a>
+                                </li>
+
+                                for (int i = 1; i < 3; i++)
+                                {
+                                    if (ViewBag.PageNumber + i <= TotalPages)
+                                    {
+                                        int page = Convert.ToInt32(@ViewBag.PageNumber) + i;
+                                        <li class="page-item">@Html.ActionLink(page.ToString(), "ManageTypes", new { sortby = @ViewBag.SortBy, sortorder = @ViewBag.SortOrder, search = @ViewBag.ManageTypeSearch, page = page }, new { @class = "page-link" })</li>
+                                    }
+                                }
+
+                                if (ViewBag.PageNumber != TotalPages && ViewBag.PageNumber + 2 < TotalPages)
+                                {
+                                    int page = Convert.ToInt32(@ViewBag.PageNumber) + 3;
+                                    if (page != TotalPages)
+                                    {
+                                        <li class="page-item">@Html.ActionLink("...", "ManageTypes", new { sortby = @ViewBag.SortBy, sortorder = @ViewBag.SortOrder, search = @ViewBag.ManageTypeSearch, page = page }, new { @class = "page-link more-pages-dots" })</li>
+                                    }
+                                    <li class="page-item">@Html.ActionLink(TotalPages.ToString(), "ManageTypes", new { sortby = @ViewBag.SortBy, sortorder = @ViewBag.SortOrder, search = @ViewBag.ManageTypeSearch, page = TotalPages }, new { @class = "page-link" })</li>
+                                }
+
+                            }
+
+                            <li class="page-item">
+                                @if (ViewBag.PageNumber == ViewBag.TotalPages)
+                                {
+                                    <a class="page-link" href="@Url.Action("ManageTypes", new { sortby=@ViewBag.SortBy,sortorder=@ViewBag.SortOrder, search=@ViewBag.ManageTypeSearch, page = @ViewBag.PageNumber })"><i class="fa fa-angle-right"></i></a>
+                                }
+                                else
+                                {
+                                    <a class="page-link" href="@Url.Action("ManageTypes", new { sortby=@ViewBag.SortBy,sortorder=@ViewBag.SortOrder, search=@ViewBag.ManageTypeSearch, page = @ViewBag.PageNumber + 1 })"><i class="fa fa-angle-right"></i></a>
+                                }
+                            </li>
+
+                        </ul>
+                    </nav>
+
+                </div>
+            }
+
+            
+        </div>
+    </div>
+</section>
+<!--Manaage Type-->

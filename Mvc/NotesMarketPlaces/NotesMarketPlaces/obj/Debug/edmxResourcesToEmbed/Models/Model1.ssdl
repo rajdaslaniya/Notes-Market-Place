@@ -170,9 +170,9 @@
     <Property Name="DOB" Type="datetime" />
     <Property Name="Gender" Type="int" Nullable="false" />
     <Property Name="SecondryEmailAddress" Type="varchar" MaxLength="100" />
-    <Property Name="PhoneNumberCountryCode" Type="varchar" MaxLength="5" />
-    <Property Name="PhoneNumber" Type="varchar" MaxLength="20" />
-    <Property Name="ProfilePicture" Type="varchar" MaxLength="500" Nullable="false" />
+    <Property Name="PhoneNumberCountryCode" Type="varchar" MaxLength="5" Nullable="false" />
+    <Property Name="PhoneNumber" Type="varchar" MaxLength="20" Nullable="false" />
+    <Property Name="ProfilePicture" Type="varchar" MaxLength="500" />
     <Property Name="AddressLine1" Type="varchar" MaxLength="100" Nullable="false" />
     <Property Name="AddressLine2" Type="varchar" MaxLength="100" Nullable="false" />
     <Property Name="City" Type="varchar" MaxLength="50" Nullable="false" />

@@ -95,10 +95,10 @@
                     <table class="table">
                         <thead>
                             <tr>
-                                <th>@Html.ActionLink("Added Date", "Index", new { sortorder = ViewBag.SortOrder == null ? "Asc" : (ViewBag.SortOrder == "Asc" ? "Desc" : "Asc"), sortby = "CreatedDate" })</th>
-                                <th>@Html.ActionLink("Title", "Index", new { sortorder = ViewBag.SortOrder == null ? "Asc" : (ViewBag.SortOrder == "Asc" ? "Desc" : "Asc"), sortby = "Title" })</th>
-                                <th>@Html.ActionLink("Category", "Index", new { sortorder = ViewBag.SortOrder == null ? "Asc" : (ViewBag.SortOrder == "Asc" ? "Desc" : "Asc"), sortby = "Category" })</th>
-                                <th>@Html.ActionLink("Status", "Index", new { sortorder = ViewBag.SortOrder == null ? "Asc" : (ViewBag.SortOrder == "Asc" ? "Desc" : "Asc"), sortby = "Status" })</th>
+                                <th>@Html.ActionLink("Added Date", "Index", new { inprogresssearch = @ViewBag.InProgress, publishsearch = @ViewBag.Published, sortorder = ViewBag.SortOrder == null ? "Asc" : (ViewBag.SortOrder == "Asc" ? "Desc" : "Asc"), sortby = "CreatedDate" })</th>
+                                <th>@Html.ActionLink("Title", "Index", new { inprogresssearch = @ViewBag.InProgress, publishsearch = @ViewBag.Published, sortorder = ViewBag.SortOrder == null ? "Asc" : (ViewBag.SortOrder == "Asc" ? "Desc" : "Asc"), sortby = "Title" })</th>
+                                <th>@Html.ActionLink("Category", "Index", new { inprogresssearch = @ViewBag.InProgress, publishsearch = @ViewBag.Published, sortorder = ViewBag.SortOrder == null ? "Asc" : (ViewBag.SortOrder == "Asc" ? "Desc" : "Asc"), sortby = "Category" })</th>
+                                <th>@Html.ActionLink("Status", "Index", new { inprogresssearch = @ViewBag.InProgress, publishsearch = @ViewBag.Published, sortorder = ViewBag.SortOrder == null ? "Asc" : (ViewBag.SortOrder == "Asc" ? "Desc" : "Asc"), sortby = "Status" })</th>
                                 <th class="content-center">Action</th>
                             </tr>
                         </thead>
@@ -161,14 +161,12 @@
                     </table>
                 </div>
             </div>
-
             @if (Model.InProressNotes.Count() != 0)
             {
-                <!--Pagination-->
                 <div class="row justify-content-center">
 
                     <nav aria-label="...">
-                        <ul class="pagination">
+                        <ul class="pagination flex-wrap">
 
                             <li class="page-item">
                                 @if (ViewBag.PageNumber == 1)
@@ -177,26 +175,55 @@
                                 }
                                 else
                                 {
-                                    <a class="page-link" href="@Url.Action("Index", new { inprogresssearch = @ViewBag.InProgress, publishsearch = @ViewBag.Published, sortorder = @ViewBag.SortOrder, sortby = @ViewBag.SortBy, sortorderpublish = @ViewBag.SortOrderForPublishedNotes, sortbypublish = @ViewBag.SortByForPublishedNotes, inprogresspage = @ViewBag.PageNumber - 1, publishpage = @ViewBag.PageNumberPublished  })"><i class="fa fa-angle-left"></i></a>
+                                    <a class="page-link" href="@Url.Action("Index", new { inprogresssearch = @ViewBag.InProgress, publishsearch = @ViewBag.Published, sortorder = @ViewBag.SortOrder, sortby = @ViewBag.SortBy, sortorderpublish = @ViewBag.SortOrderForPublishedNotes, sortbypublish = @ViewBag.SortByForPublishedNotes, inprogresspage = @ViewBag.PageNumber-1, publishpage = @ViewBag.PageNumberPublished })"><i class="fa fa-angle-left"></i></a>
                                 }
                             </li>
 
                             @{
-                                double? TotalPagesInProgress = ViewBag.TotalPageInProgress;
+                                double? TotalPagesInProgress = ViewBag.TotalPagesInProgress;
 
-                                for (int i = 1; i <= TotalPagesInProgress; i++)
+                                if (ViewBag.PageNumber != 1 && ViewBag.PageNumber - 2 > 1)
                                 {
-                                    if (i == ViewBag.PageNumber)
+                                    int page = Convert.ToInt32(@ViewBag.PageNumber) - 3;
+                                    <li class="page-item">@Html.ActionLink("1", "Index", new { inprogresssearch = @ViewBag.InProgress, publishsearch = @ViewBag.Published, sortorder = @ViewBag.SortOrder, sortby = @ViewBag.SortBy, sortorderpublish = @ViewBag.SortOrderForPublishedNotes, sortbypublish = @ViewBag.SortByForPublishedNotes, inprogresspage = 1, publishpage = @ViewBag.PageNumberPublished }, new { @class = "page-link" })</li>
+                                    if (page != 1)
                                     {
-                                        <li class="page-item active">
-                                            <a class="page-link">@i<span class="sr-only">(current)</span></a>
-                                        </li>
-                                    }
-                                    else
-                                    {
-                                        <li class="page-item">@Html.ActionLink(i.ToString(), "Index", new { inprogresssearch = @ViewBag.InProgress, publishsearch = @ViewBag.Published, sortorder = @ViewBag.SortOrder, sortby = @ViewBag.SortBy, sortorderpublish = @ViewBag.SortOrderForPublishedNotes, sortbypublish = @ViewBag.SortByForPublishedNotes, inprogresspage = i, publishpage = @ViewBag.PageNumberPublished }, new { @class = "page-link" })</li>
+                                        <li class="page-item more-pages-dots">@Html.ActionLink("...", "Index", new { inprogresssearch = @ViewBag.InProgress, publishsearch = @ViewBag.Published, sortorder = @ViewBag.SortOrder, sortby = @ViewBag.SortBy, sortorderpublish = @ViewBag.SortOrderForPublishedNotes, sortbypublish = @ViewBag.SortByForPublishedNotes, inprogresspage = page, publishpage = @ViewBag.PageNumberPublished }, new { @class = "page-link more-pages-dots" })</li>
                                     }
                                 }
+
+                                for (int i = 2; i > 0; i--)
+                                {
+                                    if (ViewBag.PageNumber - i > 0)
+                                    {
+                                        int page = Convert.ToInt32(@ViewBag.PageNumber) - i;
+                                        <li class="page-item">@Html.ActionLink(page.ToString(), "Index", new { inprogresssearch = @ViewBag.InProgress, publishsearch = @ViewBag.Published, sortorder = @ViewBag.SortOrder, sortby = @ViewBag.SortBy, sortorderpublish = @ViewBag.SortOrderForPublishedNotes, sortbypublish = @ViewBag.SortByForPublishedNotes, inprogresspage = page, publishpage = @ViewBag.PageNumberPublished }, new { @class = "page-link" })</li>
+                                    }
+                                }
+
+                                <li class="page-item active">
+                                    <a class="page-link">@ViewBag.PageNumber<span class="sr-only">(current)</span></a>
+                                </li>
+
+                                for (int i = 1; i < 3; i++)
+                                {
+                                    if (ViewBag.PageNumber + i <= TotalPagesInProgress)
+                                    {
+                                        int page = Convert.ToInt32(@ViewBag.PageNumber) + i;
+                                        <li class="page-item">@Html.ActionLink(page.ToString(), "Index", new { inprogresssearch = @ViewBag.InProgress, publishsearch = @ViewBag.Published, sortorder = @ViewBag.SortOrder, sortby = @ViewBag.SortBy, sortorderpublish = @ViewBag.SortOrderForPublishedNotes, sortbypublish = @ViewBag.SortByForPublishedNotes, inprogresspage = page, publishpage = @ViewBag.PageNumberPublished }, new { @class = "page-link" })</li>
+                                    }
+                                }
+
+                                if (ViewBag.PageNumber != TotalPagesInProgress && ViewBag.PageNumber + 2 < TotalPagesInProgress)
+                                {
+                                    int page = Convert.ToInt32(@ViewBag.PageNumber) + 3;
+                                    if (page != TotalPagesInProgress)
+                                    {
+                                        <li class="page-item">@Html.ActionLink("...", "Index", new { inprogresssearch = @ViewBag.InProgress, publishsearch = @ViewBag.Published, sortorder = @ViewBag.SortOrder, sortby = @ViewBag.SortBy, sortorderpublish = @ViewBag.SortOrderForPublishedNotes, sortbypublish = @ViewBag.SortByForPublishedNotes, inprogresspage = page, publishpage = @ViewBag.PageNumberPublished }, new { @class = "page-link more-pages-dots" })</li>
+                                    }
+                                    <li class="page-item">@Html.ActionLink(TotalPagesInProgress.ToString(), "Index", new { inprogresssearch = @ViewBag.InProgress, publishsearch = @ViewBag.Published, sortorder = @ViewBag.SortOrder, sortby = @ViewBag.SortBy, sortorderpublish = @ViewBag.SortOrderForPublishedNotes, sortbypublish = @ViewBag.SortByForPublishedNotes, inprogresspage = TotalPagesInProgress, publishpage = @ViewBag.PageNumberPublished }, new { @class = "page-link" })</li>
+                                }
+
                             }
 
                             <li class="page-item">
@@ -206,7 +233,7 @@
                                 }
                                 else
                                 {
-                                    <a class="page-link" href="@Url.Action("Index", new { inprogresssearch = @ViewBag.InProgress, publishsearch = @ViewBag.Published, sortorder = @ViewBag.SortOrder, sortby = @ViewBag.SortBy, sortorderpublish = @ViewBag.SortOrderForPublishedNotes, sortbypublish = @ViewBag.SortByForPublishedNotes, inprogresspage = @ViewBag.PageNumber + 1, publishpage = @ViewBag.PageNumberPublished  })"><i class="fa fa-angle-right"></i></a>
+                                    <a class="page-link" href="@Url.Action("Index", new { inprogresssearch = @ViewBag.InProgress, publishsearch = @ViewBag.Published, sortorder = @ViewBag.SortOrder, sortby = @ViewBag.SortBy, sortorderpublish = @ViewBag.SortOrderForPublishedNotes, sortbypublish = @ViewBag.SortByForPublishedNotes, inprogresspage = @ViewBag.PageNumber+1, publishpage = @ViewBag.PageNumberPublished  })"><i class="fa fa-angle-right"></i></a>
                                 }
                             </li>
 
@@ -214,7 +241,6 @@
                     </nav>
 
                 </div>
-                <!--End Pagination-->
             }
 
             <div class="row">
@@ -238,11 +264,11 @@
                     <table class="table">
                         <thead>
                             <tr>
-                                <th>@Html.ActionLink("Added Date", "Index", new { sortorder = ViewBag.SortOrder == null ? "Asc" : (ViewBag.SortOrder == "Asc" ? "Desc" : "Asc"), sortby = "PublishedDate" })</th>
-                                <th>@Html.ActionLink("Title", "Index", new { sortorder = ViewBag.SortOrder == null ? "Asc" : (ViewBag.SortOrder == "Asc" ? "Desc" : "Asc"), sortby = "Title" })</th>
-                                <th>@Html.ActionLink("Category", "Index", new { sortorder = ViewBag.SortOrder == null ? "Asc" : (ViewBag.SortOrder == "Asc" ? "Desc" : "Asc"), sortby = "Category" })</th>
-                                <th>@Html.ActionLink("Sell Type", "Index", new { sortorder = ViewBag.SortOrder == null ? "Asc" : (ViewBag.SortOrder == "Asc" ? "Desc" : "Asc"), sortby = "SellType" })</th>
-                                <th>@Html.ActionLink("Price", "Index", new { sortorder = ViewBag.SortOrder == null ? "Asc" : (ViewBag.SortOrder == "Asc" ? "Desc" : "Asc"), sortby = "Price" })</th>
+                                <th>@Html.ActionLink("Added Date", "Index", new { inprogresssearch = @ViewBag.InProgress, publishsearch = @ViewBag.Published, sortorder = ViewBag.SortOrder == null ? "Asc" : (ViewBag.SortOrder == "Asc" ? "Desc" : "Asc"), sortby = "PublishedDate" })</th>
+                                <th>@Html.ActionLink("Title", "Index", new { inprogresssearch = @ViewBag.InProgress, publishsearch = @ViewBag.Published, sortorder = ViewBag.SortOrder == null ? "Asc" : (ViewBag.SortOrder == "Asc" ? "Desc" : "Asc"), sortby = "Title" })</th>
+                                <th>@Html.ActionLink("Category", "Index", new { inprogresssearch = @ViewBag.InProgress, publishsearch = @ViewBag.Published, sortorder = ViewBag.SortOrder == null ? "Asc" : (ViewBag.SortOrder == "Asc" ? "Desc" : "Asc"), sortby = "Category" })</th>
+                                <th>@Html.ActionLink("Sell Type", "Index", new { inprogresssearch = @ViewBag.InProgress, publishsearch = @ViewBag.Published, sortorder = ViewBag.SortOrder == null ? "Asc" : (ViewBag.SortOrder == "Asc" ? "Desc" : "Asc"), sortby = "SellType" })</th>
+                                <th>@Html.ActionLink("Price", "Index", new { inprogresssearch = @ViewBag.InProgress, publishsearch = @ViewBag.Published, sortorder = ViewBag.SortOrder == null ? "Asc" : (ViewBag.SortOrder == "Asc" ? "Desc" : "Asc"), sortby = "Price" })</th>
                                 <th class="content-center">Actions</th>
                             </tr>
                         </thead>
@@ -284,52 +310,79 @@
                     </table>
                 </div>
             </div>
-
             @if (Model.PublishedNotes.Count() != 0)
             {
-                <!--Pagination-->
                 <div class="row justify-content-center">
 
                     <nav aria-label="...">
-                        <ul class="pagination">
+                        <ul class="pagination flex-wrap">
 
                             <li class="page-item">
-                                @if (ViewBag.PageNumber == 1)
+                                @if (ViewBag.PageNumberPublished == 1)
                                 {
                                     <a class="page-link" href="@Url.Action("Index", new { inprogresssearch = @ViewBag.InProgress, publishsearch = @ViewBag.Published, sortorder = @ViewBag.SortOrder, sortby = @ViewBag.SortBy, sortorderpublish = @ViewBag.SortOrderForPublishedNotes, sortbypublish = @ViewBag.SortByForPublishedNotes, inprogresspage = @ViewBag.PageNumber, publishpage = @ViewBag.PageNumberPublished  })"><i class="fa fa-angle-left"></i></a>
                                 }
                                 else
                                 {
-                                    <a class="page-link" href="@Url.Action("Index", new { inprogresssearch = @ViewBag.InProgress, publishsearch = @ViewBag.Published, sortorder = @ViewBag.SortOrder, sortby = @ViewBag.SortBy, sortorderpublish = @ViewBag.SortOrderForPublishedNotes, sortbypublish = @ViewBag.SortByForPublishedNotes, inprogresspage = @ViewBag.PageNumber, publishpage = @ViewBag.PageNumberPublished-1  })"><i class="fa fa-angle-left"></i></a>
+                                    <a class="page-link" href="@Url.Action("Index", new { inprogresssearch = @ViewBag.InProgress, publishsearch = @ViewBag.Published, sortorder = @ViewBag.SortOrder, sortby = @ViewBag.SortBy, sortorderpublish = @ViewBag.SortOrderForPublishedNotes, sortbypublish = @ViewBag.SortByForPublishedNotes, inprogresspage = @ViewBag.PageNumber, publishpage = @ViewBag.PageNumberPublished-1 })"><i class="fa fa-angle-left"></i></a>
                                 }
                             </li>
 
                             @{
-                                double? TotalPagePublish = ViewBag.TotalPagePublish;
+                                double? TotalPagesPublish = ViewBag.TotalPagesPublish;
 
-                                for (int i = 1; i <= TotalPagePublish; i++)
+                                if (ViewBag.PageNumberPublished != 1 && ViewBag.PageNumberPublished - 2 > 1)
                                 {
-                                    if (i == ViewBag.PageNumberPublished)
+                                    int page = Convert.ToInt32(@ViewBag.PageNumberPublished) - 3;
+                                    <li class="page-item">@Html.ActionLink("1", "Index", new { inprogresssearch = @ViewBag.InProgress, publishsearch = @ViewBag.Published, sortorder = @ViewBag.SortOrder, sortby = @ViewBag.SortBy, sortorderpublish = @ViewBag.SortOrderForPublishedNotes, sortbypublish = @ViewBag.SortByForPublishedNotes, inprogresspage = @ViewBag.PageNumber, publishpage = 1 }, new { @class = "page-link" })</li>
+                                    if (page != 1)
                                     {
-                                        <li class="page-item active">
-                                            <a class="page-link">@i<span class="sr-only">(current)</span></a>
-                                        </li>
-                                    }
-                                    else
-                                    {
-                                        <li class="page-item">@Html.ActionLink(i.ToString(), "Index", new { inprogresssearch = @ViewBag.InProgress, publishsearch = @ViewBag.Published, sortorder = @ViewBag.SortOrder, sortby = @ViewBag.SortBy, sortorderpublish = @ViewBag.SortOrderForPublishedNotes, sortbypublish = @ViewBag.SortByForPublishedNotes, inprogresspage = i, publishpage = @ViewBag.PageNumberPublished }, new { @class = "page-link" })</li>
+                                        <li class="page-item more-pages-dots">@Html.ActionLink("...", "Index", new { inprogresssearch = @ViewBag.InProgress, publishsearch = @ViewBag.Published, sortorder = @ViewBag.SortOrder, sortby = @ViewBag.SortBy, sortorderpublish = @ViewBag.SortOrderForPublishedNotes, sortbypublish = @ViewBag.SortByForPublishedNotes, inprogresspage = @ViewBag.PageNumber, publishpage =page }, new { @class = "page-link more-pages-dots" })</li>
                                     }
                                 }
+
+                                for (int i = 2; i > 0; i--)
+                                {
+                                    if (ViewBag.PageNumberPublished - i > 0)
+                                    {
+                                        int page = Convert.ToInt32(@ViewBag.PageNumberPublished) - i;
+                                        <li class="page-item">@Html.ActionLink(page.ToString(), "Index", new { inprogresssearch = @ViewBag.InProgress, publishsearch = @ViewBag.Published, sortorder = @ViewBag.SortOrder, sortby = @ViewBag.SortBy, sortorderpublish = @ViewBag.SortOrderForPublishedNotes, sortbypublish = @ViewBag.SortByForPublishedNotes, inprogresspage = @ViewBag.PageNumber, publishpage = page }, new { @class = "page-link" })</li>
+                                    }
+                                }
+
+                                <li class="page-item active">
+                                    <a class="page-link">@ViewBag.PageNumberPublished<span class="sr-only">(current)</span></a>
+                                </li>
+
+                                for (int i = 1; i < 3; i++)
+                                {
+                                    if (ViewBag.PageNumberPublished + i <= TotalPagesPublish)
+                                    {
+                                        int page = Convert.ToInt32(@ViewBag.PageNumberPublished) + i;
+                                        <li class="page-item">@Html.ActionLink(page.ToString(), "Index", new { inprogresssearch = @ViewBag.InProgress, publishsearch = @ViewBag.Published, sortorder = @ViewBag.SortOrder, sortby = @ViewBag.SortBy, sortorderpublish = @ViewBag.SortOrderForPublishedNotes, sortbypublish = @ViewBag.SortByForPublishedNotes, inprogresspage = @ViewBag.PageNumber, publishpage = page }, new { @class = "page-link" })</li>
+                                    }
+                                }
+
+                                if (ViewBag.PageNumberPublished != TotalPagesPublish && ViewBag.PageNumberPublished + 2 < TotalPagesPublish)
+                                {
+                                    int page = Convert.ToInt32(@ViewBag.PageNumberPublished) + 3;
+                                    if (page != TotalPagesPublish)
+                                    {
+                                        <li class="page-item">@Html.ActionLink("...", "Index", new { inprogresssearch = @ViewBag.InProgress, publishsearch = @ViewBag.Published, sortorder = @ViewBag.SortOrder, sortby = @ViewBag.SortBy, sortorderpublish = @ViewBag.SortOrderForPublishedNotes, sortbypublish = @ViewBag.SortByForPublishedNotes, inprogresspage = @ViewBag.PageNumber, publishpage = page }, new { @class = "page-link more-pages-dots" })</li>
+                                    }
+                                    <li class="page-item">@Html.ActionLink(TotalPagesPublish.ToString(), "Index", new { inprogresssearch = @ViewBag.InProgress, publishsearch = @ViewBag.Published, sortorder = @ViewBag.SortOrder, sortby = @ViewBag.SortBy, sortorderpublish = @ViewBag.SortOrderForPublishedNotes, sortbypublish = @ViewBag.SortByForPublishedNotes, inprogresspage = @ViewBag.PageNumber, publishpage = TotalPagesPublish}, new { @class = "page-link" })</li>
+                                }
+
                             }
 
                             <li class="page-item">
-                                @if (ViewBag.PageNumberPublished == TotalPagePublish)
+                                @if (ViewBag.PageNumberPublished == TotalPagesPublish)
                                 {
                                     <a class="page-link" href="@Url.Action("Index", new { inprogresssearch = @ViewBag.InProgress, publishsearch = @ViewBag.Published, sortorder = @ViewBag.SortOrder, sortby = @ViewBag.SortBy, sortorderpublish = @ViewBag.SortOrderForPublishedNotes, sortbypublish = @ViewBag.SortByForPublishedNotes, inprogresspage = @ViewBag.PageNumber, publishpage = @ViewBag.PageNumberPublished  })"><i class="fa fa-angle-right"></i></a>
                                 }
                                 else
                                 {
-                                    <a class="page-link" href="@Url.Action("Index", new { inprogresssearch = @ViewBag.InProgress, publishsearch = @ViewBag.Published, sortorder = @ViewBag.SortOrder, sortby = @ViewBag.SortBy, sortorderpublish = @ViewBag.SortOrderForPublishedNotes, sortbypublish = @ViewBag.SortByForPublishedNotes, inprogresspage = @ViewBag.PageNumber , publishpage = @ViewBag.PageNumberPublished + 1 })"><i class="fa fa-angle-right"></i></a>
+                                    <a class="page-link" href="@Url.Action("Index", new { inprogresssearch = @ViewBag.InProgress, publishsearch = @ViewBag.Published, sortorder = @ViewBag.SortOrder, sortby = @ViewBag.SortBy, sortorderpublish = @ViewBag.SortOrderForPublishedNotes, sortbypublish = @ViewBag.SortByForPublishedNotes, inprogresspage = @ViewBag.PageNumber, publishpage = @ViewBag.PageNumberPublished +1 })"><i class="fa fa-angle-right"></i></a>
                                 }
                             </li>
 
@@ -337,9 +390,7 @@
                     </nav>
 
                 </div>
-                <!--End Pagination-->
             }
-
         </div>
      </div>
 </section>

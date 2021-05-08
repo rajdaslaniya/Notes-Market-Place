@@ -8,22 +8,24 @@ using System.Web;
 using System.Web.Hosting;
 using System.Web.Mvc;
 using NotesMarketPlaces.Models;
-using NotesMarketPlaces.Send_Mail;
+using NotesMarketPlaces.SendMail;
 using NotesMarketPlaces.ViewModels;
 
 namespace NotesMarketPlaces.Controllers
 {
-    [RoutePrefix("Home")]
+    
     public class HomeController : Controller
     {
         readonly private NotesMarketPlaceEntities1 _dbContext = new NotesMarketPlaceEntities1();
-        [Route("Index")]
+        [Route("")]
+        [AllowAnonymous]
         public ActionResult Index()
         {
             return View();
         }
 
         [Route("FAQ")]
+        [AllowAnonymous]
         public ActionResult FAQ()
         {
             ViewBag.FAQ = "active";
@@ -32,11 +34,12 @@ namespace NotesMarketPlaces.Controllers
         
         // Get:Home/ContactUs
         [HttpGet]
+        [AllowAnonymous]
         [Route("ContactUs")]
         public ActionResult ContactUs()
         {
             ViewBag.ContactUs = "active";
-            if (User.Identity.IsAuthenticated)
+            if (User.Identity.IsAuthenticated&&User.IsInRole("Member"))
             {
                 var user = _dbContext.Users.Where(x => x.EmailID == User.Identity.Name).FirstOrDefault();
                 ContactUsViewModel contact = new ContactUsViewModel();
@@ -71,18 +74,18 @@ namespace NotesMarketPlaces.Controllers
             //Get All Text From Contact Us Template
             string body = System.IO.File.ReadAllText(HostingEnvironment.MapPath("~/EmailTemplates/") + "ContactUs" + ".cshtml");
             //Replace Comments and Full Name
-            body = body.Replace("@ViewBag.Comments", contactusviewmodel.Comments);
-            body = body.Replace("@ViewBag.Name", contactusviewmodel.FullName);
+            body = body.Replace("ViewBag.Comments", contactusviewmodel.Comments);
+            body = body.Replace("ViewBag.Name", contactusviewmodel.FullName);
             body = body.ToString();
 
             //Get Support Email
             var fromemail = _dbContext.SystemConfigurations.Where(x=>x.Key== "SupportEmail").FirstOrDefault();
-            var tomail = _dbContext.Users.Where(x=>x.EmailID==contactusviewmodel.EmailID).FirstOrDefault();
+            var tomail = _dbContext.SystemConfigurations.Where(x=>x.Key== "notifyemail").FirstOrDefault();
             //From ,to,subject
             string from, to, subject;
             subject = contactusviewmodel.Subject+"-Query";
             from = fromemail.Value.Trim();
-            to = tomail.EmailID.Trim();
+            to = tomail.Value.Trim();
             //Creating a mail
             MailMessage mail = new MailMessage();
             mail.From = new MailAddress(from, "NotesMarketPlaces");

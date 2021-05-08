@@ -1,5 +1,5 @@
 ﻿using NotesMarketPlaces.Models;
-using NotesMarketPlaces.Send_Mail;
+using NotesMarketPlaces.SendMail;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,6 +11,7 @@ using NotesMarketPlaces.ViewModels;
 
 namespace NotesMarketPlaces.Controllers
 {
+    [OutputCache(Duration = 0)]
     public class BuyerRequestController : Controller
     {
         readonly NotesMarketPlaceEntities1 _dbcontext = new NotesMarketPlaceEntities1();
@@ -41,7 +42,7 @@ namespace NotesMarketPlaces.Controllers
                                                                where download.Seller == user.ID && download.IsSellerHasAllowedDownload == false && download.AttachmentPath==null
                                                                select new BuyerRequestViewModel { 
                                                                    Price=(int)download.PurchasedPrice,
-                                                                   SellType = download.IsPaid == true ? "Paid" : "False",
+                                                                   SellType = download.IsPaid == true ? "Paid" : "Free",
                                                                    DownloadDate=download.CreatedDate,
                                                                    NoteID=download.NoteID,
                                                                    DownloadID=download.ID,
@@ -61,7 +62,7 @@ namespace NotesMarketPlaces.Controllers
                                                     x.Category.ToLower().Contains(search)||
                                                     x.Buyer.ToLower().Contains(search)||
                                                     x.Price.ToString().Contains(search)||
-                                                    x.DownloadDate.ToString().Contains(search)||
+                                                    x.DownloadDate.Value.ToString("dd MMM yyyy,hh:mm:ss").Contains(search)||
                                                     x.PhoneNumber.ToString().Contains(search)||
                                                     x.SellType.ToLower().Contains(search)
                                                  ).ToList();

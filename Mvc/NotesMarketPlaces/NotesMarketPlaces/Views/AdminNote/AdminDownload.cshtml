@@ -35,20 +35,20 @@
                     <div class="form-group col-lg-7 col-md-7">
                         <div class="row">
                             <div class="col-lg-3 col-md-3 col-sm-4 col-4 note">
-                                @Html.DropDownList("noteid", new SelectList(@ViewBag.Note, "Value", "Text", @ViewBag.notetype), "Select Note", new { @class = "form-control", @id = "noteid" })
+                                @Html.DropDownList("note", new SelectList(@ViewBag.NoteList, "Value", "Text", @ViewBag.Note), "Select Note", new { @class = "form-control", @id = "downloadednotes-note" })
                             </div>
                             <div class="col-lg-3 col-md-3 col-sm-4 col-4 sellername">
-                                @Html.DropDownList("Seller", new SelectList(@ViewBag.Seller, "Value", "Text", @ViewBag.seller), "Select Name", new { @class = "form-control", @id = "Sellername" })
+                                @Html.DropDownList("seller", new SelectList(@ViewBag.SellerList, "Value", "Text", @ViewBag.Seller), "Select Seller", new { @class = "form-control", @id = "downloadednotes-seller" })
                             </div>
                             <div class="col-lg-3 col-md-3 col-sm-4 col-4  sellername">
-                                @Html.DropDownList("Buyer", new SelectList(@ViewBag.Buyer, "Value", "Text", @ViewBag.buyer), "Select Note", new { @class = "form-control", @id = "Buyer" })
+                                @Html.DropDownList("buyer", new SelectList(@ViewBag.BuyerList, "Value", "Text", @ViewBag.Buyer), "Select Buyer", new { @class = "form-control", @id = "downloadednotes-buyer" })
                             </div>
                         </div>
                     </div>
                     <div class="col-lg-5 col-md-5  col-12">
                         <div class="row search" id="table-search">
                             <div class="search-bar col-lg-9 col-md-9 col-sm-9 col-9 form-group">
-                                <input type="search" class="form-control" id="search" placeholder="Search" name="search" value="@ViewBag.DownloadSearch">
+                                <input type="search" class="form-control" id="search" placeholder="Search" name="search" value="@ViewBag.Search">
                             </div>
                             <div class="col-lg-3 col-md-3 col-sm-3 col-3 btn-search">
                                 <button class="btn btn-color" type="submit" title="Search" role="button">Search</button>
@@ -95,17 +95,17 @@
                                         <td>@item.Buyer</td>
                                         <td class="content-center">
                                             <div class="table-images">
-                                                <button type="button" class="btn" aria-haspopup="true" href="@Url.Action("")" aria-expanded="false">
+                                                <a type="button" class="btn" aria-haspopup="true" href="@Url.Action("MemberDetails","AdminMember",new { memberid=item.BuyerID})" aria-expanded="false">
                                                     <img src="~/Image/images/icon/eye.png" alt="eye" class="eye">
-                                                </button>
+                                                </a>
                                             </div>
                                         </td>
                                         <td>@item.Seller</td>
                                         <td class="content-center">
                                             <div class="table-images">
-                                                <button type="button" class="btn" aria-haspopup="true" aria-expanded="false">
+                                                <a type="button" class="btn" aria-haspopup="true" href="@Url.Action("MemberDetails","AdminMember",new { memberid=item.SellerID})" aria-expanded="false">
                                                     <img src="~/Image/images/icon/eye.png" alt="eye" class="eye">
-                                                </button>
+                                                </a>
                                             </div>
                                         </td>
                                         <td>@item.SellType</td>
@@ -133,55 +133,84 @@
             </div>
             @if (Model.Count() != 0)
             {
-                <!-- Pagination -->
                 <div class="row justify-content-center">
+
                     <nav aria-label="...">
-                        <ul class="pagination">
+                        <ul class="pagination flex-wrap">
 
                             <li class="page-item">
                                 @if (ViewBag.PageNumber == 1)
                                 {
-                                    <a class="page-link" href="@Url.Action("AdminDownload", new { page=@ViewBag.PageNumber,sortby=@ViewBag.SortBy,sortorder=@ViewBag.SortOrder,search=@ViewBag.DownloadSearch})"><i class="fa fa-angle-left"></i></a>
+                                    <a class="page-link" href="@Url.Action("AdminDownload", new { selectednote = ViewBag.SelectedNote, member = ViewBag.Member, note = ViewBag.Note, sortby=@ViewBag.SortBy,sortorder=@ViewBag.SortOrder, search = @ViewBag.Search, seller = ViewBag.Seller, buyer = ViewBag.Buyer, page = ViewBag.PageNumber })"><i class="fa fa-angle-left"></i></a>
                                 }
                                 else
                                 {
-                                    <a class="page-link" href="@Url.Action("AdminDownload", new { page=@ViewBag.PageNumber-1,sortby=@ViewBag.SortBy,sortorder=@ViewBag.SortOrder,search=@ViewBag.DownloadSearch})"><i class="fa fa-angle-left"></i></a>
+                                    <a class="page-link" href="@Url.Action("AdminDownload", new { selectednote = ViewBag.SelectedNote, member = ViewBag.Member, note = ViewBag.Note, sortby=@ViewBag.SortBy,sortorder=@ViewBag.SortOrder, search = @ViewBag.Search, seller = ViewBag.Seller, buyer = ViewBag.Buyer, page = @ViewBag.PageNumber - 1 })"><i class="fa fa-angle-left"></i></a>
                                 }
                             </li>
 
                             @{
                                 double? TotalPages = ViewBag.TotalPages;
 
-                                for (int i = 1; i <= TotalPages; i++)
+                                if (ViewBag.PageNumber != 1 && ViewBag.PageNumber - 2 > 1)
                                 {
-                                    if (i == ViewBag.PageNumber)
+                                    int page = Convert.ToInt32(@ViewBag.PageNumber) - 3;
+                                    <li class="page-item">@Html.ActionLink("1", "AdminDownload", new { selectednote = ViewBag.SelectedNote, member = ViewBag.Member, note = ViewBag.Note, sortby = @ViewBag.SortBy, sortorder = @ViewBag.SortOrder, search = @ViewBag.Search, seller = ViewBag.Seller, buyer = ViewBag.Buyer, page = 1 }, new { @class = "page-link" })</li>
+                                    if (page != 1)
                                     {
-                                        <li class="page-item active">
-                                            <a class="page-link">@i<span class="sr-only">(current)</span></a>
-                                        </li>
-                                    }
-                                    else
-                                    {
-                                        <li class="page-item">@Html.ActionLink(i.ToString(), "AdminDownload", new { page = @ViewBag.PageNumber, sortby = @ViewBag.SortBy, sortorder = @ViewBag.SortOrder, search = @ViewBag.DownloadSearch }, new { @class = "page-link" })</li>
+                                        <li class="page-item more-pages-dots">@Html.ActionLink("...", "AdminDownload", new { selectednote = ViewBag.SelectedNote, member = ViewBag.Member, note = ViewBag.Note, sortby = @ViewBag.SortBy, sortorder = @ViewBag.SortOrder, search = @ViewBag.Search, seller = ViewBag.Seller, buyer = ViewBag.Buyer, page = page }, new { @class = "page-link more-pages-dots" })</li>
                                     }
                                 }
+
+                                for (int i = 2; i > 0; i--)
+                                {
+                                    if (ViewBag.PageNumber - i > 0)
+                                    {
+                                        int page = Convert.ToInt32(@ViewBag.PageNumber) - i;
+                                        <li class="page-item">@Html.ActionLink(page.ToString(), "AdminDownload", new { selectednote = ViewBag.SelectedNote, member = ViewBag.Member, note = ViewBag.Note, sortby = @ViewBag.SortBy, sortorder = @ViewBag.SortOrder, search = @ViewBag.Search, seller = ViewBag.Seller, buyer = ViewBag.Buyer, page = page }, new { @class = "page-link" })</li>
+                                    }
+                                }
+
+                                <li class="page-item active">
+                                    <a class="page-link">@ViewBag.PageNumber<span class="sr-only">(current)</span></a>
+                                </li>
+
+                                for (int i = 1; i < 3; i++)
+                                {
+                                    if (ViewBag.PageNumber + i <= TotalPages)
+                                    {
+                                        int page = Convert.ToInt32(@ViewBag.PageNumber) + i;
+                                        <li class="page-item">@Html.ActionLink(page.ToString(), "AdminDownload", new { selectednote = ViewBag.SelectedNote, member = ViewBag.Member, note = ViewBag.Note, sortby = @ViewBag.SortBy, sortorder = @ViewBag.SortOrder, search = @ViewBag.Search, seller = ViewBag.Seller, buyer = ViewBag.Buyer, page = page }, new { @class = "page-link" })</li>
+                                    }
+                                }
+
+                                if (ViewBag.PageNumber != TotalPages && ViewBag.PageNumber + 2 < TotalPages)
+                                {
+                                    int page = Convert.ToInt32(@ViewBag.PageNumber) + 3;
+                                    if (page != TotalPages)
+                                    {
+                                        <li class="page-item">@Html.ActionLink("...", "AdminDownload", new { selectednote = ViewBag.SelectedNote, member = ViewBag.Member, note = ViewBag.Note, sortby = @ViewBag.SortBy, sortorder = @ViewBag.SortOrder, search = @ViewBag.Search, seller = ViewBag.Seller, buyer = ViewBag.Buyer, page = page }, new { @class = "page-link more-pages-dots" })</li>
+                                    }
+                                    <li class="page-item">@Html.ActionLink(TotalPages.ToString(), "AdminDownload", new { selectednote = ViewBag.SelectedNote, member = ViewBag.Member, note = ViewBag.Note, sortby = @ViewBag.SortBy, sortorder = @ViewBag.SortOrder, search = @ViewBag.Search, seller = ViewBag.Seller, buyer = ViewBag.Buyer, page = TotalPages }, new { @class = "page-link" })</li>
+                                }
+
                             }
 
                             <li class="page-item">
-                                @if (ViewBag.PageNumber == TotalPages)
+                                @if (ViewBag.PageNumber == ViewBag.TotalPages)
                                 {
-                                    <a class="page-link" href="@Url.Action("AdminDownload", new { page=@ViewBag.PageNumber,sortby=@ViewBag.SortBy,sortorder=@ViewBag.SortOrder,search=@ViewBag.DownloadSearch})"><i class="fa fa-angle-right"></i></a>
+                                    <a class="page-link" href="@Url.Action("AdminDownload", new { selectednote = ViewBag.SelectedNote, member = ViewBag.Member, note = ViewBag.Note, sortby=@ViewBag.SortBy,sortorder=@ViewBag.SortOrder, search = @ViewBag.Search, seller = ViewBag.Seller, buyer = ViewBag.Buyer, page = @ViewBag.PageNumber })"><i class="fa fa-angle-right"></i></a>
                                 }
                                 else
                                 {
-                                    <a class="page-link" href="@Url.Action("AdminDownload", new {page=@ViewBag.PageNumber+1,sortby=@ViewBag.SortBy,sortorder=@ViewBag.SortOrder,search=@ViewBag.DownloadSearch})"><i class="fa fa-angle-right"></i></a>
+                                    <a class="page-link" href="@Url.Action("AdminDownload", new { selectednote = ViewBag.SelectedNote, member = ViewBag.Member, note = ViewBag.Note,sortby=@ViewBag.SortBy,sortorder=@ViewBag.SortOrder, search = @ViewBag.Search, seller = ViewBag.Seller, buyer = ViewBag.Buyer, page = @ViewBag.PageNumber + 1 })"><i class="fa fa-angle-right"></i></a>
                                 }
                             </li>
 
                         </ul>
                     </nav>
+
                 </div>
-                <!--End Page Navigation-->
             }
 
         </div>

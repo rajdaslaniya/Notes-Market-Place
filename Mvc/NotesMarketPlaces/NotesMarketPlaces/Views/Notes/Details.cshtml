@@ -2,6 +2,8 @@
 @{
     ViewBag.Title = "Details";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    var _dbContext = new NotesMarketPlaces.Models.NotesMarketPlaceEntities1();
+    var defaultImage = _dbContext.SystemConfigurations.Where(x => x.Key == "defaultnote").FirstOrDefault();
 }
 
 <!--Blank-->
@@ -23,7 +25,7 @@
                         <div class="col-lg-6 col-md-6 col-sm-6 col-12 image">
                             @if (Model.sellernotes.DisplayPicture == null)
                             {
-                                <img src="~/DefaultItem/Book-Image.png" alt="book" />
+                                <img src="@Url.Content(defaultImage.Value)" alt="book" />
                             }
                             else
                             {
@@ -45,7 +47,7 @@
                                     if (Model.NoteRequested == false)
                                     {
                                         <div id="btn-download">
-                                            <a class="btn btn-color" data-toggle="modal" data-target="#confirmation">Download / $@Model.sellernotes.SellingPrice</a>
+                                            <a class="btn btn-color" data-toggle="modal" data-target="#confirmationnote">Download / $@Model.sellernotes.SellingPrice</a>
                                         </div>
                                     }
                                     <!--if logged in user is allowed to download-->
@@ -71,7 +73,7 @@
                                 <a class="btn btn-color" href="@Url.Action("Login","Account")" title="Download Note" role="button" data-toggle="modal" data-target="#thankspopup">Download / Free </a>
                             }
                             <!-- Confirmation Modal -->
-                            <div class="modal fade" id="confirmation" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal fade" id="confirmationnote" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                 <div class="modal-dialog" role="document">
                                     <div class="modal-content">
                                         <div class="modal-confirm-body">

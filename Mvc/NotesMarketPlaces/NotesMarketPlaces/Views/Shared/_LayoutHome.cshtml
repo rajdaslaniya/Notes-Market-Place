@@ -50,8 +50,8 @@
                         <span class="mobile-nav-close-btn">&times;</span>
                         <span class="mobile-nav-open-btn">&#9776;</span>
                     </button>
-                    @{ 
-                        var _dbcontext =new  NotesMarketPlaces.Models.NotesMarketPlaceEntities1();
+                    @{
+                        var _dbcontext = new NotesMarketPlaces.Models.NotesMarketPlaceEntities1();
                     }
 
                     <div class="collapse navbar-collapse col-lg-9" id="navbarSupportedContent">
@@ -61,15 +61,16 @@
                             <li class="nav-item"><a class="nav-link @ViewBag.BuyerRequest" href="@Url.Action("BuyerRequest","BuyerRequest")">Buyer Request</a></li>
                             <li class="nav-item"><a class="nav-link @ViewBag.FAQ" href="@Url.Action("FAQ","Home")">FAQ</a></li>
                             <li class="nav-item"><a class="nav-link @ViewBag.ContactUs" href="@Url.Action("ContactUs","Home")">Contact Us</a></li>
-                            @if (User.Identity.IsAuthenticated)
-                                    {
-                                        var user = _dbcontext.Users.Where(x => x.EmailID == User.Identity.Name).FirstOrDefault();
-                                        var profile = _dbcontext.UserProfiles.Where(x => x.UserID == user.ID).FirstOrDefault();
+                            @if (User.Identity.IsAuthenticated && User.IsInRole("Member"))
+                            {
+                                var user = _dbcontext.Users.Where(x => x.EmailID == User.Identity.Name).FirstOrDefault();
+                                var profile = _dbcontext.UserProfiles.Where(x => x.UserID == user.ID).FirstOrDefault();
+                                var defaultImage = _dbcontext.SystemConfigurations.Where(x => x.Key == "defaultprofile").FirstOrDefault();
                                 <li class="nav-item profile-dropdown">
                                     <a class="nav-link" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        @if (profile == null)
+                                        @if (profile == null||profile.ProfilePicture==null)
                                         {
-                                            <img src="~/DefaultItem/Reviewer-Image.png" class="rounded-circle" />
+                                            <img src="@Url.Content(defaultImage.Value)" class="rounded-circle" />
                                         }
                                         else
                                         {
@@ -82,12 +83,13 @@
                                         <a class="dropdown-item @ViewBag.MySoldNotes" href="@Url.Action("MySoldNotes","Users")">My Sold Notes</a>
                                         <a class="dropdown-item @ViewBag.RejectedNotes" href="@Url.Action("MyRejectedNotes","Users")">My Rejected Notes</a>
                                         <a class="dropdown-item @ViewBag.ChangePassword" href="@Url.Action("ChangePassword","Account")">Change Password</a>
-                                        <a class="dropdown-item logout" href="@Url.Action("Logout","Account")">Logout</a>
+                                        <a class="dropdown-item logout" data-toggle="modal" data-target="#confirmationLogout">Logout</a>
                                     </div>
                                 </li>
-                                <li class="nav-item"><a class="nav-link" href="@Url.Action("Logout","Account")">Logout</a></li>
+                                <li class="nav-item"><a class="nav-link" data-toggle="modal" data-target="#confirmationLogout">Logout</a></li>
                             }
-                            else{ 
+                            else
+                            {
                                 <li class="nav-item"><a class="nav-link" href="@Url.Action("Login","Account")">Login</a></li>
                             }
                         </ul>
@@ -98,6 +100,24 @@
     </header>
     <!-- Header Ends -->
     <!--End Navigatio-->
+    <!-- Confirmation -->
+    <div class="modal fade" id="confirmationLogout" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body" style="margin-top:10px">
+                    <div class="text-center">
+                        <h5 style="color:black">Are you sure, you want to logout?</h5>
+                    </div>
+
+                    <div class="text-center">
+                        <a class="btn btn-primary" href="@Url.Action("Logout","Account")">Yes</a>
+                        <button class="btn btn-default" data-dismiss="modal" aria-label="Close">No</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--End Confirmation-->
     @RenderBody()
     <!--Footer-->
     <footer>
@@ -108,13 +128,17 @@
                 <div class="col-md-6 col-sm-8 footer-text text-left">
                     <p>Copyright &copy; TatvaSoft All Rights Reserved By</p>
                 </div>
-
+                @{
+                    var facebookurl = _dbcontext.SystemConfigurations.Where(x => x.Key == "facebookurl").FirstOrDefault();
+                    var twitterurl = _dbcontext.SystemConfigurations.Where(x => x.Key == "twitterurl").FirstOrDefault();
+                    var linkedinurl = _dbcontext.SystemConfigurations.Where(x => x.Key == "linkedinurl").FirstOrDefault();
+                }
                 <!-- Social Icon -->
                 <div class="col-md-6 col-sm-4 foot-icon col-sm-4 text-right">
                     <ul class="social-list">
-                        <li><a href="https://www.facebook.com/"><i class="fa fa-facebook"></i></a></li>
-                        <li><a href="https://twitter.com/login?lang=en"><i class="fa fa-twitter"></i></a></li>
-                        <li><a href="https://www.linkedin.com/login"><i class="fa fa-linkedin"></i></a></li>
+                        <li><a href="@Url.Content(facebookurl.Value)"><i class="fa fa-facebook"></i></a></li>
+                        <li><a href="@Url.Content(twitterurl.Value)"><i class="fa fa-twitter"></i></a></li>
+                        <li><a href="@Url.Content(linkedinurl.Value)"><i class="fa fa-linkedin"></i></a></li>
                     </ul>
                 </div>
 
@@ -122,7 +146,6 @@
         </div>
     </footer>
     <!--End Footer-->
-
     <!--Jquery-->
     <script src="~/Scripts/Front/js/jquery.js"></script>
     <!--Popper Js-->

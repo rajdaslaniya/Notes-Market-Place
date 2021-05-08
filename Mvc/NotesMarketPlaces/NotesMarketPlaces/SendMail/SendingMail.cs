@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 using System.Net.Mail;
-using System.Web;
 
-namespace NotesMarketPlaces.Send_Mail
+namespace NotesMarketPlaces.SendMail
 {
     public class SendingMail
     {
@@ -17,7 +14,7 @@ namespace NotesMarketPlaces.Send_Mail
             client.EnableSsl = true;
             client.UseDefaultCredentials = false;
             client.DeliveryMethod = SmtpDeliveryMethod.Network;
-            client.Credentials = new System.Net.NetworkCredential("**************@gmai.com", "*******");
+            client.Credentials = new System.Net.NetworkCredential("**********@gmail.com", "********");
             try
             {
                 client.Send(mail);

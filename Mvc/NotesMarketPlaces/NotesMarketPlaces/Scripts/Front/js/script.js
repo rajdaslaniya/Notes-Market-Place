@@ -97,3 +97,74 @@ $(document).ready(function () {
 
     });
 });
+/* =========================================
+                  Add Notes
+============================================ */
+$(document).ready(function () {
+    $("#user-form input[name='IsPaid']").change(function () {
+        if ($("#paid").is(":checked")) {
+            $("#price").removeAttr("disabled");
+            $("#price").focus();
+            $("#note-preview").attr("required", "required");
+        } else {
+            $("#price").val(0);
+            $("#price").attr("disabled", "disabled");
+            $("#note-preview").removeAttr("required");
+        }
+    });
+});
+
+$(document).ready(function () {
+    $("#edit-form input[name='IsPaid']").change(function () {
+        if ($("#paid").is(":checked")) {
+            $("#price").removeAttr("disabled");
+            $("#price").focus();
+        } else {
+            $("#price").val(0);
+            $("#price").attr("disabled", "disabled");
+        }
+    });
+});
+/* =========================================
+                  Profile
+============================================ */
+$(document).ready(function () {
+    $("#date-of-birth").each(function () {
+        $(this).datepicker({
+            changeMonth: true,
+            changeYear: true,
+            minDate: new Date(1960, 1 - 1, 1),
+            yearRange: '1960:2030',
+            dateFormat: 'yy-mm-dd'
+        });
+    });
+});
+
+/* =========================================
+                    Search Notes
+============================================ */
+$(document).ready(function () {
+
+    $(".search-filter #type").change(function () {
+        this.form.submit();
+    });
+    $(".search-filter #search").change(function () {
+        this.form.submit();
+    });
+    $(".search-filter #category").change(function () {
+        this.form.submit();
+    });
+    $(".search-filter #university").change(function () {
+        this.form.submit();
+    });
+    $(".search-filter #course").change(function () {
+        this.form.submit();
+    });
+    $(".search-filter #country").change(function () {
+        this.form.submit();
+    });
+    $(".search-filter #rating").change(function () {
+        this.form.submit();
+    });
+
+});

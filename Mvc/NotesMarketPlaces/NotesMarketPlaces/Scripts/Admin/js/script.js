@@ -59,3 +59,62 @@ $(document).ready(function () {
     }
 
 });
+/* =========================================
+            Dashboard
+============================================ */
+$(document).ready(function () {
+
+    $("#dashboard-month").change(function () {
+        this.form.submit();
+    });
+
+});
+
+/* =========================================
+            Notes Under Review
+============================================ */
+$(document).ready(function () {
+
+    $("#notesunderreview-seller").change(function () {
+        this.form.submit();
+    });
+
+});
+
+/* =========================================
+            Download Notes
+============================================ */
+$(document).ready(function () {
+
+    $("#downloadednotes-note").change(function () {
+        this.form.submit();
+    });
+    $("#downloadednotes-seller").change(function () {
+        this.form.submit();
+    });
+    $("#downloadednotes-buyer").change(function () {
+        this.form.submit();
+    });
+
+});
+
+/* =========================================
+            Published Notes
+============================================ */
+$(document).ready(function () {
+
+    $("#publishednotes-seller").change(function () {
+        this.form.submit();
+    });
+
+});
+/* =========================================
+            Rejected Notes
+============================================ */
+$(document).ready(function () {
+
+    $("#rejectednotes-seller").change(function () {
+        this.form.submit();
+    });
+
+});

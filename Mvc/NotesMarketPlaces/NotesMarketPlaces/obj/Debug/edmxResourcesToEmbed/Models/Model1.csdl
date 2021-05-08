@@ -197,9 +197,9 @@
     <Property Name="DOB" Type="DateTime" Precision="3" />
     <Property Name="Gender" Type="Int32" Nullable="false" />
     <Property Name="SecondryEmailAddress" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-    <Property Name="PhoneNumberCountryCode" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
-    <Property Name="PhoneNumber" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-    <Property Name="ProfilePicture" Type="String" MaxLength="500" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="PhoneNumberCountryCode" Type="String" MaxLength="5" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="PhoneNumber" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="ProfilePicture" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
     <Property Name="AddressLine1" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
     <Property Name="AddressLine2" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
     <Property Name="City" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />

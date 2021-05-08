@@ -1,5 +1,5 @@
 ﻿using NotesMarketPlaces.Models;
-using NotesMarketPlaces.Send_Mail;
+using NotesMarketPlaces.SendMail;
 using System;
 using System.Data.Entity;
 using System.IO;
@@ -15,11 +15,12 @@ using System.Collections.Generic;
 namespace NotesMarketPlaces.Controllers
 {
     [RoutePrefix("Notes")]
+    [OutputCache(Duration = 0)]
     public class NotesController : Controller
     {
         readonly NotesMarketPlaceEntities1 _dbcontext = new NotesMarketPlaceEntities1();
         
-       [Route("Details/{id}")]
+        [Route("Details/{id}")]
         [Authorize(Roles = "Member")]
         public ActionResult Details(int id)
         {
@@ -98,12 +99,18 @@ namespace NotesMarketPlaces.Controllers
                 }
                 
             }
-            
+            if (TempData["Requested"] != null)
+            {
+                ViewBag.Requested = "Requested";
+            }
+
             return View(detailsView);
         }
 
         [Route("SearchNotes")]
         [HttpGet]
+        [Route("Search")]
+        [AllowAnonymous]
         public ActionResult SearchNotes(string search, string ratings,string type,string course,string country,string category,string university, int page=1)
         {
             ViewBag.SearchNotes = "active";
@@ -146,7 +153,8 @@ namespace NotesMarketPlaces.Controllers
                                                 x.Category.ToString().ToLower().Contains(category)&&
                                                 x.UniversityName.ToLower().Contains(university)&&
                                                 x.Course.ToLower().Contains(course)&&
-                                                x.Country.ToString().ToLower().Contains(country)).ToList();
+                                                x.Country.ToString().ToLower().Contains(country)
+                                                ).ToList();
 
             }
             
@@ -395,13 +403,13 @@ namespace NotesMarketPlaces.Controllers
             _dbcontext.SaveChanges();
 
             //Send Mail
-            BuildEmailTemplateForBuyerRequest(download,users);
+            BuildEmailTemplateBuyerRequest(download,users);
 
 
             return RedirectToAction("Details",new { id=note.ID});
         }
 
-        private void BuildEmailTemplateForBuyerRequest(Download download,User user)
+        public void BuildEmailTemplateBuyerRequest(Download download,User user)
         {
             //Find Name from seller id 
             var seller = _dbcontext.Users.Where(x => x.ID == download.Seller).FirstOrDefault();
@@ -427,7 +435,7 @@ namespace NotesMarketPlaces.Controllers
 
             //Create a mail
             MailMessage mail = new MailMessage();
-            mail.From = new MailAddress(from);
+            mail.From = new MailAddress(from,"NotesMarketPlace");
             mail.To.Add(new MailAddress(to));
             mail.Subject = subject;
             mail.Body = body;

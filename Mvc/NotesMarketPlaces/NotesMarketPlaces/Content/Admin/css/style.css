@@ -708,7 +708,7 @@ a.page-link {
 input[type="file"].image-upload {
     padding: 120px 0 0 0;
     overflow: hidden;
-    background: url("~/Image/images/Add-notes/upload-file.png") no-repeat center;
+    background: url("/Image/images/Add-notes/upload-file.png") no-repeat center;
     width: 100%;
     display: inline-block;
     height: 100px;
@@ -952,7 +952,8 @@ iframe {
 }
 #notes-under-review,
 #download-notes,
-#rejected-notes{
+#rejected-notes,
+#spam-records {
     min-height: 73%;
 }
 #member-page .change-color {
